@@ -65,6 +65,10 @@ public class GameNode {
     }
     
     public String toString() {
-        return Integer.toString(value);
+        if (value > 0) {
+            return Integer.toString((int) Math.pow(2, value));
+        } else {
+            return "0";
+        }
     }
 }
