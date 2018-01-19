@@ -26,19 +26,10 @@ import javafx.util.Pair;
  */
 public class GameController {
 
-    /**
-     * @return the score
-     */
-    public int getScore() {
-        return score;
-    }
-
     public static final Random RANDOM = new Random();
     public static final int NUMBER_OF_STARTING_TILES = 2;
     public static final double CHANCE_OF_A_FOUR = .9;
     public static final int GRID_SIZE = 4;
-
-    private int score = 0;
 
     private final int[] selectRandomEmptyPosition(GameBoard board) {
         ArrayList<Integer[]> positions = board.getEmptyPositions();
@@ -152,7 +143,7 @@ public class GameController {
     }
 
     // only board-mutating method
-    private final boolean doMerge(GameBoard board, int[] position, Direction direction) {
+    private final void doMerge(GameBoard board, int[] position, Direction direction) {
         GameNode node = board.getGameGrid()[position[0]][position[1]];
         //System.out.println("Evaluating " + position[0] + "," + position[1] + " for merge");
         if (node.getValue() != 0) {
@@ -167,60 +158,59 @@ public class GameController {
                 farthestNode.setMerged(true);
                 node.setValue(0);
                 //System.out.println("Set node to " + node.getValue());
-                score += farthestNode.getValue();
-                return true;
+                board.setScore(board.getScore() + farthestNode.getValue());
+                //score += farthestNode.getValue();
+                board.setMoved(true);
             } else {
                 int[] newPos = farthestPosition.getPosition();
                 if (newPos[0] == position[0] && newPos[1] == position[1]) {
-                    return false;
                 } else {
                     board.getGameGrid()[newPos[0]][newPos[1]].setValue(node.getValue());
                     node.setValue(0);
-                    return true;
+                    board.setMoved(true);
                 }
             }
         }
         //System.out.println("skipped because 0: " + position[0] + "," + position[1]);
-        return false;
     }
 
     public final GameBoard doGameMove(GameBoard board, Direction direction) {
-        Pair<GameBoard, Boolean> move = moveGrid(board, direction);
-        GameBoard newBoard = move.getKey();
-        if (move.getValue()) {
+        GameBoard newBoard = moveGrid(board, direction);
+        if (newBoard.isMoved()) {
             newBoard = placeRandomTile(newBoard);
         }
         return newBoard;
     }
 
-    public final Pair<GameBoard, Boolean> moveGrid(GameBoard board, Direction direction) {
+    public final GameBoard moveGrid(GameBoard board, Direction direction) {
         // if positive vector move backwards
         GameBoard newBoard = new GameBoard(board);
-        boolean moved = false;
+        
         if (direction == Direction.RIGHT) {
             for (int x = GRID_SIZE - 1; x > -1; x--) {
                 for (int y = 0; y < GRID_SIZE; y++) {
-                    moved = doMerge(newBoard, new int[]{x, y}, direction) || moved;
+                    doMerge(newBoard, new int[]{x, y}, direction);
                 }
             }
         } else {
             if (direction == Direction.DOWN) {
                 for (int x = 0; x < GRID_SIZE; x++) {
                     for (int y = GRID_SIZE - 1; y > -1; y--) {
-                        moved = doMerge(newBoard, new int[]{x, y}, direction) || moved;
+                        doMerge(newBoard, new int[]{x, y}, direction);
                     }
                 }
             } else {
                 for (int x = 0; x < GRID_SIZE; x++) {
                     //System.out.println("Moving row " + x + " for " + direction);
                     for (int y = 0; y < GRID_SIZE; y++) {
-                        moved = doMerge(newBoard, new int[]{x, y}, direction) || moved;
+                        doMerge(newBoard, new int[]{x, y}, direction);
                         //System.out.println("Moving column " + y + " for " + direction);
                     }
                 }
             }
         }
-        return new Pair<>(newBoard, moved);
+        newBoard.setPreviousMove(direction);
+        return newBoard;
     }
 
     public GameBoard createStartingGameboard() {

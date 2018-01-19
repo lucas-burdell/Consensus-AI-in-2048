@@ -35,7 +35,7 @@ public class Runner {
         while (!controller.isGameOver(board)) {
             System.out.println(board);
             System.out.println();
-            System.out.println("Current score: " + controller.getScore());
+            System.out.println("Current score: " + board.getScore());
             System.out.print("Input a move (0 = up, 1 = down, 2 = left, 3 = right): ");
             int move = scanner.nextInt();
             Direction[] directions = Direction.values();

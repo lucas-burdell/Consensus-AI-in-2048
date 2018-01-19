@@ -24,6 +24,10 @@ import java.util.Random;
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
 public class GameBoard {
+    
+    private int score = 0;
+    private boolean moved = false;
+    private Direction previousMove = null;
 
     /**
      * @return the gameGrid
@@ -103,6 +107,48 @@ public class GameBoard {
 //            }
 //        }
 //        return output;
+    }
+
+    /**
+     * @return the score
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * @param score the score to set
+     */
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    /**
+     * @return the moved
+     */
+    public boolean isMoved() {
+        return moved;
+    }
+
+    /**
+     * @param moved the moved to set
+     */
+    public void setMoved(boolean moved) {
+        this.moved = moved;
+    }
+
+    /**
+     * @return the previousMove
+     */
+    public Direction getPreviousMove() {
+        return previousMove;
+    }
+
+    /**
+     * @param previousMove the previousMove to set
+     */
+    public void setPreviousMove(Direction previousMove) {
+        this.previousMove = previousMove;
     }
     
     
