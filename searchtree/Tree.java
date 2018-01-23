@@ -1,4 +1,4 @@
-package tree;
+package searchtree;
 
 import java.util.ArrayList;
 

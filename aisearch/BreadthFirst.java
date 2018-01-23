@@ -46,7 +46,13 @@ public class BreadthFirst implements SearchAlgorithm {
     
     @Override
     public Direction searchForNextMove(GameController controller, GameBoard currentBoard) {
-        
+         
+        //TODO: build tree for each of the four moves and then search from there.
+        // once max depth is reached, total up value of all possible states
+        // search should be A* (or at least a directed search) rather than breadth-first.
+        return null;
+       
+        /*
         Deque<GameBoard> openQueue = new ArrayDeque<>();
         openQueue.add(currentBoard);
         ArrayList<GameBoard> closedList = new ArrayList<>();
@@ -91,6 +97,7 @@ public class BreadthFirst implements SearchAlgorithm {
         }
         return null;
         //return highestScoringBoard;
+        */
     }
     
 }
