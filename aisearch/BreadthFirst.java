@@ -1,17 +1,20 @@
 package aisearch;
 
+import aiheuristics.Heuristic;
 import gamemodel.GameBoard;
 import gamemodel.GameController;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import gamemodel.Direction;
+import searchtree.Tree;
+import searchtree.Tree.Node;
 
 /**
  *
  * @author lucas.burdell
  */
-public class BreadthFirst implements SearchAlgorithm {
+public class BreadthFirst {
 
     private static boolean evaluateAfterstates = false;
     private static int maximumDepth = 4;
@@ -43,33 +46,55 @@ public class BreadthFirst implements SearchAlgorithm {
     public static void setMaximumDepth(int aMaximumDepth) {
         maximumDepth = aMaximumDepth;
     }
-    
-    @Override
-    public Direction searchForNextMove(GameController controller, GameBoard currentBoard) {
-         
+
+    public Direction searchForNextMove(GameController controller, GameBoard currentBoard, Heuristic heuristic) {
+
         //TODO: build tree for each of the four moves and then search from there.
-        // once max depth is reached, total up value of all possible states
-        // search should be A* (or at least a directed search) rather than breadth-first.
-        return null;
-       
-        /*
-        Deque<GameBoard> openQueue = new ArrayDeque<>();
-        openQueue.add(currentBoard);
-        ArrayList<GameBoard> closedList = new ArrayList<>();
-        
-        
-        int currentDepth = 0;
-        int elementsToDepthIncrease = 1;
+        // once max depth is reached, total up value of all possible states according to heuristic
+        //return null;
+        Deque<Node<GameBoard>> openQueue = new ArrayDeque<>();
+        Direction[] directions = Direction.values();
+        Tree<GameBoard>[] treeList = new Tree[directions.length];
+        int currentDepth = 1;
+        int elementsToDepthIncrease = directions.length;
         int nextElementsToDepthIncrease = 0;
-        GameBoard highestScoringBoard = currentBoard;
-        
-        
+        for (int i = 0; i < treeList.length; i++) {
+            GameBoard result = controller.moveGrid(currentBoard, directions[i]);
+            treeList[i] = new Tree<>(result);
+            openQueue.add(treeList[i].getRoot());
+        }
+
+
+
         
         while (!openQueue.isEmpty()) {
+            // dequeue (dequeue the deque. Queue? Que?)
+            Node<GameBoard> node = openQueue.remove();
+            ArrayList<Node<GameBoard>> allNewStates = new ArrayList<>();
+            for (Direction direction : directions) {
+                GameBoard afterState = controller.moveGrid(node.getValue(), direction);
+                if (afterState.isMoved()) {
+                    GameBoard[] newStates = controller.createAllPossibleNewStates(afterState);
+                    for (GameBoard newState : newStates) {
+                        Node<GameBoard> newNode = new Node<>(newState, node);
+                        allNewStates.add(newNode);
+                    }
+                }
+            }
+            openQueue.addAll(allNewStates);
+            nextElementsToDepthIncrease += allNewStates.size();
+            elementsToDepthIncrease -= 1;
             
-            // dequeue
-            GameBoard board = openQueue.remove();
+            if (elementsToDepthIncrease <= 0) {
+                currentDepth = currentDepth + 1;
+                elementsToDepthIncrease = nextElementsToDepthIncrease;
+                nextElementsToDepthIncrease = 0;
+                
+            }
+        }
+        
             
+            /*
             
             ArrayList<GameBoard> allNewStates = new ArrayList<>();
             for (Direction direction : Direction.values()) {
@@ -97,7 +122,7 @@ public class BreadthFirst implements SearchAlgorithm {
         }
         return null;
         //return highestScoringBoard;
-        */
+         */
     }
-    
+
 }
