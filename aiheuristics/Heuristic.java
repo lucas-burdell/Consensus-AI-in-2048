@@ -5,10 +5,13 @@ import gamemodel.GameBoard;
 import gamemodel.GameController;
 
 
-/**
+/** Heuristics should be designed to be evaluations of states
+ * providing a higher score for a more favorable state.
  *
  * @author lucas.burdell
  */
 public interface Heuristic {
-    public int getValueOfState(GameController controller, GameBoard state);
+    public long getValueOfState(GameController controller, GameBoard state);
+    @Override
+    public String toString();
 }

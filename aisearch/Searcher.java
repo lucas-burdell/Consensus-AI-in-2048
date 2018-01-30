@@ -7,6 +7,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import gamemodel.Direction;
+import java.util.Random;
 import searchtree.Tree;
 import searchtree.Tree.Node;
 
@@ -19,6 +20,7 @@ public class Searcher {
     private boolean evaluateAfterstates = false;
     private int maxDepth = 4;
     private GameController controller;
+    private Random random = new Random(); // random for choosing between winners
 
     /**
      * @return the evaluateAfterstates
@@ -48,98 +50,127 @@ public class Searcher {
         maxDepth = aMaximumDepth;
     }
 
-    public Direction evaluateTrees(Tree<GameBoard>[] trees, Heuristic h) {
-        int[] scores = new int[trees.length];
-        for (int i = 0; i < trees.length; i++) {
-            int score = h.getValueOfState(controller, trees[i].getRoot().getValue());
-            Deque<Node<GameBoard>> openList = new ArrayDeque<>();
-            openList.add(trees[i].getRoot());
-            while (!openList.isEmpty()) {
-                
-            }
-
-        }
-    }
-
-    public Tree<GameBoard>[] buildTrees(GameBoard currentBoard) {
-
-        //TODO: build tree for each of the four moves and then search from there.
-        // once max depth is reached, total up value of all possible states according to heuristic
-        //return null;
-        Deque<Node<GameBoard>> openQueue = new ArrayDeque<>();
+    public int[] getVotesOnDirections(GameBoard currentBoard, Heuristic[] heuristics) {
         Direction[] directions = Direction.values();
-        Tree<GameBoard>[] treeList = new Tree[directions.length];
-        int currentDepth = 1;
-        int elementsToDepthIncrease = directions.length;
-        int nextElementsToDepthIncrease = 0;
-        for (int i = 0; i < treeList.length; i++) {
-            GameBoard result = controller.moveGrid(currentBoard, directions[i]);
-            treeList[i] = new Tree<>(result);
-            openQueue.add(treeList[i].getRoot());
+        Deque<GameBoard>[] directionQueues = new ArrayDeque[directions.length];
+        long[][] heuristicSums = new long[directions.length][heuristics.length];
+        for (int i = 0; i < directionQueues.length; i++) {
+            directionQueues[i] = new ArrayDeque<>();
         }
 
-        while (!openQueue.isEmpty()) {
-            // dequeue (dequeue the deque. Queue? Que?)
-            Node<GameBoard> node = openQueue.remove();
-            ArrayList<Node<GameBoard>> allNewStates = new ArrayList<>();
-            for (Direction direction : directions) {
-                GameBoard afterState = controller.moveGrid(node.getValue(), direction);
+        int currentDepth = 1;
+        long elementsToDepthIncrease = directions.length;
+        long nextElementsToDepthIncrease = 0;
+
+        for (int i = 0; i < directions.length; i++) {
+            GameBoard result = controller.moveGrid(currentBoard, directions[i]);
+            for (int j = 0; j < heuristics.length; j++) {
+                Heuristic heuristic = heuristics[j];
+                // evaluate state of board
+                heuristicSums[i][j] += heuristic.getValueOfState(controller, result);
+            }
+            if (result.isMoved() && currentDepth <= maxDepth) {
+                if (!this.evaluateAfterstates) {
+                    GameBoard[] newStates = controller.createAllPossibleNewStates(result);
+
+                    for (GameBoard newState : newStates) {
+                        directionQueues[i].add(newState);
+                        nextElementsToDepthIncrease++;
+                    }
+                } else {
+                    directionQueues[i].add(result);
+                    nextElementsToDepthIncrease++;
+                }
+            }
+        }
+
+        while (!queuesAreEmpty(directionQueues) && currentDepth <= maxDepth) {
+            for (int i = 0; i < directions.length; i++) {
+                Direction direction = directions[i];
+                Deque<GameBoard> queue = directionQueues[i];
+                if (queue.isEmpty()) {
+                    continue; // skip to next iteration, this queue's empty!
+                }
+                GameBoard nextBoard = queue.poll();
+                elementsToDepthIncrease--;
+                GameBoard afterState = controller.moveGrid(nextBoard, direction);
+
                 if (afterState.isMoved() && currentDepth <= maxDepth) {
                     if (!this.evaluateAfterstates) {
                         GameBoard[] newStates = controller.createAllPossibleNewStates(afterState);
 
                         for (GameBoard newState : newStates) {
-                            Node<GameBoard> newNode = new Node<>(newState, node);
-                            allNewStates.add(newNode);
+                            queue.add(newState);
+                            nextElementsToDepthIncrease++;
                         }
                     } else {
-                        Node<GameBoard> newNode  = new Node<>(afterState, node);
+                        queue.add(afterState);
+                        nextElementsToDepthIncrease++;
                     }
                 }
-            }
-            openQueue.addAll(allNewStates);
-            nextElementsToDepthIncrease += allNewStates.size();
-            elementsToDepthIncrease -= 1;
-
-            if (elementsToDepthIncrease <= 0) {
-                currentDepth = currentDepth + 1;
-                elementsToDepthIncrease = nextElementsToDepthIncrease;
-                nextElementsToDepthIncrease = 0;
-
-            }
-        }
-
-        return treeList;
-
-        /*
-            
-            ArrayList<GameBoard> allNewStates = new ArrayList<>();
-            for (Direction direction : Direction.values()) {
-                GameBoard afterState = controller.moveGrid(board, direction);
                 if (afterState.isMoved()) {
-                    GameBoard[] newStates = controller.createAllPossibleNewStates(afterState);
-                    for (GameBoard newState : newStates) {
-                        allNewStates.add(newState);
+                    for (int j = 0; j < heuristics.length; j++) {
+                        Heuristic heuristic = heuristics[j];
+                        // evaluate state of board
+                        heuristicSums[i][j] += heuristic.getValueOfState(controller, nextBoard);
                     }
                 }
-            }
-            
-            openQueue.addAll(allNewStates);
-            nextElementsToDepthIncrease += allNewStates.size();
-            elementsToDepthIncrease -= 1;
-            if (elementsToDepthIncrease <= 0) {
-                currentDepth = currentDepth + 1;
-                if (currentDepth > maximumDepth) {
-                    // do something
+
+                if (elementsToDepthIncrease <= 0) {
+                    currentDepth++;
+                    elementsToDepthIncrease = nextElementsToDepthIncrease;
+                    nextElementsToDepthIncrease = 0;
+
                 }
-                elementsToDepthIncrease = nextElementsToDepthIncrease;
-                nextElementsToDepthIncrease = 0;
             }
-            
         }
-        return null;
-        //return highestScoringBoard;
-         */
+
+        int[] votes = new int[directions.length];
+        for (int i = 0; i < heuristics.length; i++) {
+
+            ArrayList<Integer> sameList = new ArrayList<>();
+            long highestSum = 0;
+
+            for (int j = 0; j < directions.length; j++) {
+                System.out.println(heuristics[i] + " on " + directions[j] + " "
+                        + "scored: " + heuristicSums[j][i]);
+                if (heuristicSums[j][i] > highestSum) {
+                    highestSum = heuristicSums[j][i];
+                    sameList.clear();
+                    sameList.add(j);
+                } else if (heuristicSums[j][i] == highestSum) {
+                    sameList.add(j);
+                }
+            }
+            int choice = 0;
+            if (sameList.isEmpty()) {
+                throw new RuntimeException("SameList was empty for "
+                        + heuristics[i]);
+            } else if (sameList.size() > 1) {
+                System.out.println(heuristics[i] + " scored the same for "
+                        + "these directions: ");
+                for (Integer index : sameList) {
+                    System.out.println(directions[index]);
+                }
+                choice = random.nextInt(sameList.size());
+                System.out.println("Randomly chose "
+                        + directions[sameList.get(choice)] + " for " + heuristics[i]);
+            } else {
+                choice = sameList.get(0);
+            }
+            votes[choice]++;
+        }
+        return votes;
+    }
+
+    private boolean queuesAreEmpty(Deque[] queues) {
+        for (int i = 0; i < queues.length; i++) {
+            Deque queue = queues[i];
+            if (!queue.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public Searcher(GameController controller) {
