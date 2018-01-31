@@ -153,12 +153,13 @@ public class GameController {
             GameNode farthestNode = farthestPosition.getNext();
             if (farthestNode != node && farthestNode.getValue() != 0
                     && farthestNode.getValue() == node.getValue() && !farthestNode.isMerged()) {
-                farthestNode.setValue(node.getValue() + 1);
+                int value = node.getValue() + 1;
+                farthestNode.setValue(value);
                 //System.out.println("Set furthest to " + farthestNode.getValue());
                 farthestNode.setMerged(true);
                 node.setValue(0);
                 //System.out.println("Set node to " + node.getValue());
-                board.setScore(board.getScore() + farthestNode.getValue());
+                board.setScore(board.getScore() + (int) Math.pow(value, 2));
                 //score += farthestNode.getValue();
                 board.setMoved(true);
             } else {
