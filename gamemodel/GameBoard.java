@@ -24,44 +24,69 @@ import java.util.Random;
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
 public class GameBoard {
+
+    /**
+     * @return the numberOfMerges
+     */
+    public int getNumberOfMerges() {
+        return numberOfMerges;
+    }
+
+    /**
+     * @param numberOfMerges the numberOfMerges to set
+     */
+    public void setNumberOfMerges(int numberOfMerges) {
+        this.numberOfMerges = numberOfMerges;
+    }
+
+    /**
+     * @return the mergeGrid
+     */
+    public boolean[][] getMergeGrid() {
+        return mergeGrid;
+    }
+
+    /**
+     * @param mergeGrid the mergeGrid to set
+     */
+    public void setMergeGrid(boolean[][] mergeGrid) {
+        this.mergeGrid = mergeGrid;
+    }
     
     private int score = 0;
     private boolean moved = false;
     private Direction previousMove = null;
+    private int numberOfMerges = 0;
 
     /**
      * @return the gameGrid
      */
-    public GameNode[][] getGameGrid() {
+    public int[][] getGameGrid() {
         return gameGrid;
     }
 
     /**
      * @param gameGrid the gameGrid to set
      */
-    public void setGameGrid(GameNode[][] gameGrid) {
+    public void setGameGrid(int[][] gameGrid) {
         this.gameGrid = gameGrid;
     }
  
-    private GameNode[][] gameGrid;
+    private int[][] gameGrid;
+    private boolean[][] mergeGrid;
     
     public GameBoard(int gridSize){
-        gameGrid =  new GameNode[gridSize][gridSize];
-        for (int i = 0; i < gameGrid.length; i++) {
-            GameNode[] nodeRow = gameGrid[i];
-            for (int j = 0; j < nodeRow.length; j++) {
-                nodeRow[j] = new GameNode();
-            }
-        }
+        gameGrid =  new int[gridSize][gridSize];
+        mergeGrid = new boolean[gridSize][gridSize];
     }
     
     public ArrayList<Integer[]> getEmptyPositions() {
         ArrayList<Integer[]> output = new ArrayList<>();
         for (int i = 0; i < gameGrid.length; i++) {
-            GameNode[] gameNodes = gameGrid[i];
+            int[] gameNodes = gameGrid[i];
             for (int j = 0; j < gameNodes.length; j++) {
-                GameNode gameNode = gameNodes[j];
-                if (gameNode.getValue() == 0) {
+                int gameNode = gameNodes[j];
+                if (gameNode == 0) {
                     output.add(new Integer[]{i, j});
                 }
             }
@@ -71,16 +96,17 @@ public class GameBoard {
     
     public GameBoard(GameBoard board) {
         int gridSize = board.getGameGrid().length;
-        GameNode[][] otherGrid = board.getGameGrid();
-        gameGrid = new GameNode[gridSize][gridSize];
+        int[][] otherGrid = board.getGameGrid();
+        gameGrid = new int[gridSize][gridSize];
         for (int i = 0; i < gameGrid.length; i++) {
-            GameNode[] gameNodes = otherGrid[i];
+            int[] gameNodes = otherGrid[i];
             for (int j = 0; j < gameNodes.length; j++) {
-                GameNode gameNode = gameNodes[j];
-                gameGrid[i][j] = new GameNode(gameNode.getValue());
+                int gameNode = gameNodes[j];
+                gameGrid[i][j] = gameNode;
             }
         }
         this.score = board.getScore();
+        this.mergeGrid = new boolean[gridSize][gridSize];
     }
     
     @Override
@@ -89,7 +115,12 @@ public class GameBoard {
         for (int y = 0; y < gameGrid.length; y++) {
             output[y] = new StringBuilder();
             for (int x = 0; x < gameGrid.length; x++) {
-                output[y] = output[y].append(" [").append(gameGrid[x][y].toString()).append("]");
+                if (gameGrid[x][y] == 0) {
+                    output[y] = output[y].append(" [").append(0).append("]");
+                } else {
+                    output[y] = output[y].append(" [").append(
+                            (int) Math.pow(2, gameGrid[x][y])).append("]");
+                }
             }
         }
         StringBuilder outputLine = new StringBuilder();
