@@ -19,6 +19,34 @@ import searchtree.Tree.Node;
 public class Searcher {
 
     /**
+     * @return the weightOnDepths
+     */
+    public boolean isWeightOnDepths() {
+        return weightOnDepths;
+    }
+
+    /**
+     * @param weightOnDepths the weightOnDepths to set
+     */
+    public void setWeightOnDepths(boolean weightOnDepths) {
+        this.weightOnDepths = weightOnDepths;
+    }
+
+    /**
+     * @return the depthWeight
+     */
+    public double getDepthWeight() {
+        return depthWeight;
+    }
+
+    /**
+     * @param depthWeight the depthWeight to set
+     */
+    public void setDepthWeight(double depthWeight) {
+        this.depthWeight = depthWeight;
+    }
+
+    /**
      * @return the debugMessagesEnabled
      */
     public boolean isDebugMessagesEnabled() {
@@ -37,15 +65,14 @@ public class Searcher {
     private GameController controller;
     private Random random = new Random(); // random for choosing between winners
     private boolean debugMessagesEnabled = false;
-    
-    
-    private void println(Object message){
+    private double depthWeight = 1;
+    private boolean weightOnDepths = true;
+
+    private void println(Object message) {
         if (isDebugMessagesEnabled()) {
             System.out.println(message);
         }
     }
-    
-
 
     /**
      * @return the evaluateAfterstates
@@ -89,10 +116,12 @@ public class Searcher {
 
         for (int i = 0; i < directions.length; i++) {
             GameBoard result = controller.moveGrid(currentBoard, directions[i]);
-            for (int j = 0; j < heuristics.length; j++) {
-                Heuristic heuristic = heuristics[j];
-                // evaluate state of board
-                heuristicSums[i][j] += heuristic.getValueOfState(controller, result);
+            if (result.isMoved()) {
+                for (int j = 0; j < heuristics.length; j++) {
+                    Heuristic heuristic = heuristics[j];
+                    // evaluate state of board
+                    heuristicSums[i][j] += heuristic.getValueOfState(controller, result);
+                }
             }
             if (result.isMoved() && currentDepth <= maxDepth) {
                 if (!this.evaluateAfterstates) {
@@ -137,7 +166,15 @@ public class Searcher {
                     for (int j = 0; j < heuristics.length; j++) {
                         Heuristic heuristic = heuristics[j];
                         // evaluate state of board
-                        heuristicSums[i][j] += heuristic.getValueOfState(controller, nextBoard);
+                        if (this.isWeightOnDepths()) {
+                            //heuristicSums[i][j] += Math.pow(heuristic.getValueOfState(controller, nextBoard), getDepthWeight() / currentDepth) ;
+                            double x = 1 / currentDepth;
+                            double y = Math.pow(0.51457317283, x);
+                            heuristicSums[i][j] += heuristic.getValueOfState(controller, nextBoard) * y;
+                        } else {
+                            heuristicSums[i][j] += heuristic.getValueOfState(controller, nextBoard);
+                        }
+
                     }
                 }
 
@@ -177,9 +214,10 @@ public class Searcher {
                 for (Integer index : sameList) {
                     println(directions[index]);
                 }
-                choice = random.nextInt(sameList.size());
+                choice = sameList.get(random.nextInt(sameList.size()));
                 println("Randomly chose "
-                        + directions[sameList.get(choice)] + " for " + heuristics[i]);
+                        + directions[(choice)] + " for " + heuristics[i]);
+                
             } else {
                 choice = sameList.get(0);
             }
