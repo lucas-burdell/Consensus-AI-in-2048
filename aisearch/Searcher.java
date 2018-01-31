@@ -7,6 +7,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import gamemodel.Direction;
+import java.io.PrintStream;
 import java.util.Random;
 import searchtree.Tree;
 import searchtree.Tree.Node;
@@ -17,10 +18,34 @@ import searchtree.Tree.Node;
  */
 public class Searcher {
 
+    /**
+     * @return the debugMessagesEnabled
+     */
+    public boolean isDebugMessagesEnabled() {
+        return debugMessagesEnabled;
+    }
+
+    /**
+     * @param debugMessagesEnabled the debugMessagesEnabled to set
+     */
+    public void setDebugMessagesEnabled(boolean debugMessagesEnabled) {
+        this.debugMessagesEnabled = debugMessagesEnabled;
+    }
+
     private boolean evaluateAfterstates = false;
     private int maxDepth = 4;
     private GameController controller;
     private Random random = new Random(); // random for choosing between winners
+    private boolean debugMessagesEnabled = false;
+    
+    
+    private void println(Object message){
+        if (isDebugMessagesEnabled()) {
+            System.out.println(message);
+        }
+    }
+    
+
 
     /**
      * @return the evaluateAfterstates
@@ -132,7 +157,7 @@ public class Searcher {
             long highestSum = 0;
 
             for (int j = 0; j < directions.length; j++) {
-                System.out.println(heuristics[i] + " on " + directions[j] + " "
+                println(heuristics[i] + " on " + directions[j] + " "
                         + "scored: " + heuristicSums[j][i]);
                 if (heuristicSums[j][i] > highestSum) {
                     highestSum = heuristicSums[j][i];
@@ -147,13 +172,13 @@ public class Searcher {
                 throw new RuntimeException("SameList was empty for "
                         + heuristics[i]);
             } else if (sameList.size() > 1) {
-                System.out.println(heuristics[i] + " scored the same for "
+                println(heuristics[i] + " scored the same for "
                         + "these directions: ");
                 for (Integer index : sameList) {
-                    System.out.println(directions[index]);
+                    println(directions[index]);
                 }
                 choice = random.nextInt(sameList.size());
-                System.out.println("Randomly chose "
+                println("Randomly chose "
                         + directions[sameList.get(choice)] + " for " + heuristics[i]);
             } else {
                 choice = sameList.get(0);
