@@ -42,19 +42,28 @@ public class MassRunner {
         int[] scoreResults = new int[gamesToPlay];
         GameController controller = new GameController();
         Searcher searcher = new Searcher(controller);
+        //searcher.setEvaluateAfterstates(true);
+        searcher.setMaximumDepth(maxDepth);
         AIDecider decider = new RandomVoting();
+        //searcher.setDebugMessagesEnabled(true);
         GameBoard currentBoard = controller.createStartingGameboard();
         for (int i = 0; i < gamesToPlay; i++) {
             while (!controller.isGameOver(currentBoard)) {
                 int[] votes = searcher.getVotesOnDirections(currentBoard, HeuristicList.getHeuristics());
                 Direction decision = decider.evaluateVotes(votes);
                 currentBoard = controller.doGameMove(currentBoard, decision);
+                //System.out.println(currentBoard.getScore());
+                //System.out.println(currentBoard);
+                //System.out.println("Moved above board " + decision);
             }
             scoreResults[i] = currentBoard.getScore();
+            System.out.println("final score: " + currentBoard.getScore());
             currentBoard = controller.createStartingGameboard();
             System.out.println("game " + i + " complete");
+            
         }
         System.out.println("Mean: " + getMean(scoreResults));
+        System.out.println("Standard Deviation: " + getStandardDeviation(scoreResults));
 
     }
 
@@ -65,5 +74,19 @@ public class MassRunner {
             output += scoreResult;
         }
         return output / (long) scoreResults.length;
+    }
+    
+    private static double getStandardDeviation(int[] scoreResults) {
+        long mean = getMean(scoreResults);
+        double[] standardResults = new double[scoreResults.length];
+        for (int i = 0; i < scoreResults.length; i++) {
+            standardResults[i] =  Math.pow((scoreResults[i] - mean), 2);
+        }
+        double output = 0;
+        for (int i = 0; i < standardResults.length; i++) {
+            double standardResult = standardResults[i];
+            output += standardResult;
+        }
+        return Math.sqrt(output / standardResults.length);
     }
 }

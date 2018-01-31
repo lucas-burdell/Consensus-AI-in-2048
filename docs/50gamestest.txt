@@ -1,0 +1,25 @@
+all heuristics:
+50 games
+mean of 2425
+standard deviation of +-878
+
+only highest merge:
+50 games
+mean of 2534
+standard deviation of +-1003
+
+only most merges:
+50 games
+mean of 2432
+standard deviation of +-1152
+
+only empty spaces:
+50 games
+mean of 1787
+standard deviation of 694
+
+highest merge and most merges:
+50 games
+mean of 2338
+standard deviation of 926
+

@@ -16,7 +16,8 @@
  */
 package aiheuristics;
 
-/** literally just a class with a single static array of the heuristics
+/**
+ * literally just a class with a single static array of the heuristics
  *
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
@@ -28,11 +29,12 @@ public class HeuristicList {
     public static Heuristic[] getHeuristics() {
         return heuristics;
     }
-    
+
     private static final Heuristic[] heuristics = new Heuristic[]{
         new HighestMerges(),
         new MostMerges(),
-        new EmptySpaces()
+        new EmptySpaces(), 
+        new BiggestNumberNeighbors(),
     };
-    
+
 }

@@ -16,6 +16,7 @@
  */
 package aiheuristics;
 
+import gamemodel.Direction;
 import gamemodel.GameBoard;
 import gamemodel.GameController;
 import static gamemodel.GameController.GRID_SIZE;
@@ -29,16 +30,21 @@ public class EmptySpaces implements Heuristic {
 
     @Override
     public long getValueOfState(GameController controller, GameBoard state) {
-        GameNode[][] grid = state.getGameGrid();
+        int[][] grid = state.getGameGrid();
         long output = 0;
-        for (int x = 0; x < grid.length; x++) {
-            for (int y = 0; y < grid[x].length; y++) {
-                if (grid[x][y].getValue() == 0) {
-                    output+=1;
+        Direction[] directions = Direction.values();
+        for (int i = 0; i < directions.length; i++) {
+            GameBoard result = controller.moveGrid(state, directions[i]);
+            int[][] resultGrid = result.getGameGrid();
+            for (int x = 0; x < resultGrid.length; x++) {
+                for (int y = 0; y < resultGrid[x].length; y++) {
+                    if (grid[x][y] == 0) {
+                        output++;
+                    }
                 }
             }
         }
         return output;
     }
-    
+
 }
