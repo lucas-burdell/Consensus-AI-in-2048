@@ -19,6 +19,7 @@ package cliai;
 import aidecision.AIDecider;
 import aidecision.RandomVoting;
 import aiheuristics.Heuristic;
+import aiheuristics.HeuristicList;
 import aiheuristics.HighestMerges;
 import aiheuristics.MostMerges;
 import aisearch.Searcher;
@@ -33,7 +34,7 @@ import java.util.Scanner;
  */
 public class Runner {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         GameController controller = new GameController();
         GameBoard board = controller.createStartingGameboard();
@@ -42,17 +43,16 @@ public class Runner {
         System.out.println();
         Searcher searcher = new Searcher(controller, maxDepth);
         AIDecider decider = new RandomVoting();
-        Heuristic[] heuristics = new Heuristic[]{
-            new HighestMerges(),
-            new MostMerges()
-        };
+        Heuristic[] heuristics = HeuristicList.getHeuristics();
 
         while (!controller.isGameOver(board)) {
             System.out.println(board);
             System.out.println();
+            System.out.println("score: " + board.getScore());
             int[] votes = searcher.getVotesOnDirections(board, heuristics);
             Direction decision = decider.evaluateVotes(votes);
             board = controller.doGameMove(board, decision);
+            Thread.sleep(100);
             //System.out.println("Current score: " + board.getScore());
             //int move = scanner.nextInt();
             //Direction[] directions = Direction.values();
@@ -61,6 +61,7 @@ public class Runner {
             //board = controller.moveGrid(board, directions[move]).getKey();
             //}
         }
+        System.out.println(board);
         System.out.println("Game over!");
 
     }
