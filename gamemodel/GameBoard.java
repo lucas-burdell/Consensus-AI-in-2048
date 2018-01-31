@@ -71,14 +71,16 @@ public class GameBoard {
     
     public GameBoard(GameBoard board) {
         int gridSize = board.getGameGrid().length;
+        GameNode[][] otherGrid = board.getGameGrid();
         gameGrid = new GameNode[gridSize][gridSize];
-        for (int i = 0; i < board.getGameGrid().length; i++) {
-            GameNode[] gameNodes = board.getGameGrid()[i];
+        for (int i = 0; i < gameGrid.length; i++) {
+            GameNode[] gameNodes = otherGrid[i];
             for (int j = 0; j < gameNodes.length; j++) {
                 GameNode gameNode = gameNodes[j];
                 gameGrid[i][j] = new GameNode(gameNode.getValue());
             }
         }
+        this.score = board.getScore();
     }
     
     @Override
