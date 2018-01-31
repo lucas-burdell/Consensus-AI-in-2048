@@ -16,23 +16,29 @@
  */
 package aiheuristics;
 
-/** literally just a class with a single static array of the heuristics
+import gamemodel.GameBoard;
+import gamemodel.GameController;
+import static gamemodel.GameController.GRID_SIZE;
+import gamemodel.GameNode;
+
+/**
  *
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
-public class HeuristicList {
+public class EmptySpaces implements Heuristic {
 
-    /**
-     * @return the heuristics
-     */
-    public static Heuristic[] getHeuristics() {
-        return heuristics;
+    @Override
+    public long getValueOfState(GameController controller, GameBoard state) {
+        GameNode[][] grid = state.getGameGrid();
+        long output = 0;
+        for (int x = 0; x < grid.length; x++) {
+            for (int y = 0; y < grid[x].length; y++) {
+                if (grid[x][y].getValue() == 0) {
+                    output+=1;
+                }
+            }
+        }
+        return output;
     }
-    
-    private static final Heuristic[] heuristics = new Heuristic[]{
-        new HighestMerges(),
-        new MostMerges(),
-        new EmptySpaces()
-    };
     
 }
