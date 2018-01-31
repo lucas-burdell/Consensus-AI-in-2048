@@ -28,7 +28,28 @@ import java.util.Random;
  */
 public class RandomVoting extends AIDecider {
 
+    /**
+     * @return the debugMessagesEnabled
+     */
+    public boolean isDebugMessagesEnabled() {
+        return debugMessagesEnabled;
+    }
+
+    private void println(Object message) {
+        if (isDebugMessagesEnabled()) {
+            System.out.println(message);
+        }
+    }
+
+    /**
+     * @param debugMessagesEnabled the debugMessagesEnabled to set
+     */
+    public void setDebugMessagesEnabled(boolean debugMessagesEnabled) {
+        this.debugMessagesEnabled = debugMessagesEnabled;
+    }
+
     private Random random = new Random();
+    private boolean debugMessagesEnabled = false;
 
     @Override
     public Direction evaluateVotes(int[] votes) {
@@ -48,7 +69,7 @@ public class RandomVoting extends AIDecider {
         }
         int choice = sameList.get(random.nextInt(sameList.size()));
         Direction[] directions = Direction.values();
-        System.out.println(directions[choice] + " chosen!");
+        println(directions[choice] + " chosen!");
         return directions[choice];
     }
 
