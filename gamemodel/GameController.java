@@ -26,7 +26,7 @@ import javafx.util.Pair;
  */
 public class GameController {
 
-    public static final Random RANDOM = new Random();
+    private Random random = new Random();
     public static final int NUMBER_OF_STARTING_TILES = 2;
     public static final double CHANCE_OF_A_FOUR = .9;
     public static final int GRID_SIZE = 4;
@@ -56,7 +56,7 @@ public class GameController {
 
     private final int[] selectRandomEmptyPosition(GameBoard board) {
         ArrayList<Integer[]> positions = board.getEmptyPositions();
-        Integer[] output = positions.get(RANDOM.nextInt(positions.size()));
+        Integer[] output = positions.get(getRandom().nextInt(positions.size()));
         return new int[]{output[0], output[1]};
     }
 
@@ -83,7 +83,7 @@ public class GameController {
     public final GameBoard placeRandomTile(GameBoard board, int[] position) {
         GameBoard newBoard = new GameBoard(board);
         int[] row = newBoard.getGameGrid()[position[0]];//[position[1]];
-        if (RANDOM.nextDouble() < CHANCE_OF_A_FOUR) {
+        if (getRandom().nextDouble() < CHANCE_OF_A_FOUR) {
             // is a 2
             row[position[1]] = (1);
         } else {
@@ -91,6 +91,20 @@ public class GameController {
             row[position[1]] = (2);
         }
         return newBoard;
+    }
+
+    /**
+     * @return the random
+     */
+    public Random getRandom() {
+        return random;
+    }
+
+    /**
+     * @param random the random to set
+     */
+    public void setRandom(Random random) {
+        this.random = random;
     }
 
     private static class TileMove {
