@@ -22,7 +22,7 @@ import aiheuristics.Heuristic;
 import aiheuristics.HeuristicList;
 import aiheuristics.HighestMerges;
 import aiheuristics.MostMerges;
-import aisearch.Searcher;
+import aisearch.SingleThreadSearch;
 import gamemodel.Direction;
 import gamemodel.GameBoard;
 import gamemodel.GameController;
@@ -41,7 +41,7 @@ public class Runner {
         System.out.print("enter max depth: ");
         int maxDepth = scanner.nextInt();
         System.out.println();
-        Searcher searcher = new Searcher(controller, maxDepth);
+        SingleThreadSearch searcher = new SingleThreadSearch(controller, maxDepth);
         AIDecider decider = new RandomVoting();
         Heuristic[] heuristics = HeuristicList.getHeuristics();
 

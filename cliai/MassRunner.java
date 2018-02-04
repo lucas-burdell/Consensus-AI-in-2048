@@ -19,7 +19,7 @@ package cliai;
 import aidecision.AIDecider;
 import aidecision.RandomVoting;
 import aiheuristics.HeuristicList;
-import aisearch.Searcher;
+import aisearch.SingleThreadSearch;
 import gamemodel.Direction;
 import gamemodel.GameBoard;
 import gamemodel.GameController;
@@ -41,13 +41,15 @@ public class MassRunner {
         int maxDepth = input.nextInt();
         int[] scoreResults = new int[gamesToPlay];
         GameController controller = new GameController();
-        Searcher searcher = new Searcher(controller);
+        SingleThreadSearch searcher = new SingleThreadSearch(controller);
         //searcher.setEvaluateAfterstates(true);
         searcher.setMaximumDepth(maxDepth);
         AIDecider decider = new RandomVoting();
         //searcher.setDebugMessagesEnabled(true);
         GameBoard currentBoard = controller.createStartingGameboard();
         for (int i = 0; i < gamesToPlay; i++) {
+            long moveCount = 0;
+            long startTime = System.currentTimeMillis();
             while (!controller.isGameOver(currentBoard)) {
                 int[] votes = searcher.getVotesOnDirections(currentBoard, HeuristicList.getHeuristics());
                 Direction decision = decider.evaluateVotes(votes);
@@ -55,11 +57,19 @@ public class MassRunner {
                 //System.out.println(currentBoard.getScore());
                 //System.out.println(currentBoard);
                 //System.out.println("Moved above board " + decision);
+                if (moveCount % 20L == 0) {
+                    //System.out.println("moves made this game: " + moveCount);
+                }
+                moveCount++;
+                
             }
+            long endTime = System.currentTimeMillis();
             scoreResults[i] = currentBoard.getScore();
             System.out.println("final score: " + currentBoard.getScore());
             currentBoard = controller.createStartingGameboard();
             System.out.println("game " + i + " complete");
+            System.out.println("game took: " + (endTime - startTime) / 1000.0 + " seconds");
+            
             
         }
         System.out.println("Mean: " + getMean(scoreResults));
