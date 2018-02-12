@@ -17,8 +17,10 @@
 package cliai;
 
 import aidecision.AIDecider;
-import aidecision.RandomVoting;
+import aidecision.MajorityVoting;
+import aidecision.RandomBagVoting;
 import aiheuristics.HeuristicList;
+import aisearch.MultiThreadSearchDesign1;
 import aisearch.SingleThreadSearch;
 import gamemodel.Direction;
 import gamemodel.GameBoard;
@@ -51,10 +53,12 @@ public class MassParallelRunner {
         int threadCount = Runtime.getRuntime().availableProcessors();
         int[] scoreResults = new int[gamesToPlay];
         GameController controller = new GameController();
+        //MultiThreadSearchDesign1
+        //MultiThreadSearchDesign1 searcher = new MultiThreadSearchDesign1(controller);
         SingleThreadSearch searcher = new SingleThreadSearch(controller);
         //searcher.setEvaluateAfterstates(true);
         searcher.setMaximumDepth(maxDepth);
-        AIDecider decider = new RandomVoting();
+        AIDecider decider = new RandomBagVoting();
         //searcher.setDebugMessagesEnabled(true);
 
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);

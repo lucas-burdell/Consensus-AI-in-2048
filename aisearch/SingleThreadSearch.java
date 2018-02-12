@@ -197,7 +197,12 @@ public class SingleThreadSearch {
                     currentDepth++;
                     elementsToDepthIncrease = nextElementsToDepthIncrease;
                     nextElementsToDepthIncrease = 0;
-
+                    
+                    // clear queues for fairness
+                    if (currentDepth > maxDepth) {
+                        break;
+                    }
+                    
                 }
             }
         }

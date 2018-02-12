@@ -35,6 +35,7 @@ public class HeuristicList {
         new MostMerges(),
         new EmptySpaces(), 
         new BiggestNumberNeighbors(),
+        new MonotonicityInRows(),
     };
 
 }

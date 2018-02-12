@@ -17,7 +17,7 @@
 package cliai;
 
 import aidecision.AIDecider;
-import aidecision.RandomVoting;
+import aidecision.MajorityVoting;
 import aiheuristics.HeuristicList;
 import aisearch.SingleThreadSearch;
 import gamemodel.Direction;
@@ -44,7 +44,7 @@ public class MassRunner {
         SingleThreadSearch searcher = new SingleThreadSearch(controller);
         //searcher.setEvaluateAfterstates(true);
         searcher.setMaximumDepth(maxDepth);
-        AIDecider decider = new RandomVoting();
+        AIDecider decider = new MajorityVoting();
         //searcher.setDebugMessagesEnabled(true);
         GameBoard currentBoard = controller.createStartingGameboard();
         for (int i = 0; i < gamesToPlay; i++) {

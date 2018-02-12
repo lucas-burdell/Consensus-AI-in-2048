@@ -26,7 +26,7 @@ import java.util.Random;
  *
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
-public class RandomVoting extends AIDecider {
+public class MajorityVoting extends AIDecider {
 
     /**
      * @return the debugMessagesEnabled

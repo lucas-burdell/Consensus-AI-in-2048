@@ -17,7 +17,7 @@
 package cliai;
 
 import aidecision.AIDecider;
-import aidecision.RandomVoting;
+import aidecision.MajorityVoting;
 import aiheuristics.Heuristic;
 import aiheuristics.HeuristicList;
 import aiheuristics.HighestMerges;
@@ -42,7 +42,7 @@ public class Runner {
         int maxDepth = scanner.nextInt();
         System.out.println();
         SingleThreadSearch searcher = new SingleThreadSearch(controller, maxDepth);
-        AIDecider decider = new RandomVoting();
+        AIDecider decider = new MajorityVoting();
         Heuristic[] heuristics = HeuristicList.getHeuristics();
 
         while (!controller.isGameOver(board)) {
