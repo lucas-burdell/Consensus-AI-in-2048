@@ -25,6 +25,9 @@ import aisearch.SingleThreadSearch;
 import gamemodel.Direction;
 import gamemodel.GameBoard;
 import gamemodel.GameController;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -103,8 +106,17 @@ public class MassParallelRunner {
         executor.shutdown();
         System.out.println("Mean: " + getMean(scoreResults));
         System.out.println("Standard Deviation: " + getStandardDeviation(scoreResults));
-
-    }
+        try (PrintWriter writer = new PrintWriter(new File("output.csv"))) {
+            writer.println("gameid,gamescore");
+            for (int i = 0; i < scoreResults.length; i++) {
+                int scoreResult = scoreResults[i];
+                writer.println(i + "," + scoreResult);
+            }
+            writer.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace(System.err);
+        }
+   }
 
     private static long getMean(int[] scoreResults) {
         long output = 0;
