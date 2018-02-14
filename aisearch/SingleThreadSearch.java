@@ -64,7 +64,6 @@ public class SingleThreadSearch {
     private boolean debugMessagesEnabled = false;
     private double depthWeight = 1;
     private boolean weightOnDepths = true;
-    private int numberOfThreads = 16;
 
     private void println(Object message) {
         if (isDebugMessagesEnabled()) {
@@ -100,6 +99,33 @@ public class SingleThreadSearch {
         maxDepth = aMaximumDepth;
     }
 
+    public long addNewStates(GameBoard afterState, Queue queue) {
+        long nextElementsToDepthIncrease = 0;
+        if (!this.evaluateAfterstates) {
+            GameBoard[] newStates = controller.createAllPossibleNewStates(afterState);
+
+            for (GameBoard newState : newStates) {
+                queue.add(newState);
+                nextElementsToDepthIncrease++;
+            }
+        } else {
+            queue.add(afterState);
+            nextElementsToDepthIncrease++;
+        }
+        return nextElementsToDepthIncrease;
+    }
+
+    public long evaluateState(GameBoard state, Heuristic heuristic, int currentDirection, int currentDepth) {
+        if (this.isWeightOnDepths()) {
+            //heuristicSums[i][j] += Math.pow(heuristic.getValueOfState(controller, nextBoard), getDepthWeight() / currentDepth) ;
+            double x = 1 / currentDepth;
+            double y = Math.pow(0.51457317283, x);
+            return (long) (heuristic.getValueOfState(controller, state, currentDirection) * y);
+        } else {
+            return heuristic.getValueOfState(controller, state, currentDirection);
+        }
+    }
+
     public int[] getVotesOnDirections(GameBoard currentBoard, Heuristic[] heuristics) {
         final Direction[] directions = Direction.values();
         final Queue<GameBoard>[] directionQueues = new ConcurrentLinkedQueue[directions.length];
@@ -111,7 +137,6 @@ public class SingleThreadSearch {
         }
 
         int currentDepth = 1;
-        Object elementsLock = new Object();
         long elementsToDepthIncrease = directions.length;
         long nextElementsToDepthIncrease = 0;
 
@@ -121,23 +146,11 @@ public class SingleThreadSearch {
                 for (int j = 0; j < heuristics.length; j++) {
                     final Heuristic heuristic = heuristics[j];
                     // evaluate state of board
-
-                    heuristicSums[i][j] += heuristic.getValueOfState(gameController, result, i);
-
+                    heuristicSums[i][j] += evaluateState(result, heuristic, i, currentDepth);
                 }
             }
             if (result.isMoved() && currentDepth <= maxDepth) {
-                if (!this.evaluateAfterstates) {
-                    GameBoard[] newStates = controller.createAllPossibleNewStates(result);
-
-                    for (GameBoard newState : newStates) {
-                        directionQueues[i].add(newState);
-                        nextElementsToDepthIncrease++;
-                    }
-                } else {
-                    directionQueues[i].add(result);
-                    nextElementsToDepthIncrease++;
-                }
+                nextElementsToDepthIncrease += addNewStates(result, directionQueues[i]);
             }
         }
 
@@ -154,32 +167,13 @@ public class SingleThreadSearch {
                 GameBoard toEval = this.evaluateAfterstates ? afterState : nextBoard;
 
                 if (afterState.isMoved() && currentDepth <= maxDepth) {
-                    if (!this.evaluateAfterstates) {
-                        GameBoard[] newStates = controller.createAllPossibleNewStates(afterState);
-
-                        for (GameBoard newState : newStates) {
-                            queue.add(newState);
-                            nextElementsToDepthIncrease++;
-                        }
-                    } else {
-                        queue.add(afterState);
-                        nextElementsToDepthIncrease++;
-                    }
+                    nextElementsToDepthIncrease += addNewStates(afterState, directionQueues[i]);
                 }
                 if (afterState.isMoved()) {
                     for (int j = 0; j < heuristics.length; j++) {
                         final Heuristic heuristic = heuristics[j];
                         // evaluate state of board
-
-                        if (this.isWeightOnDepths()) {
-                            //heuristicSums[i][j] += Math.pow(heuristic.getValueOfState(controller, nextBoard), getDepthWeight() / currentDepth) ;
-                            double x = 1 / currentDepth;
-                            double y = Math.pow(0.51457317283, x);
-                            heuristicSums[i][j] += heuristic.getValueOfState(controller, toEval, i) * y;
-                        } else {
-                            heuristicSums[i][j] += heuristic.getValueOfState(controller, toEval, i);
-                        }
-
+                        heuristicSums[i][j] += evaluateState(afterState, heuristic, i, currentDepth);
                     }
                 }
 
@@ -187,12 +181,12 @@ public class SingleThreadSearch {
                     currentDepth++;
                     elementsToDepthIncrease = nextElementsToDepthIncrease;
                     nextElementsToDepthIncrease = 0;
-                    
+
                     // clear queues for fairness
                     if (currentDepth > maxDepth) {
                         break;
                     }
-                    
+
                 }
             }
         }
@@ -255,19 +249,5 @@ public class SingleThreadSearch {
     public SingleThreadSearch(GameController controller, int maxDepth) {
         this.controller = controller;
         this.maxDepth = maxDepth;
-    }
-
-    /**
-     * @return the numberOfThreads
-     */
-    public int getNumberOfThreads() {
-        return numberOfThreads;
-    }
-
-    /**
-     * @param numberOfThreads the numberOfThreads to set
-     */
-    public void setNumberOfThreads(int numberOfThreads) {
-        this.numberOfThreads = numberOfThreads;
     }
 }

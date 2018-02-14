@@ -39,6 +39,7 @@ public class HeuristicList {
         new Smoothness(),
         new TwoDirections(),
         new Corners(),
+        new BiggestNumberCornerDistance(),
     };
 
 }

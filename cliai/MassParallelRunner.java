@@ -62,7 +62,9 @@ public class MassParallelRunner {
         SingleThreadSearch searcher = new SingleThreadSearch(controller);
         //searcher.setEvaluateAfterstates(true);
         searcher.setMaximumDepth(maxDepth);
-        AIDecider decider = new RandomBagVoting();
+        //searcher.setWeightOnDepths(false);
+        searcher.setEvaluateAfterstates(true);
+        AIDecider decider = new MajorityVoting();
         //searcher.setDebugMessagesEnabled(true);
 
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
