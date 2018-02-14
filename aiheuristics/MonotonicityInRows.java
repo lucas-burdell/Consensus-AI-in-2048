@@ -10,7 +10,7 @@ import gamemodel.GameController;
 public class MonotonicityInRows implements Heuristic {
 
     @Override
-    public long getValueOfState(GameController controller, GameBoard state) {
+    public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
         int[][] grid = state.getGameGrid();
         long leftOutput = 0;
         long rightOutput = 0;

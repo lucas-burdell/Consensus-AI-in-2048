@@ -29,7 +29,7 @@ import gamemodel.GameNode;
 public class EmptySpaces implements Heuristic {
 
     @Override
-    public long getValueOfState(GameController controller, GameBoard state) {
+    public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
         int[][] grid = state.getGameGrid();
         long output = 0;
         Direction[] directions = Direction.values();

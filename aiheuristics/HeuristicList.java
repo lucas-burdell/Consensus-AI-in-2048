@@ -36,6 +36,9 @@ public class HeuristicList {
         new EmptySpaces(), 
         new BiggestNumberNeighbors(),
         new MonotonicityInRows(),
+        new Smoothness(),
+        new TwoDirections(),
+        new Corners(),
     };
 
 }

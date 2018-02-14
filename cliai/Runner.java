@@ -42,6 +42,7 @@ public class Runner {
         int maxDepth = scanner.nextInt();
         System.out.println();
         SingleThreadSearch searcher = new SingleThreadSearch(controller, maxDepth);
+        searcher.setDebugMessagesEnabled(true);
         AIDecider decider = new MajorityVoting();
         Heuristic[] heuristics = HeuristicList.getHeuristics();
 
@@ -53,7 +54,7 @@ public class Runner {
             Direction decision = decider.evaluateVotes(votes);
             board = controller.doGameMove(board, decision);
             Thread.sleep(100);
-            //System.out.println("Current score: " + board.getScore());
+            System.out.println("Current score: " + board.getScore());
             //int move = scanner.nextInt();
             //Direction[] directions = Direction.values();
             //if (move > -1 && move < directions.length) {

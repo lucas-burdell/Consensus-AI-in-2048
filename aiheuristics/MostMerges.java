@@ -29,8 +29,9 @@ import gamemodel.GameNode;
 public class MostMerges implements Heuristic {
 
     @Override
-    public long getValueOfState(GameController controller, GameBoard state) {
+    public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
 
+        /*
         Direction[] directions = Direction.values();
         long output = 0;
         int numberOfEmptyTiles = state.getEmptyPositions().size();
@@ -39,6 +40,8 @@ public class MostMerges implements Heuristic {
             output += result.getEmptyPositions().size() - numberOfEmptyTiles;
         }
         return output;
+        */
+        return state.getNumberOfMerges();
 
     }
 

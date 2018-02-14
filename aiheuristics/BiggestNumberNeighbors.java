@@ -28,7 +28,7 @@ import java.util.Collections;
 public class BiggestNumberNeighbors implements Heuristic {
 
     @Override
-    public long getValueOfState(GameController controller, GameBoard state) {
+    public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
         // find biggest 4 numbers
         int[][] grid = state.getGameGrid();
         // sort grid into 1d array

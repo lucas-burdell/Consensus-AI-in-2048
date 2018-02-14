@@ -29,7 +29,8 @@ import gamemodel.GameNode;
 public class HighestMerges implements Heuristic {
 
     @Override
-    public long getValueOfState(GameController controller, GameBoard state) {
+    public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
+        /*
         Direction[] directions = Direction.values();
         long output = 0;
         for (int i = 0; i < directions.length; i++) {
@@ -37,6 +38,7 @@ public class HighestMerges implements Heuristic {
             output += result.getScore() - state.getScore();
         }
         return output;
+        */
         /*
         int[][] grid = state.getGameGrid();
         long output = 0;
@@ -51,6 +53,7 @@ public class HighestMerges implements Heuristic {
         }
 
         return output;*/
+        return state.getScore();
     }
 
 }

@@ -11,7 +11,7 @@ import gamemodel.GameController;
  * @author lucas.burdell
  */
 public interface Heuristic {
-    public long getValueOfState(GameController controller, GameBoard state);
+    public long getValueOfState(GameController controller, GameBoard state, int currentDirection);
     @Override
     public String toString();
 }

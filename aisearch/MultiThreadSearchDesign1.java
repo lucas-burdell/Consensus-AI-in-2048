@@ -3,22 +3,14 @@ package aisearch;
 import aiheuristics.Heuristic;
 import gamemodel.GameBoard;
 import gamemodel.GameController;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import gamemodel.Direction;
-import java.io.PrintStream;
 import java.util.Queue;
 import java.util.Random;
-import searchtree.Tree;
-import searchtree.Tree.Node;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -137,7 +129,7 @@ public class MultiThreadSearchDesign1 {
                     final int y = j;
                     // evaluate state of board
                     executor.submit(() -> {
-                        heuristicSums[x][y] += heuristic.getValueOfState(gameController, result);
+                        heuristicSums[x][y] += heuristic.getValueOfState(gameController, result, x);
                     });
 
                 }
@@ -193,9 +185,9 @@ public class MultiThreadSearchDesign1 {
                                 //heuristicSums[i][j] += Math.pow(heuristic.getValueOfState(controller, nextBoard), getDepthWeight() / currentDepth) ;
                                 double x2 = 1 / curDepth;
                                 double y2 = Math.pow(0.51457317283, x2);
-                                heuristicSums[x][y] += heuristic.getValueOfState(controller, nextBoard) * y2;
+                                heuristicSums[x][y] += heuristic.getValueOfState(controller, nextBoard, x) * y2;
                             } else {
-                                heuristicSums[x][y] += heuristic.getValueOfState(controller, nextBoard);
+                                heuristicSums[x][y] += heuristic.getValueOfState(controller, nextBoard, x);
                             }
                         });
                     }

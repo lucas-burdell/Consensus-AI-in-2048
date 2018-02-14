@@ -7,10 +7,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import gamemodel.Direction;
-import java.io.PrintStream;
 import java.util.Random;
-import searchtree.Tree;
-import searchtree.Tree.Node;
 
 /**
  *
@@ -120,7 +117,7 @@ public class Searcher {
                 for (int j = 0; j < heuristics.length; j++) {
                     Heuristic heuristic = heuristics[j];
                     // evaluate state of board
-                    heuristicSums[i][j] += heuristic.getValueOfState(controller, result);
+                    heuristicSums[i][j] += heuristic.getValueOfState(controller, result, i);
                 }
             }
             if (result.isMoved() && currentDepth <= maxDepth) {
@@ -170,9 +167,9 @@ public class Searcher {
                             //heuristicSums[i][j] += Math.pow(heuristic.getValueOfState(controller, nextBoard), getDepthWeight() / currentDepth) ;
                             double x = 1 / currentDepth;
                             double y = Math.pow(0.51457317283, x);
-                            heuristicSums[i][j] += heuristic.getValueOfState(controller, nextBoard) * y;
+                            heuristicSums[i][j] += heuristic.getValueOfState(controller, nextBoard, i) * y;
                         } else {
-                            heuristicSums[i][j] += heuristic.getValueOfState(controller, nextBoard);
+                            heuristicSums[i][j] += heuristic.getValueOfState(controller, nextBoard, i);
                         }
 
                     }

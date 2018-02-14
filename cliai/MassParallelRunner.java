@@ -54,7 +54,8 @@ public class MassParallelRunner {
 //        int threadCount = input.nextInt();
 //        int maxDepth = 3;
         int threadCount = Runtime.getRuntime().availableProcessors();
-        int[] scoreResults = new int[gamesToPlay];
+        final int[] scoreResults = new int[gamesToPlay];
+        final GameBoard[] finalBoards = new GameBoard[gamesToPlay];
         GameController controller = new GameController();
         //MultiThreadSearchDesign1
         //MultiThreadSearchDesign1 searcher = new MultiThreadSearchDesign1(controller);
@@ -87,11 +88,10 @@ public class MassParallelRunner {
                 }
                 long endTime = System.currentTimeMillis();
                 scoreResults[gameId] = currentBoard.getScore();
+                finalBoards[gameId] = currentBoard;
                 System.out.println("final score: " + currentBoard.getScore());
-                currentBoard = controller.createStartingGameboard();
                 System.out.println("game " + gameId + " complete");
                 System.out.println("game took: " + (endTime - startTime) / 1000.0 + " seconds");
-
             });
         }
         for (Future future : futures) {
@@ -106,17 +106,31 @@ public class MassParallelRunner {
         executor.shutdown();
         System.out.println("Mean: " + getMean(scoreResults));
         System.out.println("Standard Deviation: " + getStandardDeviation(scoreResults));
-        try (PrintWriter writer = new PrintWriter(new File("output.csv"))) {
+        File scoreFile = new File("scoreOutput.csv");
+        File boardFile = new File("boardOutput.txt");
+        try (PrintWriter writer = new PrintWriter(scoreFile)) {
             writer.println("gameid,gamescore");
             for (int i = 0; i < scoreResults.length; i++) {
                 int scoreResult = scoreResults[i];
                 writer.println(i + "," + scoreResult);
             }
+
+            scoreFile.setWritable(true);
+            scoreFile.setReadable(true);
             writer.close();
         } catch (FileNotFoundException ex) {
             ex.printStackTrace(System.err);
         }
-   }
+        try (PrintWriter writer = new PrintWriter(boardFile)){
+            writer.println("gameid,board");
+            for (int i = 0; i < finalBoards.length; i++) {
+                GameBoard finalBoard = finalBoards[i];
+                writer.println(i + "," + finalBoard.toStorageString());
+            }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace(System.err);
+        }
+    }
 
     private static long getMean(int[] scoreResults) {
         long output = 0;

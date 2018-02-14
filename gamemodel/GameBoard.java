@@ -109,6 +109,18 @@ public class GameBoard {
         this.mergeGrid = new boolean[gridSize][gridSize];
     }
     
+    
+    public String toStorageString(){
+        StringBuilder output = new StringBuilder();
+        for (int[] row : gameGrid) {
+            for (int value : row) {
+                output.append(value).append(",");
+            }
+        }
+        output.deleteCharAt(output.length() - 1);
+        return output.toString();
+    }
+    
     @Override
     public String toString(){
         StringBuilder[] output = new StringBuilder[gameGrid.length];

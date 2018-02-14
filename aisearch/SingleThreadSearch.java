@@ -3,22 +3,11 @@ package aisearch;
 import aiheuristics.Heuristic;
 import gamemodel.GameBoard;
 import gamemodel.GameController;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import gamemodel.Direction;
-import java.io.PrintStream;
 import java.util.Queue;
 import java.util.Random;
-import searchtree.Tree;
-import searchtree.Tree.Node;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -133,7 +122,7 @@ public class SingleThreadSearch {
                     final Heuristic heuristic = heuristics[j];
                     // evaluate state of board
 
-                    heuristicSums[i][j] += heuristic.getValueOfState(gameController, result);
+                    heuristicSums[i][j] += heuristic.getValueOfState(gameController, result, i);
 
                 }
             }
@@ -162,6 +151,7 @@ public class SingleThreadSearch {
                 GameBoard nextBoard = queue.poll();
                 elementsToDepthIncrease--;
                 GameBoard afterState = controller.moveGrid(nextBoard, direction);
+                GameBoard toEval = this.evaluateAfterstates ? afterState : nextBoard;
 
                 if (afterState.isMoved() && currentDepth <= maxDepth) {
                     if (!this.evaluateAfterstates) {
@@ -185,9 +175,9 @@ public class SingleThreadSearch {
                             //heuristicSums[i][j] += Math.pow(heuristic.getValueOfState(controller, nextBoard), getDepthWeight() / currentDepth) ;
                             double x = 1 / currentDepth;
                             double y = Math.pow(0.51457317283, x);
-                            heuristicSums[i][j] += heuristic.getValueOfState(controller, nextBoard) * y;
+                            heuristicSums[i][j] += heuristic.getValueOfState(controller, toEval, i) * y;
                         } else {
-                            heuristicSums[i][j] += heuristic.getValueOfState(controller, nextBoard);
+                            heuristicSums[i][j] += heuristic.getValueOfState(controller, toEval, i);
                         }
 
                     }

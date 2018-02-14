@@ -67,8 +67,12 @@ public class GameController {
             Integer[] position = positions.get(i);
             GameBoard board2 = new GameBoard(board);
             board2.getGameGrid()[position[0]][position[1]] = (1);
+            board2.setPreviousMove(board.getPreviousMove());
+            board2.setNumberOfMerges(board.getNumberOfMerges());
             GameBoard board4 = new GameBoard(board);
             board4.getGameGrid()[position[0]][position[1]] = (2);
+            board4.setPreviousMove(board.getPreviousMove());
+            board4.setNumberOfMerges(board.getNumberOfMerges());
             states[i * 2] = board2;
             states[(i * 2) + 1] = board4;
         }
@@ -201,7 +205,7 @@ public class GameController {
                 board.getMergeGrid()[farthestNodePosition[0]][farthestNodePosition[1]] = true;
                 board.getGameGrid()[position[0]][position[1]] = 0;
                 //println("Set node to " + node.getValue());
-                board.setScore(board.getScore() + (int) Math.pow(value, 2));
+                board.setScore(board.getScore() + (int) Math.pow(2, value));
                 //score += farthestNode.getValue();
                 board.setMoved(true);
                 board.setNumberOfMerges(board.getNumberOfMerges() + 1);
@@ -260,17 +264,45 @@ public class GameController {
         for (int i = 0; i < NUMBER_OF_STARTING_TILES; i++) {
             board = placeRandomTile(board);
         }
+        
+        // set a default value for movement;
+        board.setPreviousMove(Direction.values()[0]);
         return board;
     }
 
     public boolean isMatchesAvailable(GameBoard board) {
         int[][] grid = board.getGameGrid();
-        for (int x = 0; x < GRID_SIZE - 1; x++) {
-            for (int y = 0; y < GRID_SIZE - 1; y++) {
-                if (grid[x][y] == grid[x + 1][y]) {
-                    return true;
-                } else if (grid[x][y] == grid[x][y + 1]) {
-                    return true;
+        Direction[] directions = Direction.values();
+        for (int x = 0; x < GRID_SIZE; x++) {
+            for (int y = 0; y < GRID_SIZE; y++) {
+                for (Direction direction : directions) {
+                    int otherX = x;
+                    int otherY = y;
+                    switch (direction){
+                        case UP:
+                            otherY -= 1;
+                            break;
+                        case DOWN:
+                            otherY += 1;
+                            break;
+                        case LEFT:
+                            otherX -= 1;
+                            break;
+                        case RIGHT:
+                            otherX += 1;
+                            break;
+                        default:
+                            throw new AssertionError(direction.name());
+                    }
+                    if (otherX >= GRID_SIZE || otherX < 0) {
+                        continue;
+                    }
+                    if (otherY >= GRID_SIZE || otherY < 0) {
+                        continue;
+                    }
+                    if (grid[x][y] == grid[otherX][otherY]) {
+                        return true;
+                    }
                 }
             }
         }
