@@ -19,6 +19,7 @@ package cliai;
 import aidecision.AIDecider;
 import aidecision.MajorityVoting;
 import aidecision.RandomBagVoting;
+import aiheuristics.Heuristic;
 import aiheuristics.HeuristicList;
 import aisearch.MultiThreadSearchDesign1;
 import aisearch.SingleThreadSearch;
@@ -28,6 +29,7 @@ import gamemodel.GameController;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -50,31 +52,31 @@ public class MassParallelRunner {
         System.out.println();
         System.out.print("Enter max depth of search: ");
         int maxDepth = input.nextInt();
-//        System.out.print("Enter number of threads: ");
-//        int threadCount = input.nextInt();
-//        int maxDepth = 3;
+        System.out.print("Enter progress report iteration:");
+        int progressReportIteration = input.nextInt();
         int threadCount = Runtime.getRuntime().availableProcessors();
         final int[] scoreResults = new int[gamesToPlay];
         final GameBoard[] finalBoards = new GameBoard[gamesToPlay];
+
         GameController controller = new GameController();
-        //MultiThreadSearchDesign1
-        //MultiThreadSearchDesign1 searcher = new MultiThreadSearchDesign1(controller);
         SingleThreadSearch searcher = new SingleThreadSearch(controller);
-        //searcher.setEvaluateAfterstates(true);
         searcher.setMaximumDepth(maxDepth);
-        //searcher.setWeightOnDepths(false);
+        searcher.setWeightOnDepths(false);
         searcher.setEvaluateAfterstates(true);
         AIDecider decider = new MajorityVoting();
-        //searcher.setDebugMessagesEnabled(true);
+        
 
+        //searcher.setDebugMessagesEnabled(true);
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         Future[] futures = new Future[gamesToPlay];
+        long programStartTime = System.currentTimeMillis();
         for (int i = 0; i < gamesToPlay; i++) {
             final int gameId = i;
             futures[gameId] = executor.submit(() -> {
+
                 GameBoard currentBoard = controller.createStartingGameboard();
                 long moveCount = 0;
-                long startTime = System.currentTimeMillis();
+                //long startTime = System.currentTimeMillis();
                 while (!controller.isGameOver(currentBoard)) {
                     int[] votes = searcher.getVotesOnDirections(currentBoard, HeuristicList.getHeuristics());
                     Direction decision = decider.evaluateVotes(votes);
@@ -88,17 +90,21 @@ public class MassParallelRunner {
                     moveCount++;
 
                 }
-                long endTime = System.currentTimeMillis();
+                //long endTime = System.currentTimeMillis();
                 scoreResults[gameId] = currentBoard.getScore();
                 finalBoards[gameId] = currentBoard;
-                System.out.println("final score: " + currentBoard.getScore());
-                System.out.println("game " + gameId + " complete");
-                System.out.println("game took: " + (endTime - startTime) / 1000.0 + " seconds");
+//                System.out.println("final score: " + currentBoard.getScore());
+//                System.out.println("game " + gameId + " complete");
+                //System.out.println("game took: " + (endTime - startTime) / 1000.0 + " seconds");
             });
         }
-        for (Future future : futures) {
+        for (int i = 0; i < futures.length; i++) {
+            Future future = futures[i];
             try {
                 future.get();
+                if (i % progressReportIteration == 0) {
+                    System.out.println("completed " + i + " games");
+                }
             } catch (InterruptedException ex) {
                 Logger.getLogger(MassParallelRunner.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ExecutionException ex) {
@@ -106,8 +112,16 @@ public class MassParallelRunner {
             }
         }
         executor.shutdown();
+        long programEndTime = System.currentTimeMillis();
+        System.out.println("Total AI computation time: " + (programEndTime - programStartTime) / 1000.0 + " seconds");
         System.out.println("Mean: " + getMean(scoreResults));
         System.out.println("Standard Deviation: " + getStandardDeviation(scoreResults));
+        System.out.println("Max: " + getMaxNumber(scoreResults));
+        System.out.println("Min: " + getMinNumber(scoreResults));
+        System.out.println("Heuristics used: ");
+        for (Heuristic heuristic : HeuristicList.getHeuristics()) {
+            System.out.println("\t" + heuristic.getClass().getCanonicalName());
+        }
         File scoreFile = new File("scoreOutput.csv");
         File boardFile = new File("boardOutput.txt");
         try (PrintWriter writer = new PrintWriter(scoreFile)) {
@@ -123,7 +137,7 @@ public class MassParallelRunner {
         } catch (FileNotFoundException ex) {
             ex.printStackTrace(System.err);
         }
-        try (PrintWriter writer = new PrintWriter(boardFile)){
+        try (PrintWriter writer = new PrintWriter(boardFile)) {
             writer.println("gameid,board");
             for (int i = 0; i < finalBoards.length; i++) {
                 GameBoard finalBoard = finalBoards[i];
@@ -155,5 +169,27 @@ public class MassParallelRunner {
             output += standardResult;
         }
         return Math.sqrt(output / standardResults.length);
+    }
+
+    private static int getMaxNumber(int[] array) {
+        int max = 0;
+        for (int i = 1; i < array.length; i++) {
+            int j = array[i];
+            if (j > array[max]) {
+                max = i;
+            }
+        }
+        return array[max];
+    }
+
+    private static int getMinNumber(int[] array) {
+        int min = 0;
+        for (int i = 1; i < array.length; i++) {
+            int j = array[i];
+            if (j < array[min]) {
+                min = i;
+            }
+        }
+        return array[min];
     }
 }

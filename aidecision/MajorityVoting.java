@@ -17,8 +17,6 @@
 package aidecision;
 
 import gamemodel.Direction;
-import gamemodel.GameBoard;
-import gamemodel.GameController;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -67,10 +65,24 @@ public class MajorityVoting extends AIDecider {
                 sameList.add(i);
             }
         }
-        int choice = sameList.get(random.nextInt(sameList.size()));
+        int choice = sameList.get(getRandom().nextInt(sameList.size()));
         Direction[] directions = Direction.values();
         println(directions[choice] + " chosen!");
         return directions[choice];
+    }
+
+    /**
+     * @return the random
+     */
+    public Random getRandom() {
+        return random;
+    }
+
+    /**
+     * @param random the random to set
+     */
+    public void setRandom(Random random) {
+        this.random = random;
     }
 
 }

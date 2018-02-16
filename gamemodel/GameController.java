@@ -205,7 +205,7 @@ public class GameController {
                 board.getMergeGrid()[farthestNodePosition[0]][farthestNodePosition[1]] = true;
                 board.getGameGrid()[position[0]][position[1]] = 0;
                 //println("Set node to " + node.getValue());
-                board.setScore(board.getScore() + (int) Math.pow(2, value));
+                board.setScore(board.getScore() + (1 << value));//(int) Math.pow(2, value));
                 //score += farthestNode.getValue();
                 board.setMoved(true);
                 board.setNumberOfMerges(board.getNumberOfMerges() + 1);
