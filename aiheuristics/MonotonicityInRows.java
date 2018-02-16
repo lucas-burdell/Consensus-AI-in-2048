@@ -14,18 +14,15 @@ public class MonotonicityInRows implements Heuristic {
         int[][] grid = state.getGameGrid();
         long leftOutput = 0;
         long rightOutput = 0;
-        for (int x = 0; x < grid.length; x++) {
-            int[] row = grid[x];
-            for (int y = 1; y < row.length; y++) {
-                int value = row[y];
-                
-                // if row is treated as it is in descending order
-                if (row[y - 1] > row[y]) {
+        for (int[] row : grid) {
+            for (int x = 1; x < row.length; x++) {
+                // row is treated as if it is in descending order
+                if (row[x - 1] > row[x]) {
                     // Add the difference to the output.
                     // This does not reward same-value tiles.
-                    leftOutput += row[y - 1] - row[y];
+                    leftOutput += row[x - 1] - row[x];
                 } else { // row might be in ascending order (or anything else)
-                    rightOutput += row[y] - row[y - 1];
+                    rightOutput += row[x] - row[x - 1];
                 }
                 
             }

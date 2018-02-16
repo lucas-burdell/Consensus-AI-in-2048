@@ -12,7 +12,8 @@ public class TwoDirections implements Heuristic {
     
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
-        long multiplier = (currentDirection - state.getPreviousMove().ordinal());
+        long multiplier = (currentDirection - state.getPreviousMove().ordinal()) % (Direction.values().length);
+        if (multiplier < 0) multiplier += Direction.values().length;
         if (Math.abs(multiplier) <= 1L) {
             multiplier = 5;
         } else {

@@ -31,20 +31,35 @@ public class EmptySpaces implements Heuristic {
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
         int[][] grid = state.getGameGrid();
+        int[] highestPos = getHighestValuePosition(grid);
+        int highestValue = grid[highestPos[0]][highestPos[1]];
         long output = 0;
-        Direction[] directions = Direction.values();
-        for (int i = 0; i < directions.length; i++) {
-            GameBoard result = controller.moveGrid(state, directions[i]);
-            int[][] resultGrid = result.getGameGrid();
-            for (int x = 0; x < resultGrid.length; x++) {
-                for (int y = 0; y < resultGrid[x].length; y++) {
-                    if (grid[x][y] == 0) {
-                        output++;
-                    }
+        for (int[] row : grid) {
+            for (int value : row) {
+                if (value == 0) {
+                    output += (highestValue / 2);
                 }
             }
         }
+
         return output;
     }
 
+// returned as y, x
+    private int[] getHighestValuePosition(int[][] grid) {
+        int[] highest = new int[2];
+        int highestValue = 0;
+        for (int y = 0; y < grid.length; y++) {
+            int[] row = grid[y];
+            for (int x = 0; x < row.length; x++) {
+                int value = row[x];
+                if (value > highestValue) {
+                    highest[0] = y;
+                    highest[1] = x;
+                    highestValue = value;
+                }
+            }
+        }
+        return highest;
+    }
 }
