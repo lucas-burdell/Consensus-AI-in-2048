@@ -1,0 +1,3 @@
+500 games all heuristics
+mean 2340
+std deviation: 995.312
