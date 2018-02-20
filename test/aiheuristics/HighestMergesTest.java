@@ -15,7 +15,8 @@ import static org.junit.Assert.*;
  */
 public class HighestMergesTest {
     private final GameController controller = new GameController();
-    private GameBoard board;
+    private GameBoard emptyState;
+    private HighestMerges instance;
     
     public HighestMergesTest() {
     }
@@ -30,12 +31,14 @@ public class HighestMergesTest {
     
     @Before
     public void setUp() {
-        board = new GameBoard(GameController.GRID_SIZE);
+        instance = new HighestMerges();
+        emptyState = new GameBoard(GameController.GRID_SIZE);
     }
     
     @After
     public void tearDown() {
-        board = null;
+        emptyState = null;
+        instance = null;
     }
 
     /**
@@ -44,12 +47,9 @@ public class HighestMergesTest {
     @Test
     public void testGetValueOfState() {
         System.out.println("getValueOfState");
-        GameController controller = new GameController();
-        GameBoard state = new GameBoard(GameController.GRID_SIZE);
         int currentDirection = 0;
-        HighestMerges instance = new HighestMerges();
         long expResult = 0L;
-        long result = instance.getValueOfState(controller, state, currentDirection);
+        long result = instance.getValueOfState(controller, emptyState, currentDirection);
         assertEquals(expResult, result);
         
     }
