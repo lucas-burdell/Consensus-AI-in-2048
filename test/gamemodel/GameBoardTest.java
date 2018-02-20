@@ -87,7 +87,7 @@ public class GameBoardTest {
     public void testSetNumberOfMerges() {
         System.out.println("setNumberOfMerges");
         int numberOfMerges = 0;
-        GameBoard instance = new GameBoard(16);
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
         instance.setNumberOfMerges(numberOfMerges);
         assertEquals(numberOfMerges, instance.getNumberOfMerges());
     }
@@ -100,7 +100,7 @@ public class GameBoardTest {
         System.out.println("getMergeGridPosition");
         int x = 0;
         int y = 0;
-        GameBoard instance = new GameBoard(16);
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
         boolean expResult = false;
         boolean result = instance.getMergeGridPosition(x, y);
         assertEquals(expResult, result);
@@ -114,15 +114,16 @@ public class GameBoardTest {
 
         instance = new GameBoard(board);
         GameController controller = new GameController();
+        
         GameBoard left = controller.moveGrid(instance, Direction.LEFT);
         GameBoard right = controller.moveGrid(instance, Direction.RIGHT);
         GameBoard up = controller.moveGrid(instance, Direction.UP);
         GameBoard down = controller.moveGrid(instance, Direction.DOWN);
-
+        
         assertEquals(true, left.getMergeGridPosition(x, y));
-        assertEquals(true, right.getMergeGridPosition(x, y));
+        assertEquals(true, right.getMergeGridPosition(x + 2, y));
         assertEquals(true, up.getMergeGridPosition(x, y));
-        assertEquals(true, down.getMergeGridPosition(x, y));
+        assertEquals(true, down.getMergeGridPosition(x, y + 2));
 
     }
 
@@ -135,7 +136,7 @@ public class GameBoardTest {
         int x = 0;
         int y = 0;
         boolean value = true;
-        GameBoard instance = new GameBoard(16);
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
         instance.setMergeGridPosition(x, y, value);
         assertEquals(value, instance.getMergeGridPosition(x, y));
     }
@@ -146,7 +147,7 @@ public class GameBoardTest {
     @Test
     public void testGetGameGrid() {
         System.out.println("getGameGrid");
-        GameBoard instance = new GameBoard(16);
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
         int[][] expResult = new int[][]{
             new int[]{0, 0, 0, 0},
             new int[]{0, 0, 0, 0},
@@ -175,7 +176,7 @@ public class GameBoardTest {
             new int[]{1, 1, 1, 1},
             new int[]{1, 1, 1, 1}
         };
-        GameBoard instance = new GameBoard(16);
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
         instance.setGameGrid(gameGrid);
         assertArrayEquals(gameGrid, instance.getGameGrid());
     }
@@ -186,12 +187,10 @@ public class GameBoardTest {
     @Test
     public void testGetEmptyPositions() {
         System.out.println("getEmptyPositions");
-        GameBoard instance = null;
-        ArrayList expResult = null;
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        int expResult = GameController.GRID_SIZE * GameController.GRID_SIZE;
         ArrayList result = instance.getEmptyPositions();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result.size());
     }
 
     /**
@@ -200,12 +199,11 @@ public class GameBoardTest {
     @Test
     public void testToStorageString() {
         System.out.println("toStorageString");
-        GameBoard instance = null;
-        String expResult = "";
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+
+        String expResult = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
         String result = instance.toStorageString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -214,12 +212,10 @@ public class GameBoardTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        GameBoard instance = null;
-        String expResult = "";
+        GameBoard instance = new GameBoard(4);
+        String expResult = " [0] [0] [0] [0]\n [0] [0] [0] [0]\n [0] [0] [0] [0]\n [0] [0] [0] [0]\n";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -228,12 +224,10 @@ public class GameBoardTest {
     @Test
     public void testGetScore() {
         System.out.println("getScore");
-        GameBoard instance = null;
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
         int expResult = 0;
         int result = instance.getScore();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -242,11 +236,10 @@ public class GameBoardTest {
     @Test
     public void testSetScore() {
         System.out.println("setScore");
-        int score = 0;
-        GameBoard instance = null;
+        int score = 32;
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
         instance.setScore(score);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(score, instance.getScore());
     }
 
     /**
@@ -255,12 +248,10 @@ public class GameBoardTest {
     @Test
     public void testIsMoved() {
         System.out.println("isMoved");
-        GameBoard instance = null;
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
         boolean expResult = false;
         boolean result = instance.isMoved();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -269,11 +260,9 @@ public class GameBoardTest {
     @Test
     public void testSetMoved() {
         System.out.println("setMoved");
-        boolean moved = false;
-        GameBoard instance = null;
+        boolean moved = true;
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
         instance.setMoved(moved);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -282,12 +271,10 @@ public class GameBoardTest {
     @Test
     public void testGetPreviousMove() {
         System.out.println("getPreviousMove");
-        GameBoard instance = null;
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
         Direction expResult = null;
         Direction result = instance.getPreviousMove();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -296,11 +283,10 @@ public class GameBoardTest {
     @Test
     public void testSetPreviousMove() {
         System.out.println("setPreviousMove");
-        Direction previousMove = null;
-        GameBoard instance = null;
+        Direction previousMove = Direction.DOWN;
+        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
         instance.setPreviousMove(previousMove);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(previousMove, instance.getPreviousMove());
     }
 
 }
