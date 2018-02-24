@@ -63,6 +63,7 @@ public class MassParallelRunner {
         searcher.setMaximumDepth(maxDepth);
         searcher.setWeightOnDepths(false);
         searcher.setEvaluateAfterstates(true);
+        controller.setConsiderFoursForPossibleStates(false);
         AIDecider decider = new MajorityVoting();
         
 

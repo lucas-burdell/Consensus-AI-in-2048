@@ -28,9 +28,27 @@ import javafx.util.Pair;
 public class GameController {
 
     private Random random = new Random();
+    private boolean debugMessagesEnabled = false;
+    private boolean considerFoursForPossibleStates = true;
+
     public static final int NUMBER_OF_STARTING_TILES = 2;
     public static final double CHANCE_OF_A_FOUR = .9;
     public static final int GRID_SIZE = 4;
+
+    /**
+     * @return the considerFoursForPossibleStates
+     */
+    public boolean isConsiderFoursForPossibleStates() {
+        return considerFoursForPossibleStates;
+    }
+
+    /**
+     * @param considerFoursForPossibleStates the considerFoursForPossibleStates
+     * to set
+     */
+    public void setConsiderFoursForPossibleStates(boolean considerFoursForPossibleStates) {
+        this.considerFoursForPossibleStates = considerFoursForPossibleStates;
+    }
 
     /**
      * @return the debugMessagesEnabled
@@ -52,8 +70,6 @@ public class GameController {
         this.debugMessagesEnabled = debugMessagesEnabled;
     }
 
-    private boolean debugMessagesEnabled = false;
-
     private final int[] selectRandomEmptyPosition(GameBoard board) {
         ArrayList<Integer[]> positions = board.getEmptyPositions();
         Integer[] output = positions.get(getRandom().nextInt(positions.size()));
@@ -62,19 +78,28 @@ public class GameController {
 
     public final GameBoard[] createAllPossibleNewStates(GameBoard board) {
         ArrayList<Integer[]> positions = board.getEmptyPositions();
-        GameBoard[] states = new GameBoard[positions.size() * 2];
+        GameBoard[] states;
+        if (this.considerFoursForPossibleStates) {
+            states = new GameBoard[positions.size() * 2];
+        } else {
+            states = new GameBoard[positions.size()];
+        }
         for (int i = 0; i < positions.size(); i++) {
             Integer[] position = positions.get(i);
             GameBoard board2 = new GameBoard(board);
             board2.getGameGrid()[position[0]][position[1]] = (1);
             board2.setPreviousMove(board.getPreviousMove());
             board2.setNumberOfMerges(board.getNumberOfMerges());
-            GameBoard board4 = new GameBoard(board);
-            board4.getGameGrid()[position[0]][position[1]] = (2);
-            board4.setPreviousMove(board.getPreviousMove());
-            board4.setNumberOfMerges(board.getNumberOfMerges());
-            states[i * 2] = board2;
-            states[(i * 2) + 1] = board4;
+            if (this.considerFoursForPossibleStates) {
+                GameBoard board4 = new GameBoard(board);
+                board4.getGameGrid()[position[0]][position[1]] = (2);
+                board4.setPreviousMove(board.getPreviousMove());
+                board4.setNumberOfMerges(board.getNumberOfMerges());
+                states[i * 2] = board2;
+                states[(i * 2) + 1] = board4;
+            } else {
+                states[i] = board2;
+            }
         }
         return states;
     }
@@ -265,7 +290,7 @@ public class GameController {
         for (int i = 0; i < NUMBER_OF_STARTING_TILES; i++) {
             board = placeRandomTile(board);
         }
-        
+
         // set a default value for movement;
         board.setPreviousMove(Direction.values()[0]);
         return board;
@@ -279,7 +304,7 @@ public class GameController {
                 for (Direction direction : directions) {
                     int otherX = x;
                     int otherY = y;
-                    switch (direction){
+                    switch (direction) {
                         case UP:
                             otherY -= 1;
                             break;

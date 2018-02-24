@@ -27,7 +27,7 @@ public class MonotonicityInRows implements Heuristic {
                 
             }
         }
-        // return the highest score
+        // punish the highest score
         return Math.max(leftOutput, leftOutput);
     }
     

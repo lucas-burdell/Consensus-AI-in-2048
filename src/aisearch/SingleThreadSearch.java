@@ -134,7 +134,7 @@ public class SingleThreadSearch {
         for (int i = 0; i < heuristics.length; i++) {
 
             ArrayList<Integer> sameList = new ArrayList<>();
-            long highestSum = 0;
+            long highestSum = Integer.MIN_VALUE;
 
             for (int j = 0; j < directions.length; j++) {
                 println(heuristics[i] + " on " + directions[j] + " "
