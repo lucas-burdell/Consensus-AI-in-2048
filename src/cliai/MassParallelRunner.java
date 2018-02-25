@@ -21,8 +21,11 @@ import aidecision.MajorityVoting;
 import aidecision.RandomBagVoting;
 import aiheuristics.Heuristic;
 import aiheuristics.HeuristicList;
+import aisearch.DepthWeighting;
 import aisearch.MultiThreadSearchDesign1;
 import aisearch.SingleThreadSearch;
+import aisearch.SingleThreadSearchFixed;
+import aisearch.StateEvaluationType;
 import gamemodel.Direction;
 import gamemodel.GameBoard;
 import gamemodel.GameController;
@@ -58,15 +61,6 @@ public class MassParallelRunner {
         final int[] scoreResults = new int[gamesToPlay];
         final GameBoard[] finalBoards = new GameBoard[gamesToPlay];
 
-        GameController controller = new GameController();
-        SingleThreadSearch searcher = new SingleThreadSearch(controller);
-        searcher.setMaximumDepth(maxDepth);
-        searcher.setWeightOnDepths(false);
-        searcher.setEvaluateAfterstates(true);
-        controller.setConsiderFoursForPossibleStates(false);
-        AIDecider decider = new MajorityVoting();
-        
-
         //searcher.setDebugMessagesEnabled(true);
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         Future[] futures = new Future[gamesToPlay];
@@ -74,14 +68,30 @@ public class MassParallelRunner {
         for (int i = 0; i < gamesToPlay; i++) {
             final int gameId = i;
             futures[gameId] = executor.submit(() -> {
+                GameController controller = new GameController();
+                controller.setConsiderFoursForPossibleStates(true);
+                controller.setRandom(new Random(gameId));
+
+                SingleThreadSearchFixed searcher = new SingleThreadSearchFixed(controller);
+                searcher.setMaximumDepth(maxDepth);
+                searcher.setDepthWeightingType(DepthWeighting.LOGARITHMIC);
+                searcher.setEvaluationType(StateEvaluationType.NEXT_STATES);
+                searcher.setRandom(new Random(gameId));
+                //searcher.setDebugMessagesEnabled(true);
+
+                MajorityVoting decider = new MajorityVoting();
+                decider.setRandom(new Random(gameId));
 
                 GameBoard currentBoard = controller.createStartingGameboard();
+
                 long moveCount = 0;
                 //long startTime = System.currentTimeMillis();
+                System.out.println("start playing for " + gameId);
                 while (!controller.isGameOver(currentBoard)) {
                     int[] votes = searcher.getVotesOnDirections(currentBoard, HeuristicList.getHeuristics());
                     Direction decision = decider.evaluateVotes(votes);
                     currentBoard = controller.doGameMove(currentBoard, decision);
+                    System.out.println("gameid " + gameId + " score: " + currentBoard.getScore());
                     //System.out.println(currentBoard.getScore());
                     //System.out.println(currentBoard);
                     //System.out.println("Moved above board " + decision);
@@ -106,10 +116,8 @@ public class MassParallelRunner {
                 if (i % progressReportIteration == 0) {
                     System.out.println("completed " + i + " games");
                 }
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MassParallelRunner.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ExecutionException ex) {
-                Logger.getLogger(MassParallelRunner.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException | ExecutionException ex) {
+                ex.printStackTrace(System.err);
             }
         }
         executor.shutdown();

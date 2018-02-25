@@ -5,6 +5,8 @@ import gamemodel.GameBoard;
 import gamemodel.GameController;
 import java.util.ArrayList;
 import gamemodel.Direction;
+import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -13,10 +15,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  *
  * @author lucas.burdell
  */
-public class SingleThreadSearch {
-    
-    
-    private boolean evaluateAfterstates = false;
+public class SingleThreadSearchFixed {
+
+    private boolean evaluateAfterstates = true;
     private boolean evaluateStates = false;
     private StateEvaluationType evaluationType = StateEvaluationType.AFTERSTATES;
     private int maxDepth = 3;
@@ -27,8 +28,6 @@ public class SingleThreadSearch {
     //private boolean weightOnDepths = true;
     private DepthWeighting depthWeightingType;
     private double logarithmicDepthWeightPower = .5;
-    private boolean ignoreMovement = false;
-    
 
     /**
      * @return the evaluationType
@@ -57,8 +56,6 @@ public class SingleThreadSearch {
         }
     }
 
-    
-    
     /**
      * @return the depthWeightingType
      */
@@ -123,8 +120,8 @@ public class SingleThreadSearch {
                 queue.add(newState);
                 nextElementsToDepthIncrease++;
             }
-        } 
-        
+        }
+
         if (this.evaluateAfterstates) {
             queue.add(afterState);
             nextElementsToDepthIncrease++;
@@ -190,63 +187,66 @@ public class SingleThreadSearch {
     }
 
     public int[] getVotesOnDirections(GameBoard currentBoard, Heuristic[] heuristics) {
-        final Direction[] directions = Direction.values();
-        final Queue<GameBoard>[] directionQueues = new ConcurrentLinkedQueue[directions.length];
-        final long[][] heuristicSums = new long[directions.length][heuristics.length];
-        final GameController gameController = this.controller;
+        Direction[] directions = Direction.values();
+        Queue<GameBoard>[] directionQueues = new Queue[directions.length];
+        long[][] heuristicSums = new long[directions.length][heuristics.length];
+        GameController gameController = this.controller;
 
         for (int i = 0; i < directionQueues.length; i++) {
-            directionQueues[i] = new ConcurrentLinkedQueue<>();
+            directionQueues[i] = new LinkedList();
         }
 
         int currentDepth = 1;
         long elementsToDepthIncrease = 0;
         long nextElementsToDepthIncrease = 0;
 
+        println("Begin queue init");
         for (int directionNum = 0; directionNum < directions.length; directionNum++) {
             GameBoard afterState = controller.moveGrid(currentBoard, directions[directionNum]);
-            if ((afterState.isMoved() || this.ignoreMovement) && this.evaluateAfterstates) {
+            if ((afterState.isMoved()) && this.evaluateAfterstates) {
                 for (int heuristicNum = 0; heuristicNum < heuristics.length; heuristicNum++) {
                     final Heuristic heuristic = heuristics[heuristicNum];
                     // evaluate state of board
                     heuristicSums[directionNum][heuristicNum] += evaluateState(afterState, heuristic, directionNum, currentDepth);
                 }
             }
-            if ((afterState.isMoved() || this.ignoreMovement)) {
+            if ((afterState.isMoved())) {
                 elementsToDepthIncrease += addNewStates(afterState, directionQueues[directionNum]);
             }
         }
 
+        println("Begin queues while loop");
         while (!queuesAreEmpty(directionQueues)) {
-            for (int directionNum = 0; directionNum < directions.length; directionNum++) {
-                Direction direction = directions[directionNum];
-                Queue<GameBoard> queue = directionQueues[directionNum];
+            for (int directionQueueNum = 0; directionQueueNum < directionQueues.length; directionQueueNum++) {
+                println("Begin queue " + directionQueueNum + " loop");
+                Queue<GameBoard> queue = directionQueues[directionQueueNum];
                 if (queue.isEmpty()) {
-                    continue; // skip to next iteration, this queue's empty!
+                    continue; // skip to next queue
                 }
                 GameBoard nextBoard = queue.poll();
                 elementsToDepthIncrease--;
-                GameBoard afterState = controller.moveGrid(nextBoard, direction);
-                //GameBoard toEval = this.evaluateAfterstates ? afterState : nextBoard;
-
-                if ((afterState.isMoved() || this.ignoreMovement) && currentDepth <= maxDepth) {
-                    nextElementsToDepthIncrease += addNewStates(afterState, directionQueues[directionNum]);
-                }
-                
-                if (this.evaluateAfterstates && (afterState.isMoved() || this.ignoreMovement)) {
-                    for (int heuristicNum = 0; heuristicNum < heuristics.length; heuristicNum++) {
-                        final Heuristic heuristic = heuristics[heuristicNum];
-                        // evaluate state of board
-                        heuristicSums[directionNum][heuristicNum] += evaluateState(afterState, heuristic, directionNum, currentDepth);
+                for (int i = 0; i < directions.length; i++) {
+                    Direction direction = directions[i];
+                    GameBoard afterState = controller.moveGrid(nextBoard, direction);
+                    if (currentDepth <= maxDepth && afterState.isMoved()){ //(afterState.isMoved() || this.ignoreMovement) && currentDepth <= maxDepth) {
+                        nextElementsToDepthIncrease += addNewStates(afterState, queue);
                     }
-                }
-                
-                if (this.evaluateStates) {
-                    for (int heuristicNum = 0; heuristicNum < heuristics.length; heuristicNum++) {
-                        final Heuristic heuristic = heuristics[heuristicNum];
-                        // evaluate state of board
-                        heuristicSums[directionNum][heuristicNum] += evaluateState(nextBoard, heuristic, directionNum, currentDepth);
-                    }                    
+
+                    if (this.evaluateAfterstates && afterState.isMoved()){ //&& (afterState.isMoved() || this.ignoreMovement)) {
+                        for (int heuristicNum = 0; heuristicNum < heuristics.length; heuristicNum++) {
+                            final Heuristic heuristic = heuristics[heuristicNum];
+                            // evaluate state of board
+                            heuristicSums[directionQueueNum][heuristicNum] += evaluateState(afterState, heuristic, i, currentDepth);
+                        }
+                    }
+
+                    if (this.evaluateStates) {
+                        for (int heuristicNum = 0; heuristicNum < heuristics.length; heuristicNum++) {
+                            final Heuristic heuristic = heuristics[heuristicNum];
+                            // evaluate state of board
+                            heuristicSums[directionQueueNum][heuristicNum] += evaluateState(nextBoard, heuristic, i, currentDepth);
+                        }
+                    }
                 }
 
                 if (elementsToDepthIncrease <= 0) {
@@ -270,11 +270,11 @@ public class SingleThreadSearch {
         return true;
     }
 
-    public SingleThreadSearch(GameController controller) {
+    public SingleThreadSearchFixed(GameController controller) {
         this.controller = controller;
     }
 
-    public SingleThreadSearch(GameController controller, int maxDepth) {
+    public SingleThreadSearchFixed(GameController controller, int maxDepth) {
         this.controller = controller;
         this.maxDepth = maxDepth;
     }
@@ -312,19 +312,5 @@ public class SingleThreadSearch {
      */
     public boolean isEvaluateStates() {
         return evaluateStates;
-    }
-
-    /**
-     * @return the ignoreMovement
-     */
-    public boolean isIgnoreMovement() {
-        return ignoreMovement;
-    }
-
-    /**
-     * @param ignoreMovement the ignoreMovement to set
-     */
-    public void setIgnoreMovement(boolean ignoreMovement) {
-        this.ignoreMovement = ignoreMovement;
     }
 }

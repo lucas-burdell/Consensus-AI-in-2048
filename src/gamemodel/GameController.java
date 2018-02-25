@@ -79,27 +79,19 @@ public class GameController {
     public final GameBoard[] createAllPossibleNewStates(GameBoard board) {
         ArrayList<Integer[]> positions = board.getEmptyPositions();
         GameBoard[] states;
-        if (this.considerFoursForPossibleStates) {
-            states = new GameBoard[positions.size() * 2];
-        } else {
-            states = new GameBoard[positions.size()];
-        }
+        states = new GameBoard[positions.size() * 2];
         for (int i = 0; i < positions.size(); i++) {
             Integer[] position = positions.get(i);
             GameBoard board2 = new GameBoard(board);
             board2.getGameGrid()[position[0]][position[1]] = (1);
             board2.setPreviousMove(board.getPreviousMove());
             board2.setNumberOfMerges(board.getNumberOfMerges());
-            if (this.considerFoursForPossibleStates) {
-                GameBoard board4 = new GameBoard(board);
-                board4.getGameGrid()[position[0]][position[1]] = (2);
-                board4.setPreviousMove(board.getPreviousMove());
-                board4.setNumberOfMerges(board.getNumberOfMerges());
-                states[i * 2] = board2;
-                states[(i * 2) + 1] = board4;
-            } else {
-                states[i] = board2;
-            }
+            GameBoard board4 = new GameBoard(board);
+            board4.getGameGrid()[position[0]][position[1]] = (2);
+            board4.setPreviousMove(board.getPreviousMove());
+            board4.setNumberOfMerges(board.getNumberOfMerges());
+            states[i * 2] = board2;
+            states[(i * 2) + 1] = board4;
         }
         return states;
     }

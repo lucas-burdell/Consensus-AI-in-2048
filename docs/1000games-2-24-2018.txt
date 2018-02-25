@@ -1,0 +1,6 @@
+Afterstates, 1000 games, 3 max depth
+Total AI computation time: 326.431 seconds
+Mean: 8406
+Standard Deviation: 3771.358053539865
+Max: 22444
+Min: 612

@@ -9,7 +9,7 @@ import javafx.fxml.Initializable;
  *
  * @author lucas.burdell
  */
-public class GameFXMLController implements Initializable {
+public class HeuristicSearchUIController implements Initializable {
 
     /**
      * Initializes the controller class.

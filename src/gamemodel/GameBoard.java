@@ -85,7 +85,7 @@ public class GameBoard {
     }
     
     public ArrayList<Integer[]> getEmptyPositions() {
-        ArrayList<Integer[]> output = new ArrayList<>();
+        ArrayList<Integer[]> output = new ArrayList<>(16);
         for (int i = 0; i < gameGrid.length; i++) {
             int[] gameNodes = gameGrid[i];
             for (int j = 0; j < gameNodes.length; j++) {
