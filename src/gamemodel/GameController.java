@@ -33,7 +33,8 @@ public class GameController {
 
     public static final int NUMBER_OF_STARTING_TILES = 2;
     public static final double CHANCE_OF_A_FOUR = .9;
-    public static final int GRID_SIZE = 4;
+    public static final int ROW_SIZE = 4;
+    public static final int GRID_SIZE = ROW_SIZE * ROW_SIZE;
 
     /**
      * @return the considerFoursForPossibleStates
@@ -70,40 +71,20 @@ public class GameController {
         this.debugMessagesEnabled = debugMessagesEnabled;
     }
 
-    private final int[] selectRandomEmptyPosition(GameBoard board) {
-        ArrayList<Integer[]> positions = board.getEmptyPositions();
-        Integer[] output = positions.get(getRandom().nextInt(positions.size()));
-        return new int[]{output[0], output[1]};
-    }
-
-    public final GameBoard[] createAllPossibleNewStates(GameBoard board) {
-        ArrayList<Integer[]> positions = board.getEmptyPositions();
-        GameBoard[] states;
-        states = new GameBoard[positions.size() * 2];
-        for (int i = 0; i < positions.size(); i++) {
-            Integer[] position = positions.get(i);
-            GameBoard board2 = new GameBoard(board);
-            board2.getGameGrid()[position[0]][position[1]] = (1);
-            board2.setPreviousMove(board.getPreviousMove());
-            board2.setNumberOfMerges(board.getNumberOfMerges());
-            GameBoard board4 = new GameBoard(board);
-            board4.getGameGrid()[position[0]][position[1]] = (2);
-            board4.setPreviousMove(board.getPreviousMove());
-            board4.setNumberOfMerges(board.getNumberOfMerges());
-            states[i * 2] = board2;
-            states[(i * 2) + 1] = board4;
-        }
-        return states;
+    private final byte[] selectRandomEmptyPosition(GameBoard board) {
+        ArrayList<Byte[]> positions = board.getEmptyPositions();
+        Byte[] output = positions.get(getRandom().nextInt(positions.size()));
+        return new byte[]{output[0], output[1]};
     }
 
     public final GameBoard placeRandomTile(GameBoard board) {
-        int[] position = selectRandomEmptyPosition(board);
+        byte[] position = selectRandomEmptyPosition(board);
         return placeRandomTile(board, position);
     }
 
-    public final GameBoard placeRandomTile(GameBoard board, int[] position) {
+    public final GameBoard placeRandomTile(GameBoard board, byte[] position) {
         GameBoard newBoard = new GameBoard(board);
-        int[] row = newBoard.getGameGrid()[position[0]];//[position[1]];
+        byte[] row = newBoard.getGameGrid()[position[0]];//[position[1]];
         if (getRandom().nextDouble() < CHANCE_OF_A_FOUR) {
             // is a 2
             row[position[1]] = (1);
@@ -133,91 +114,91 @@ public class GameController {
         /**
          * @return the position
          */
-        public int[] getEmptyPosition() {
+        public byte[] getEmptyPosition() {
             return position;
         }
 
         /**
          * @return the next
          */
-        public int[] getNextPosition() {
+        public byte[] getNextPosition() {
             return next;
         }
-        private int[] position;
-        private int[] next;
+        private byte[] position;
+        private byte[] next;
 
-        public TileMove(int[] position, int[] next) {
+        public TileMove(byte[] position, byte[] next) {
             this.position = position;
             this.next = next;
         }
     }
 
-    private final TileMove getFarthestTile(GameBoard board, int[] position, Direction direction) {
-        int[][] grid = board.getGameGrid();
-        int posX = position[0];
-        int posY = position[1];
+    private final TileMove getFarthestTile(GameBoard board, byte[] position, Direction direction) {
+        byte[][] grid = board.getGameGrid();
+        byte posX = position[0];
+        byte posY = position[1];
         switch (direction) {
             case UP:
                 //println("getting farthest up from " + posX + ","+ posY);
                 for (int y = posY - 1; y > -1; y--) {
                     if (grid[posX][y] != 0) {
 
-                        return new TileMove(new int[]{posX, y + 1}, new int[]{posX, y});
+                        return new TileMove(new byte[]{posX, (byte) (y + 1)}, new byte[]{posX, (byte) y});
                     }
                 }
-                return new TileMove(new int[]{posX, 0}, new int[]{posX, 0});
+                return new TileMove(new byte[]{posX, 0}, new byte[]{posX, 0});
             //return new int[]{posX, 0};
             case DOWN:
                 //println("getting farthest down from " + posX + ","+ posY);
-                for (int y = posY + 1; y < GRID_SIZE; y++) {
+                for (int y = posY + 1; y < ROW_SIZE; y++) {
                     if (grid[posX][y] != 0) {
                         //return new int[]{posX, i};
-                        return new TileMove(new int[]{posX, y - 1}, new int[]{posX, y});
+                        return new TileMove(new byte[]{posX, (byte)(y - 1)}, new byte[]{posX,(byte) y});
                     }
                 }
-                return new TileMove(new int[]{posX, GRID_SIZE - 1}, new int[]{posX, GRID_SIZE - 1});
+                return new TileMove(new byte[]{posX, ROW_SIZE - 1}, new byte[]{posX, ROW_SIZE - 1});
             case LEFT:
                 //println("getting farthest left from " + posX + ","+ posY);
                 for (int x = posX - 1; x > -1; x--) {
                     if (grid[x][posY] != 0) {
-                        return new TileMove(new int[]{x + 1, posY}, new int[]{x, posY});
+                        return new TileMove(new byte[]{(byte) (x + 1), posY}, new byte[]{(byte) x, posY});
                     }
                 }
                 //return new int[]{0, posY};
-                return new TileMove(new int[]{0, posY}, new int[]{0, posY});
+                return new TileMove(new byte[]{0, posY}, new byte[]{0, posY});
             case RIGHT:
                 //println("getting farthest right from " + posX + ","+ posY);
-                for (int x = posX + 1; x < GRID_SIZE; x++) {
+                for (int x = posX + 1; x < ROW_SIZE; x++) {
                     if (grid[x][posY] != 0) {
                         //return new int[]{i, posY};
-                        return new TileMove(new int[]{x - 1, posY}, new int[]{x, posY});
+                        return new TileMove(new byte[]{(byte) (x - 1), posY}, new byte[]{(byte) x, posY});
                     }
                 }
                 //return new int[]{GRID_SIZE, posY};
-                return new TileMove(new int[]{GRID_SIZE - 1, posY}, new int[]{GRID_SIZE - 1, posY});
+                return new TileMove(new byte[]{ROW_SIZE - 1, posY}, new byte[]{ROW_SIZE - 1, posY});
             default:
                 throw new RuntimeException("Unexpected direction: " + direction);
         }
     }
 
     // only board-mutating method
-    private final void doMerge(GameBoard board, int[] position, Direction direction) {
-        int nodeValue = board.getGameGrid()[position[0]][position[1]];
+    private final void doMerge(GameBoard board, byte[] position, Direction direction) {
+        byte nodeValue = board.getGameGrid()[position[0]][position[1]];
         //println("Evaluating " + position[0] + "," + position[1] + " for merge");
         if (nodeValue != 0) {
             println("moving " + position[0] + "," + position[1]);
             TileMove farthestTile = getFarthestTile(board, position, direction);
             println("furthest point: " + farthestTile.getEmptyPosition()[0] + "," + farthestTile.getEmptyPosition()[1]);
-            int[] farthestNodePosition = farthestTile.getNextPosition();
+            byte[] farthestNodePosition = farthestTile.getNextPosition();
             int farthestX = farthestNodePosition[0];
             int farthestY = farthestNodePosition[1];
-            int[] farthestEmptyPosition = farthestTile.getEmptyPosition();
-            int farthestValue = board.getGameGrid()[farthestNodePosition[0]][farthestNodePosition[1]];
+            byte[] farthestEmptyPosition = farthestTile.getEmptyPosition();
+            byte farthestValue = board.getGameGrid()[farthestNodePosition[0]][farthestNodePosition[1]];
             if (!(farthestNodePosition[0] == position[0]
                     && farthestNodePosition[1] == position[1])
                     && farthestValue != 0 && farthestValue == nodeValue
                     && !board.getMergeGridPosition(farthestX, farthestY)) {
-                int value = nodeValue + 1;
+                byte value = (byte) (nodeValue + 1);
                 board.getGameGrid()[farthestNodePosition[0]][farthestNodePosition[1]] = (value);
                 println("Set furthest to " + value);
                 board.setMergeGridPosition(farthestNodePosition[0], farthestNodePosition[1], true);
@@ -228,7 +209,7 @@ public class GameController {
                 board.setMoved(true);
                 board.setNumberOfMerges(board.getNumberOfMerges() + 1);
             } else {
-                int[] newPos = farthestEmptyPosition;
+                byte[] newPos = farthestEmptyPosition;
                 if (newPos[0] == position[0] && newPos[1] == position[1]) {
                 } else {
                     board.getGameGrid()[newPos[0]][newPos[1]] = nodeValue;
@@ -253,22 +234,22 @@ public class GameController {
         GameBoard newBoard = new GameBoard(board);
 
         if (direction == Direction.RIGHT) {
-            for (int x = GRID_SIZE - 1; x > -1; x--) {
-                for (int y = 0; y < GRID_SIZE; y++) {
-                    doMerge(newBoard, new int[]{x, y}, direction);
+            for (byte x = ROW_SIZE - 1; x > -1; x--) {
+                for (byte y = 0; y < ROW_SIZE; y++) {
+                    doMerge(newBoard, new byte[]{x, y}, direction);
                 }
             }
         } else if (direction == Direction.DOWN) {
-            for (int x = 0; x < GRID_SIZE; x++) {
-                for (int y = GRID_SIZE - 1; y > -1; y--) {
-                    doMerge(newBoard, new int[]{x, y}, direction);
+            for (byte x = 0; x < ROW_SIZE; x++) {
+                for (byte y = ROW_SIZE - 1; y > -1; y--) {
+                    doMerge(newBoard, new byte[]{x, y}, direction);
                 }
             }
         } else {
-            for (int x = 0; x < GRID_SIZE; x++) {
+            for (byte x = 0; x < ROW_SIZE; x++) {
                 //println("Moving row " + x + " for " + direction);
-                for (int y = 0; y < GRID_SIZE; y++) {
-                    doMerge(newBoard, new int[]{x, y}, direction);
+                for (byte y = 0; y < ROW_SIZE; y++) {
+                    doMerge(newBoard, new byte[]{x, y}, direction);
                     //println("Moving column " + y + " for " + direction);
                 }
             }
@@ -278,7 +259,7 @@ public class GameController {
     }
 
     public GameBoard createStartingGameboard() {
-        GameBoard board = new GameBoard(GRID_SIZE);
+        GameBoard board = new GameBoard(ROW_SIZE);
         for (int i = 0; i < NUMBER_OF_STARTING_TILES; i++) {
             board = placeRandomTile(board);
         }
@@ -289,10 +270,10 @@ public class GameController {
     }
 
     public boolean isMatchesAvailable(GameBoard board) {
-        int[][] grid = board.getGameGrid();
+        byte[][] grid = board.getGameGrid();
         Direction[] directions = Direction.values();
-        for (int x = 0; x < GRID_SIZE; x++) {
-            for (int y = 0; y < GRID_SIZE; y++) {
+        for (int x = 0; x < ROW_SIZE; x++) {
+            for (int y = 0; y < ROW_SIZE; y++) {
                 for (Direction direction : directions) {
                     int otherX = x;
                     int otherY = y;
@@ -312,10 +293,10 @@ public class GameController {
                         default:
                             throw new AssertionError(direction.name());
                     }
-                    if (otherX >= GRID_SIZE || otherX < 0) {
+                    if (otherX >= ROW_SIZE || otherX < 0) {
                         continue;
                     }
-                    if (otherY >= GRID_SIZE || otherY < 0) {
+                    if (otherY >= ROW_SIZE || otherY < 0) {
                         continue;
                     }
                     if (grid[x][y] == grid[otherX][otherY]) {
@@ -328,9 +309,9 @@ public class GameController {
     }
 
     public boolean isEmptySpace(GameBoard board) {
-        int[][] grid = board.getGameGrid();
-        for (int x = 0; x < GRID_SIZE; x++) {
-            for (int y = 0; y < GRID_SIZE; y++) {
+        byte[][] grid = board.getGameGrid();
+        for (int x = 0; x < ROW_SIZE; x++) {
+            for (int y = 0; y < ROW_SIZE; y++) {
                 if (grid[x][y] == 0) {
                     return true;
                 }

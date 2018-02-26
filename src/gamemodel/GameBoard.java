@@ -65,33 +65,34 @@ public class GameBoard {
     /**
      * @return the gameGrid
      */
-    public int[][] getGameGrid() {
+    public byte[][] getGameGrid() {
         return gameGrid;
     }
 
     /**
      * @param gameGrid the gameGrid to set
      */
-    public void setGameGrid(int[][] gameGrid) {
+    public void setGameGrid(byte[][] gameGrid) {
         this.gameGrid = gameGrid;
     }
  
-    private int[][] gameGrid;
+    private byte[][] gameGrid;
     private boolean[][] mergeGrid;
     
+    
     public GameBoard(int gridSize){
-        gameGrid =  new int[gridSize][gridSize];
+        gameGrid =  new byte[gridSize][gridSize];
         mergeGrid = new boolean[gridSize][gridSize];
     }
     
-    public ArrayList<Integer[]> getEmptyPositions() {
-        ArrayList<Integer[]> output = new ArrayList<>(16);
-        for (int i = 0; i < gameGrid.length; i++) {
-            int[] gameNodes = gameGrid[i];
-            for (int j = 0; j < gameNodes.length; j++) {
-                int gameNode = gameNodes[j];
+    public ArrayList<Byte[]> getEmptyPositions() {
+        ArrayList<Byte[]> output = new ArrayList<>(16);
+        for (byte i = 0; i < gameGrid.length; i++) {
+            byte[] gameNodes = gameGrid[i];
+            for (byte j = 0; j < gameNodes.length; j++) {
+                byte gameNode = gameNodes[j];
                 if (gameNode == 0) {
-                    output.add(new Integer[]{i, j});
+                    output.add(new Byte[]{i, j});
                 }
             }
         }
@@ -100,12 +101,12 @@ public class GameBoard {
     
     public GameBoard(GameBoard board) {
         int gridSize = board.getGameGrid().length;
-        int[][] otherGrid = board.getGameGrid();
-        gameGrid = new int[gridSize][gridSize];
+        byte[][] otherGrid = board.getGameGrid();
+        gameGrid = new byte[gridSize][gridSize];
         for (int i = 0; i < gameGrid.length; i++) {
-            int[] gameNodes = otherGrid[i];
+            byte[] gameNodes = otherGrid[i];
             for (int j = 0; j < gameNodes.length; j++) {
-                int gameNode = gameNodes[j];
+                byte gameNode = gameNodes[j];
                 gameGrid[i][j] = gameNode;
             }
         }
@@ -113,24 +114,37 @@ public class GameBoard {
         this.mergeGrid = new boolean[gridSize][gridSize];
     }
     
-    public GameBoard(int[][] grid) {
+    public GameBoard(byte[][] grid) {
         int gridSize = grid.length;
-        this.gameGrid = new int[gridSize][gridSize];
-        for (int y = 0; y < gameGrid.length; y++) {
-            int[] row = gameGrid[y];
-            for (int x = 0; x < row.length; x++) {
-                gameGrid[y][x] = grid[y][x];
-            }
-        }
+        this.gameGrid = grid;
+//        this.gameGrid = new int[gridSize][gridSize];
+//        for (int y = 0; y < gameGrid.length; y++) {
+//            int[] row = gameGrid[y];
+//            for (int x = 0; x < row.length; x++) {
+//                gameGrid[y][x] = grid[y][x];
+//            }
+//        }
         this.score = 0;
         this.mergeGrid = new boolean[gridSize][gridSize];
+    }
+    
+    public GameBoard(String storage) {
+        String[] numbers = storage.split(",");
+        this.gameGrid = new byte[GameController.ROW_SIZE][GameController.ROW_SIZE];
+        this.mergeGrid = new boolean[GameController.ROW_SIZE][GameController.ROW_SIZE];
+        int stringIndex = 0;
+        for (int row = 0; row < GameController.ROW_SIZE; row++) {
+            for (int col = 0; col < GameController.ROW_SIZE; col++) {
+                gameGrid[row][col] = Byte.parseByte(numbers[stringIndex]);
+            }
+        }
     }
     
     
     public String toStorageString(){
         StringBuilder output = new StringBuilder();
-        for (int[] row : gameGrid) {
-            for (int value : row) {
+        for (byte[] row : gameGrid) {
+            for (byte value : row) {
                 output.append(value).append(",");
             }
         }
@@ -145,9 +159,9 @@ public class GameBoard {
             output[y] = new StringBuilder();
             for (int x = 0; x < gameGrid.length; x++) {
                 if (gameGrid[x][y] == 0) {
-                    output[y] = output[y].append(" [").append(0).append("]");
+                    output[y] = output[y].append("\t\t[").append(0).append("]");
                 } else {
-                    output[y] = output[y].append(" [").append(
+                    output[y] = output[y].append("\t\t[").append(
                             (int) Math.pow(2, gameGrid[x][y])).append("]");
                 }
             }

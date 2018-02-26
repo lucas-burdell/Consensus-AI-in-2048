@@ -39,21 +39,6 @@ public class GameControllerTest {
     }
 
     /**
-     * Test of createAllPossibleNewStates method, of class GameController.
-     */
-    @Test
-    public void testCreateAllPossibleNewStates() {
-        System.out.println("createAllPossibleNewStates");
-        GameBoard board = null;
-        GameController instance = new GameController();
-        GameBoard[] expResult = null;
-        GameBoard[] result = instance.createAllPossibleNewStates(board);
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of placeRandomTile method, of class GameController.
      */
     @Test

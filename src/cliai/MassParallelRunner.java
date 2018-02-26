@@ -16,15 +16,11 @@
  */
 package cliai;
 
-import aidecision.AIDecider;
 import aidecision.MajorityVoting;
-import aidecision.RandomBagVoting;
 import aiheuristics.Heuristic;
 import aiheuristics.HeuristicList;
 import aisearch.DepthWeighting;
-import aisearch.MultiThreadSearchDesign1;
 import aisearch.SingleThreadSearch;
-import aisearch.SingleThreadSearchFixed;
 import aisearch.StateEvaluationType;
 import gamemodel.Direction;
 import gamemodel.GameBoard;
@@ -38,8 +34,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Run multiple games and compare results
@@ -64,23 +58,25 @@ public class MassParallelRunner {
         //searcher.setDebugMessagesEnabled(true);
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         Future[] futures = new Future[gamesToPlay];
+
+        GameController controller = new GameController();
+        controller.setConsiderFoursForPossibleStates(true);
+        
+
+        SingleThreadSearch searcher = new SingleThreadSearch(controller);
+        searcher.setMaximumDepth(maxDepth);
+        searcher.setDepthWeightingType(DepthWeighting.NONE);
+        searcher.setEvaluationType(StateEvaluationType.NEXT_STATES);
+        searcher.setDepthScaling(true);
+        
+        //searcher.setDebugMessagesEnabled(true);
+
+        MajorityVoting decider = new MajorityVoting();
+        
         long programStartTime = System.currentTimeMillis();
         for (int i = 0; i < gamesToPlay; i++) {
             final int gameId = i;
             futures[gameId] = executor.submit(() -> {
-                GameController controller = new GameController();
-                controller.setConsiderFoursForPossibleStates(true);
-                controller.setRandom(new Random(gameId));
-
-                SingleThreadSearchFixed searcher = new SingleThreadSearchFixed(controller);
-                searcher.setMaximumDepth(maxDepth);
-                searcher.setDepthWeightingType(DepthWeighting.LOGARITHMIC);
-                searcher.setEvaluationType(StateEvaluationType.NEXT_STATES);
-                searcher.setRandom(new Random(gameId));
-                //searcher.setDebugMessagesEnabled(true);
-
-                MajorityVoting decider = new MajorityVoting();
-                decider.setRandom(new Random(gameId));
 
                 GameBoard currentBoard = controller.createStartingGameboard();
 

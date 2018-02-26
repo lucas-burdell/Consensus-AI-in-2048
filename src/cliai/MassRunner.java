@@ -21,7 +21,7 @@ import aidecision.MajorityVoting;
 import aiheuristics.HeuristicList;
 import aisearch.DepthWeighting;
 import aisearch.SingleThreadSearch;
-import aisearch.SingleThreadSearchFixed;
+import aisearch.SingleThreadSearch;
 import aisearch.StateEvaluationType;
 import gamemodel.Direction;
 import gamemodel.GameBoard;
@@ -44,7 +44,7 @@ public class MassRunner {
         int maxDepth = input.nextInt();
         int[] scoreResults = new int[gamesToPlay];
         GameController controller = new GameController();
-        SingleThreadSearchFixed searcher = new SingleThreadSearchFixed(controller);
+        SingleThreadSearch searcher = new SingleThreadSearch(controller);
         searcher.setEvaluationType(StateEvaluationType.NEXT_STATES);
         searcher.setDepthWeightingType(DepthWeighting.LOGARITHMIC);
         //searcher.setEvaluateAfterstates(true);

@@ -56,7 +56,7 @@ public class GameBoardTest {
     public void testGetNumberOfMerges() {
         System.out.println("getNumberOfMerges");
         GameController controller = new GameController();
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
         int expResult = 0;
         int result = instance.getNumberOfMerges();
         assertEquals(expResult, result);
@@ -87,7 +87,7 @@ public class GameBoardTest {
     public void testSetNumberOfMerges() {
         System.out.println("setNumberOfMerges");
         int numberOfMerges = 0;
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
         instance.setNumberOfMerges(numberOfMerges);
         assertEquals(numberOfMerges, instance.getNumberOfMerges());
     }
@@ -100,7 +100,7 @@ public class GameBoardTest {
         System.out.println("getMergeGridPosition");
         int x = 0;
         int y = 0;
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
         boolean expResult = false;
         boolean result = instance.getMergeGridPosition(x, y);
         assertEquals(expResult, result);
@@ -136,7 +136,7 @@ public class GameBoardTest {
         int x = 0;
         int y = 0;
         boolean value = true;
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
         instance.setMergeGridPosition(x, y, value);
         assertEquals(value, instance.getMergeGridPosition(x, y));
     }
@@ -147,7 +147,7 @@ public class GameBoardTest {
     @Test
     public void testGetGameGrid() {
         System.out.println("getGameGrid");
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
         int[][] expResult = new int[][]{
             new int[]{0, 0, 0, 0},
             new int[]{0, 0, 0, 0},
@@ -176,8 +176,7 @@ public class GameBoardTest {
             new int[]{1, 1, 1, 1},
             new int[]{1, 1, 1, 1}
         };
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
-        instance.setGameGrid(gameGrid);
+        GameBoard instance = new GameBoard(gameGrid);
         assertArrayEquals(gameGrid, instance.getGameGrid());
     }
 
@@ -187,8 +186,8 @@ public class GameBoardTest {
     @Test
     public void testGetEmptyPositions() {
         System.out.println("getEmptyPositions");
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
-        int expResult = GameController.GRID_SIZE * GameController.GRID_SIZE;
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
+        int expResult = GameController.ROW_SIZE * GameController.ROW_SIZE;
         ArrayList result = instance.getEmptyPositions();
         assertEquals(expResult, result.size());
     }
@@ -199,7 +198,7 @@ public class GameBoardTest {
     @Test
     public void testToStorageString() {
         System.out.println("toStorageString");
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
 
         String expResult = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
         String result = instance.toStorageString();
@@ -224,7 +223,7 @@ public class GameBoardTest {
     @Test
     public void testGetScore() {
         System.out.println("getScore");
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
         int expResult = 0;
         int result = instance.getScore();
         assertEquals(expResult, result);
@@ -237,7 +236,7 @@ public class GameBoardTest {
     public void testSetScore() {
         System.out.println("setScore");
         int score = 32;
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
         instance.setScore(score);
         assertEquals(score, instance.getScore());
     }
@@ -248,7 +247,7 @@ public class GameBoardTest {
     @Test
     public void testIsMoved() {
         System.out.println("isMoved");
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
         boolean expResult = false;
         boolean result = instance.isMoved();
         assertEquals(expResult, result);
@@ -261,7 +260,7 @@ public class GameBoardTest {
     public void testSetMoved() {
         System.out.println("setMoved");
         boolean moved = true;
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
         instance.setMoved(moved);
     }
 
@@ -271,7 +270,7 @@ public class GameBoardTest {
     @Test
     public void testGetPreviousMove() {
         System.out.println("getPreviousMove");
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
         Direction expResult = null;
         Direction result = instance.getPreviousMove();
         assertEquals(expResult, result);
@@ -284,7 +283,7 @@ public class GameBoardTest {
     public void testSetPreviousMove() {
         System.out.println("setPreviousMove");
         Direction previousMove = Direction.DOWN;
-        GameBoard instance = new GameBoard(GameController.GRID_SIZE);
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
         instance.setPreviousMove(previousMove);
         assertEquals(previousMove, instance.getPreviousMove());
     }

@@ -30,7 +30,7 @@ public class BiggestNumberNeighbors implements Heuristic {
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
         // find biggest 4 numbers
-        int[][] grid = state.getGameGrid();
+        byte[][] grid = state.getGameGrid();
         // sort grid into 1d array
         int[] biggestNumbers = new int[grid.length * grid.length];
         int currentIndex = 0;
@@ -60,7 +60,7 @@ public class BiggestNumberNeighbors implements Heuristic {
         return (array[index] == value);
     }
     
-    private int scoreNeighbors(int[][] grid, int[] numbers, int[] position) {
+    private int scoreNeighbors(byte[][] grid, int[] numbers, int[] position) {
         int value = grid[position[0]][position[1]];
         int right = position[0] + 1;
         int down = position[1] + 1;

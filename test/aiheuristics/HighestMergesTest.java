@@ -32,7 +32,7 @@ public class HighestMergesTest {
     @Before
     public void setUp() {
         instance = new HighestMerges();
-        emptyState = new GameBoard(GameController.GRID_SIZE);
+        emptyState = new GameBoard(GameController.ROW_SIZE);
     }
     
     @After

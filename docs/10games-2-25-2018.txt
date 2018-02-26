@@ -1,0 +1,6 @@
+States, 10 games, 2 depth
+Total AI computation time: 2483.488 seconds
+Mean: 16159
+Standard Deviation: 5715.721074370232
+Max: 27208
+Min: 7632

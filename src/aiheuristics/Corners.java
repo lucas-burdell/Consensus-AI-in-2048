@@ -11,7 +11,7 @@ public class Corners implements Heuristic {
 
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
-        int[][] grid = state.getGameGrid();
+        byte[][] grid = state.getGameGrid();
         
         long topLeft = 0;
         long topRight = 0;
