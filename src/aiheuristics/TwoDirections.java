@@ -10,6 +10,7 @@ import gamemodel.GameController;
  */
 public class TwoDirections implements Heuristic {
     
+    
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
         long multiplier = (currentDirection - state.getPreviousMove().ordinal()) % (Direction.values().length);

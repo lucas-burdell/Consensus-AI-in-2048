@@ -1,5 +1,6 @@
 package aidecision;
 
+import aiheuristics.Heuristic;
 import gamemodel.Direction;
 import java.util.Random;
 
@@ -13,8 +14,9 @@ public class RandomBagVoting extends AIDecider {
     private Random random = new Random();
     
     @Override
-    public Direction evaluateVotes(int[] votes) {
+    public Direction evaluateVotes(int[] heuristicVotes) {
         // determine bag size
+        /*
         int bagSize = 0;
         for (int i = 0; i < votes.length; i++) {
             int vote = votes[i];
@@ -33,6 +35,8 @@ public class RandomBagVoting extends AIDecider {
         int choice = bag[choiceIndex];
         Direction[] directions = Direction.values();
         return directions[choice];
+        */
+        throw new RuntimeException("RandomBagVoting not implemented yet.");
     }
     
 }

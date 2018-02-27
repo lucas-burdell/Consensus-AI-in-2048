@@ -226,6 +226,47 @@ public class SingleThreadSearch {
         }
     }
 
+    private int[] getHeuristicVotes(long[][] heuristicSums, Direction[] directions, Heuristic[] heuristics) {
+        int[] votes = new int[heuristics.length];
+        for (int i = 0; i < heuristics.length; i++) {
+            ArrayList<Integer> sameList = new ArrayList<>();
+            long highestSum = Integer.MIN_VALUE;
+            for (int j = 0; j < directions.length; j++) {
+
+                println(heuristics[i] + " on " + directions[j] + " "
+                        + "scored: " + heuristicSums[j][i]);
+                if (heuristicSums[j][i] > highestSum) {
+                    highestSum = heuristicSums[j][i];
+                    sameList.clear();
+                    sameList.add(j);
+                } else if (heuristicSums[j][i] == highestSum) {
+                    sameList.add(j);
+                }
+            }
+            int choice = 0;
+            if (sameList.isEmpty()) {
+                throw new RuntimeException("SameList was empty for "
+                        + heuristics[i]);
+            } else if (sameList.size() > 1) {
+                println(heuristics[i] + " scored the same for "
+                        + "these directions: ");
+                for (Integer index : sameList) {
+                    println(directions[index]);
+                }
+                choice = sameList.get(getRandom().nextInt(sameList.size()));
+                println("Randomly chose "
+                        + directions[(choice)] + " for " + heuristics[i]);
+
+            } else {
+                choice = sameList.get(0);
+            }
+            votes[i] = choice;
+
+        }
+
+        return votes;
+    }
+
     private int[] tallyVotes(long[][] heuristicSums, Direction[] directions, Heuristic[] heuristics) {
         int[] votes = new int[directions.length];
         for (int i = 0; i < heuristics.length; i++) {
@@ -359,7 +400,7 @@ public class SingleThreadSearch {
             }
         }
 
-        return tallyVotes(heuristicSums, directions, heuristics);
+        return getHeuristicVotes(heuristicSums, directions, heuristics);
     }
 
     private boolean queuesAreEmpty(Queue[] queues) {

@@ -8,7 +8,7 @@ import gamemodel.GameController;
  * @author lucas.burdell
  */
 public class BiggestNumberCornerDistance implements Heuristic {
-
+    
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
         byte[][] grid = state.getGameGrid();
@@ -50,5 +50,4 @@ public class BiggestNumberCornerDistance implements Heuristic {
         }
         return highest;
     }
-    
 }

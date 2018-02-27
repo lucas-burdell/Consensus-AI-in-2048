@@ -32,11 +32,11 @@ public class HeuristicList {
 
     private static final Heuristic[] heuristics = new Heuristic[]{
         new HighestMerges(),
-        new MostMerges(),
+        //new MostMerges(),
         new EmptySpaces(), 
-        new BiggestNumberNeighbors(),
-        new MonotonicityInRows(),
-        new Smoothness(),
+        //new BiggestNumberNeighbors(),
+        //new MonotonicityInRows(),
+        //new Smoothness(),
         new TwoDirections(),
         new Corners(), 
         new BiggestNumberCornerDistance(),

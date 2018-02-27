@@ -16,8 +16,10 @@
  */
 package aidecision;
 
+import aiheuristics.Heuristic;
 import gamemodel.Direction;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -25,6 +27,20 @@ import java.util.Random;
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
 public class MajorityVoting extends AIDecider {
+
+    private long totalMoves = 0;
+    private final long[] majorityAgrees;
+    private final Heuristic[] heuristics;
+    private final double[] weights;
+    
+    public MajorityVoting(Heuristic[] heuristics) {
+        majorityAgrees = new long[heuristics.length];
+        this.heuristics = heuristics;
+        this.weights = new double[heuristics.length];
+        for (int i = 0; i < weights.length; i++) {
+            weights[i] = 1;
+        }
+    }
 
     /**
      * @return the debugMessagesEnabled
@@ -50,13 +66,20 @@ public class MajorityVoting extends AIDecider {
     private boolean debugMessagesEnabled = false;
 
     @Override
-    public Direction evaluateVotes(int[] votes) {
+    public synchronized Direction evaluateVotes(int[] heuristicVotes) {
+        double[] votes = new double[Direction.values().length];
+        for (int i = 0; i < heuristicVotes.length; i++) {
+            int heuristicVote = heuristicVotes[i];
+            println(heuristics[i] + " chose " + heuristicVote);
+            votes[heuristicVote] += weights[i];
+        }
+
         // always choose highest vote
         // randomly choose between equal choices
-        int highest = 0;
-        ArrayList<Integer> sameList = new ArrayList<>();
+        double highest = 0;
+        LinkedList<Integer> sameList = new LinkedList<>();
         for (int i = 0; i < votes.length; i++) {
-            int vote = votes[i];
+            double vote = votes[i];
             if (vote > highest) {
                 highest = vote;
                 sameList.clear();
@@ -67,8 +90,39 @@ public class MajorityVoting extends AIDecider {
         }
         int choice = sameList.get(getRandom().nextInt(sameList.size()));
         Direction[] directions = Direction.values();
-        println(directions[choice] + " chosen!");
-        return directions[choice];
+        Direction decision = directions[choice];
+
+        println("majority chose " + choice);
+        
+        if (this.isLearning()) {
+            calculateWeights(choice, heuristicVotes);
+        }
+
+        return decision;
+    }
+
+    private void calculateWeights(int majorityDecision, int[] heuristicVotes) {
+        this.totalMoves++;
+        for (int i = 0; i < heuristics.length; i++) {
+            Heuristic heuristic = heuristics[i];
+            int decision = heuristicVotes[i];
+            if (decision == majorityDecision) {
+                majorityAgrees[i]++;
+            }
+            weights[i] = majorityAgrees[i] / (double) (this.totalMoves);
+            if (this.debugMessagesEnabled) {
+                println(getWeightsReport());
+            }
+        }
+    }
+
+    public String getWeightsReport() {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < heuristics.length; i++) {
+            Heuristic heuristic = heuristics[i];
+            output.append(heuristic.toString()).append(" now has weight: ").append(weights[i]).append("\n");
+        }
+        return output.toString();
     }
 
     /**

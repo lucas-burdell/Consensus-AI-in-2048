@@ -28,7 +28,6 @@ import gamemodel.GameController;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -60,20 +59,20 @@ public class MassParallelRunner {
         Future[] futures = new Future[gamesToPlay];
 
         GameController controller = new GameController();
-        
-        
 
         SingleThreadSearch searcher = new SingleThreadSearch(controller);
         searcher.setMaximumDepth(maxDepth);
         searcher.setDepthWeightingType(DepthWeighting.NONE);
-        searcher.setEvaluationType(StateEvaluationType.BOTH);
+        searcher.setEvaluationType(StateEvaluationType.NEXT_STATES);
         searcher.setDepthScaling(true);
         searcher.setConsiderFoursForPossibleStates(false);
-        
-        //searcher.setDebugMessagesEnabled(true);
 
-        MajorityVoting decider = new MajorityVoting();
-        
+        //searcher.setDebugMessagesEnabled(true);
+        Heuristic[] heuristics = HeuristicList.getHeuristics();
+        MajorityVoting decider = new MajorityVoting(heuristics);
+        decider.setLearning(true);
+        //decider.setDebugMessagesEnabled(true);
+
         long programStartTime = System.currentTimeMillis();
         for (int i = 0; i < gamesToPlay; i++) {
             final int gameId = i;
@@ -83,12 +82,12 @@ public class MassParallelRunner {
 
                 long moveCount = 0;
                 //long startTime = System.currentTimeMillis();
-                System.out.println("start playing for " + gameId);
+                //System.out.println("start playing for " + gameId);
                 while (!controller.isGameOver(currentBoard)) {
-                    int[] votes = searcher.getVotesOnDirections(currentBoard, HeuristicList.getHeuristics());
+                    int[] votes = searcher.getVotesOnDirections(currentBoard, heuristics);
                     Direction decision = decider.evaluateVotes(votes);
                     currentBoard = controller.doGameMove(currentBoard, decision);
-                    System.out.println("gameid " + gameId + " score: " + currentBoard.getScore());
+                    //System.out.println("gameid " + gameId + " score: " + currentBoard.getScore());
                     //System.out.println(currentBoard.getScore());
                     //System.out.println(currentBoard);
                     //System.out.println("Moved above board " + decision);
@@ -119,15 +118,21 @@ public class MassParallelRunner {
         }
         executor.shutdown();
         long programEndTime = System.currentTimeMillis();
+        System.out.println("----------------");
+        System.out.println("OUTPUT");
+        System.out.println("Games played: " + gamesToPlay);
+        System.out.println("maximum depth: " + maxDepth);
+        System.out.println("Eval type: " + searcher.getEvaluationType());
+        System.out.println("Heuristics used: ");
+        for (Heuristic heuristic : heuristics) {
+            System.out.println("\t" + heuristic.getClass().getCanonicalName());
+        }
         System.out.println("Total AI computation time: " + (programEndTime - programStartTime) / 1000.0 + " seconds");
         System.out.println("Mean: " + getMean(scoreResults));
         System.out.println("Standard Deviation: " + getStandardDeviation(scoreResults));
         System.out.println("Max: " + getMaxNumber(scoreResults));
         System.out.println("Min: " + getMinNumber(scoreResults));
-        System.out.println("Heuristics used: ");
-        for (Heuristic heuristic : HeuristicList.getHeuristics()) {
-            System.out.println("\t" + heuristic.getClass().getCanonicalName());
-        }
+
         File scoreFile = new File("scoreOutput.csv");
         File boardFile = new File("boardOutput.txt");
         try (PrintWriter writer = new PrintWriter(scoreFile)) {
@@ -152,6 +157,9 @@ public class MassParallelRunner {
         } catch (FileNotFoundException ex) {
             ex.printStackTrace(System.err);
         }
+
+        System.out.println("Calculated weights:");
+        System.out.println(decider.getWeightsReport());
     }
 
     private static long getMean(int[] scoreResults) {
