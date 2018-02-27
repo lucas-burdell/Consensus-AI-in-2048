@@ -30,6 +30,23 @@ public class SingleThreadSearch {
     private boolean depthScaling = false;
     private static final ConcurrentHashMap<String, byte[][][]> stateMap = new ConcurrentHashMap<>();
 
+    private boolean considerFoursForPossibleStates = false;
+
+    /**
+     * @return the considerFoursForPossibleStates
+     */
+    public boolean isConsiderFoursForPossibleStates() {
+        return considerFoursForPossibleStates;
+    }
+
+    /**
+     * @param considerFoursForPossibleStates the considerFoursForPossibleStates
+     * to set
+     */
+    public void setConsiderFoursForPossibleStates(boolean considerFoursForPossibleStates) {
+        this.considerFoursForPossibleStates = considerFoursForPossibleStates;
+    }
+
     /**
      * @return the depthScaling
      */
@@ -68,27 +85,30 @@ public class SingleThreadSearch {
         }
         
         // nope, gotta build all the state grids 
-        */
+         */
         ArrayList<Byte[]> positions = board.getEmptyPositions();
-        byte[][][] gridsToAdd = new byte[positions.size() * 2][][];
+        //byte[][][] gridsToAdd = new byte[positions.size() * 2][][];
         for (int i = 0; i < positions.size(); i++) {
             Byte[] position = positions.get(i);
             GameBoard board2 = new GameBoard(board);
             board2.getGameGrid()[position[0]][position[1]] = (1);
             board2.setPreviousMove(board.getPreviousMove());
             board2.setNumberOfMerges(board.getNumberOfMerges());
-            GameBoard board4 = new GameBoard(board);
-            board4.getGameGrid()[position[0]][position[1]] = (2);
-            board4.setPreviousMove(board.getPreviousMove());
-            board4.setNumberOfMerges(board.getNumberOfMerges());
             states.add(board2);
-            states.add(board4);
-            gridsToAdd[i * 2] = board2.getGameGrid();
-            gridsToAdd[i * 2 + 1] = board4.getGameGrid();
+            if (this.considerFoursForPossibleStates) {
+                GameBoard board4 = new GameBoard(board);
+                board4.getGameGrid()[position[0]][position[1]] = (2);
+                board4.setPreviousMove(board.getPreviousMove());
+                board4.setNumberOfMerges(board.getNumberOfMerges());
+                states.add(board4);
+            }
+
+            //gridsToAdd[i * 2] = board2.getGameGrid();
+            // gridsToAdd[i * 2 + 1] = board4.getGameGrid();
         }
-        
+
         // add these to the hashmap
-       // SingleThreadSearch.stateMap.put(board.toStorageString(), gridsToAdd);
+        // SingleThreadSearch.stateMap.put(board.toStorageString(), gridsToAdd);
         return states;
     }
 

@@ -29,27 +29,13 @@ public class GameController {
 
     private Random random = new Random();
     private boolean debugMessagesEnabled = false;
-    private boolean considerFoursForPossibleStates = true;
 
     public static final int NUMBER_OF_STARTING_TILES = 2;
     public static final double CHANCE_OF_A_FOUR = .9;
     public static final int ROW_SIZE = 4;
     public static final int GRID_SIZE = ROW_SIZE * ROW_SIZE;
 
-    /**
-     * @return the considerFoursForPossibleStates
-     */
-    public boolean isConsiderFoursForPossibleStates() {
-        return considerFoursForPossibleStates;
-    }
 
-    /**
-     * @param considerFoursForPossibleStates the considerFoursForPossibleStates
-     * to set
-     */
-    public void setConsiderFoursForPossibleStates(boolean considerFoursForPossibleStates) {
-        this.considerFoursForPossibleStates = considerFoursForPossibleStates;
-    }
 
     /**
      * @return the debugMessagesEnabled

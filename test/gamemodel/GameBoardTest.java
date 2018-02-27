@@ -61,11 +61,11 @@ public class GameBoardTest {
         int result = instance.getNumberOfMerges();
         assertEquals(expResult, result);
 
-        int[][] board = new int[][]{
-            new int[]{1, 1, 1, 1},
-            new int[]{1, 1, 1, 1},
-            new int[]{1, 1, 1, 1},
-            new int[]{1, 1, 1, 1}
+        byte[][] board = new byte[][]{
+            new byte[]{1, 1, 1, 1},
+            new byte[]{1, 1, 1, 1},
+            new byte[]{1, 1, 1, 1},
+            new byte[]{1, 1, 1, 1}
         };
 
         instance = new GameBoard(board);
@@ -105,11 +105,11 @@ public class GameBoardTest {
         boolean result = instance.getMergeGridPosition(x, y);
         assertEquals(expResult, result);
 
-        int[][] board = new int[][]{
-            new int[]{1, 1, 1, 1},
-            new int[]{1, 1, 1, 1},
-            new int[]{1, 1, 1, 1},
-            new int[]{1, 1, 1, 1}
+        byte[][] board = new byte[][]{
+            new byte[]{1, 1, 1, 1},
+            new byte[]{1, 1, 1, 1},
+            new byte[]{1, 1, 1, 1},
+            new byte[]{1, 1, 1, 1}
         };
 
         instance = new GameBoard(board);
@@ -148,17 +148,17 @@ public class GameBoardTest {
     public void testGetGameGrid() {
         System.out.println("getGameGrid");
         GameBoard instance = new GameBoard(GameController.ROW_SIZE);
-        int[][] expResult = new int[][]{
-            new int[]{0, 0, 0, 0},
-            new int[]{0, 0, 0, 0},
-            new int[]{0, 0, 0, 0},
-            new int[]{0, 0, 0, 0}
+        byte[][] expResult = new byte[][]{
+            new byte[]{0, 0, 0, 0},
+            new byte[]{0, 0, 0, 0},
+            new byte[]{0, 0, 0, 0},
+            new byte[]{0, 0, 0, 0}
         };
-        int[][] result = instance.getGameGrid();
+        byte[][] result = instance.getGameGrid();
         for (int y = 0; y < result.length; y++) {
-            int[] row = result[y];
+            byte[] row = result[y];
             for (int x = 0; x < row.length; x++) {
-                int value = row[x];
+                byte value = row[x];
                 assertEquals(expResult[y][x], value);
             }
         }
@@ -170,11 +170,11 @@ public class GameBoardTest {
     @Test
     public void testSetGameGrid() {
         System.out.println("setGameGrid");
-        int[][] gameGrid = new int[][]{
-            new int[]{1, 1, 1, 1},
-            new int[]{1, 1, 1, 1},
-            new int[]{1, 1, 1, 1},
-            new int[]{1, 1, 1, 1}
+        byte[][] gameGrid = new byte[][]{
+            new byte[]{1, 1, 1, 1},
+            new byte[]{1, 1, 1, 1},
+            new byte[]{1, 1, 1, 1},
+            new byte[]{1, 1, 1, 1}
         };
         GameBoard instance = new GameBoard(gameGrid);
         assertArrayEquals(gameGrid, instance.getGameGrid());
@@ -211,9 +211,10 @@ public class GameBoardTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        GameBoard instance = new GameBoard(4);
-        String expResult = " [0] [0] [0] [0]\n [0] [0] [0] [0]\n [0] [0] [0] [0]\n [0] [0] [0] [0]\n";
+        GameBoard instance = new GameBoard(GameController.ROW_SIZE);
+        String expResult = "\t[0]\t[0]\t[0]\t[0]\n\t[0]\t[0]\t[0]\t[0]\n\t[0]\t[0]\t[0]\t[0]\n\t[0]\t[0]\t[0]\t[0]\n";
         String result = instance.toString();
+        System.out.println(result);
         assertEquals(expResult, result);
     }
 

@@ -60,7 +60,7 @@ public class GameControllerTest {
     public void testPlaceRandomTile_GameBoard_intArr() {
         System.out.println("placeRandomTile");
         GameBoard board = null;
-        int[] position = null;
+        byte[] position = null;
         GameController instance = new GameController();
         GameBoard expResult = null;
         GameBoard result = instance.placeRandomTile(board, position);

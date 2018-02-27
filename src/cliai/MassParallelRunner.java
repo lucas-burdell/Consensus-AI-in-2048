@@ -60,14 +60,15 @@ public class MassParallelRunner {
         Future[] futures = new Future[gamesToPlay];
 
         GameController controller = new GameController();
-        controller.setConsiderFoursForPossibleStates(true);
+        
         
 
         SingleThreadSearch searcher = new SingleThreadSearch(controller);
         searcher.setMaximumDepth(maxDepth);
         searcher.setDepthWeightingType(DepthWeighting.NONE);
-        searcher.setEvaluationType(StateEvaluationType.NEXT_STATES);
+        searcher.setEvaluationType(StateEvaluationType.BOTH);
         searcher.setDepthScaling(true);
+        searcher.setConsiderFoursForPossibleStates(false);
         
         //searcher.setDebugMessagesEnabled(true);
 
