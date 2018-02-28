@@ -25,6 +25,7 @@ import gamemodel.GameController;
  */
 public class EmptySpaces implements Heuristic {
 
+    
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
         byte[][] grid = state.getGameGrid();

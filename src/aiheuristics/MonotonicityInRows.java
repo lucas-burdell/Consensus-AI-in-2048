@@ -9,6 +9,8 @@ import gamemodel.GameController;
  */
 public class MonotonicityInRows implements Heuristic {
 
+    
+    
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
         byte[][] grid = state.getGameGrid();
@@ -27,7 +29,7 @@ public class MonotonicityInRows implements Heuristic {
                 
             }
         }
-        // punish the highest score
+        // reward the highest score
         return Math.max(leftOutput, leftOutput);
     }
     

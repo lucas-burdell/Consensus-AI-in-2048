@@ -117,7 +117,7 @@ public class MassParallelHeuristicRunner {
                 searcher.setConsiderFoursForPossibleStates(false);
 
                 //searcher.setDebugMessagesEnabled(true);
-                MajorityVoting decider = new MajorityVoting();
+                MajorityVoting decider = new MajorityVoting(combo);
 
                 long programStartTime = System.currentTimeMillis();
                 for (int i = 0; i < gamesToPlay; i++) {

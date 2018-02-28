@@ -18,6 +18,7 @@ package cliai;
 
 import aidecision.AIDecider;
 import aidecision.MajorityVoting;
+import aiheuristics.Heuristic;
 import aiheuristics.HeuristicList;
 import aisearch.DepthWeighting;
 import aisearch.SingleThreadSearch;
@@ -49,14 +50,15 @@ public class MassRunner {
         searcher.setDepthWeightingType(DepthWeighting.LOGARITHMIC);
         //searcher.setEvaluateAfterstates(true);
         searcher.setMaximumDepth(maxDepth);
-        AIDecider decider = new MajorityVoting();
+        Heuristic[] heuristics = HeuristicList.getHeuristics();
+        AIDecider decider = new MajorityVoting(heuristics);
         //searcher.setDebugMessagesEnabled(true);
         GameBoard currentBoard = controller.createStartingGameboard();
         for (int i = 0; i < gamesToPlay; i++) {
             long moveCount = 0;
             long startTime = System.currentTimeMillis();
             while (!controller.isGameOver(currentBoard)) {
-                int[] votes = searcher.getVotesOnDirections(currentBoard, HeuristicList.getHeuristics());
+                int[] votes = searcher.getVotesOnDirections(currentBoard, heuristics);
                 Direction decision = decider.evaluateVotes(votes);
                 currentBoard = controller.doGameMove(currentBoard, decision);
                 System.out.println("score: " + currentBoard.getScore());

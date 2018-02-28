@@ -25,6 +25,7 @@ import gamemodel.GameController;
  */
 public class HighestMerges implements Heuristic {
 
+    
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
         /*

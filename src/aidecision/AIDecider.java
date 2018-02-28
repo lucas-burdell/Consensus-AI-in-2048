@@ -16,6 +16,7 @@
  */
 package aidecision;
 
+import aiheuristics.Heuristic;
 import gamemodel.Direction;
 import gamemodel.GameBoard;
 import gamemodel.GameController;
@@ -44,5 +45,5 @@ public abstract class AIDecider {
 
     // very likely to refactor this later, because I don't know what information 
     // I'll need to facilitate learning 
-    public abstract Direction evaluateVotes(int[] votes);
+    public abstract Direction evaluateVotes(int[] heuristicVotes);
 }

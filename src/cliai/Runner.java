@@ -46,8 +46,9 @@ public class Runner {
         searcher.setDepthWeightingType(DepthWeighting.NONE);
         searcher.setDepthScaling(true);
         //searcher.setDebugMessagesEnabled(true);
-        AIDecider decider = new MajorityVoting();
         Heuristic[] heuristics = HeuristicList.getHeuristics();
+        AIDecider decider = new MajorityVoting(heuristics);
+        
 
         while (!controller.isGameOver(board)) {
             System.out.println(board);

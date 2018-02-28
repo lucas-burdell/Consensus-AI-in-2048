@@ -16,6 +16,7 @@
  */
 package aidecision;
 
+import aiheuristics.HeuristicList;
 import gamemodel.Direction;
 import java.util.Random;
 import org.junit.After;
@@ -54,10 +55,11 @@ public class MajorityVotingTest {
      * Test of evaluateVotes method, of class MajorityVoting.
      */
     @Test
-    public void testEvaluateVotes() {
+    public void testEvaluateVotesNoLearning() {
         System.out.println("evaluateVotes");
         int[] votes = new int[]{1, 0, 0, 0};
-        MajorityVoting instance = new MajorityVoting();
+        MajorityVoting instance = new MajorityVoting(HeuristicList.getHeuristics());
+        instance.setLearning(false);
         Direction expResult = Direction.values()[0];
         Direction result = instance.evaluateVotes(votes);
         assertEquals(expResult, result);
