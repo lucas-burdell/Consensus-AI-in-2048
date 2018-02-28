@@ -1,0 +1,715 @@
+run:
+generating size 1 combos
+Current combo:
+	aiheuristics.HighestMerges
+Total AI computation time: 881.823 seconds
+Mean: 13026
+Standard Deviation: 5169.249307201191
+Max: 27100
+Min: 3192
+Heuristics used: 
+	aiheuristics.HighestMerges
+Current combo:
+	aiheuristics.MostMerges
+Total AI computation time: 635.369 seconds
+Mean: 11486
+Standard Deviation: 5168.187968717856
+Max: 26852
+Min: 3100
+Heuristics used: 
+	aiheuristics.MostMerges
+Current combo:
+	aiheuristics.EmptySpaces
+Total AI computation time: 806.115 seconds
+Mean: 11864
+Standard Deviation: 5380.573605109404
+Max: 30820
+Min: 3224
+Heuristics used: 
+	aiheuristics.EmptySpaces
+Current combo:
+	aiheuristics.BiggestNumberNeighbors
+Total AI computation time: 1023.965 seconds
+Mean: 12718
+Standard Deviation: 6115.954414480212
+Max: 32424
+Min: 3504
+Heuristics used: 
+	aiheuristics.BiggestNumberNeighbors
+Current combo:
+	aiheuristics.MonotonicityInRows
+Total AI computation time: 702.079 seconds
+Mean: 10755
+Standard Deviation: 4974.137621739069
+Max: 27020
+Min: 3156
+Heuristics used: 
+	aiheuristics.MonotonicityInRows
+Current combo:
+	aiheuristics.Smoothness
+Total AI computation time: 959.27 seconds
+Mean: 18465
+Standard Deviation: 7927.107813067765
+Max: 36232
+Min: 2988
+Heuristics used: 
+	aiheuristics.Smoothness
+Current combo:
+	aiheuristics.TwoDirections
+Total AI computation time: 917.536 seconds
+Mean: 13617
+Standard Deviation: 5537.675653196023
+Max: 32248
+Min: 3224
+Heuristics used: 
+	aiheuristics.TwoDirections
+Current combo:
+	aiheuristics.Corners
+Total AI computation time: 1088.132 seconds
+Mean: 18211
+Standard Deviation: 9077.812897388885
+Max: 58864
+Min: 3460
+Heuristics used: 
+	aiheuristics.Corners
+Current combo:
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 920.497 seconds
+Mean: 12836
+Standard Deviation: 5578.358798069554
+Max: 33920
+Min: 3428
+Heuristics used: 
+	aiheuristics.BiggestNumberCornerDistance
+generating size 2 combos
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+Total AI computation time: 767.249 seconds
+Mean: 12330
+Standard Deviation: 4752.147118934766
+Max: 27252
+Min: 3080
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.EmptySpaces
+Total AI computation time: 851.935 seconds
+Mean: 12258
+Standard Deviation: 4802.510959904204
+Max: 28672
+Min: 3436
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.EmptySpaces
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.BiggestNumberNeighbors
+Total AI computation time: 1077.729 seconds
+Mean: 11988
+Standard Deviation: 4761.3883017456155
+Max: 27276
+Min: 3184
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.BiggestNumberNeighbors
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.MonotonicityInRows
+Total AI computation time: 801.98 seconds
+Mean: 12275
+Standard Deviation: 5151.523460103816
+Max: 27300
+Min: 3084
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.MonotonicityInRows
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.Smoothness
+Total AI computation time: 1013.509 seconds
+Mean: 15839
+Standard Deviation: 6991.704905100043
+Max: 36020
+Min: 5404
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.Smoothness
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.TwoDirections
+Total AI computation time: 914.025 seconds
+Mean: 13502
+Standard Deviation: 5839.317782070094
+Max: 32068
+Min: 3372
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.TwoDirections
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.Corners
+Total AI computation time: 920.983 seconds
+Mean: 13900
+Standard Deviation: 5037.726090211733
+Max: 27428
+Min: 3148
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.Corners
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 895.06 seconds
+Mean: 12761
+Standard Deviation: 4749.901451609286
+Max: 31052
+Min: 3112
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+Total AI computation time: 767.801 seconds
+Mean: 11849
+Standard Deviation: 5575.878954927196
+Max: 29956
+Min: 2840
+Heuristics used: 
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+Current combo:
+	aiheuristics.MostMerges
+	aiheuristics.BiggestNumberNeighbors
+Total AI computation time: 990.793 seconds
+Mean: 13283
+Standard Deviation: 6146.201659561782
+Max: 27500
+Min: 3540
+Heuristics used: 
+	aiheuristics.MostMerges
+	aiheuristics.BiggestNumberNeighbors
+Current combo:
+	aiheuristics.MostMerges
+	aiheuristics.MonotonicityInRows
+Total AI computation time: 690.289 seconds
+Mean: 11780
+Standard Deviation: 4836.132802146773
+Max: 30872
+Min: 3180
+Heuristics used: 
+	aiheuristics.MostMerges
+	aiheuristics.MonotonicityInRows
+Current combo:
+	aiheuristics.MostMerges
+	aiheuristics.Smoothness
+Total AI computation time: 826.025 seconds
+Mean: 15448
+Standard Deviation: 6550.98874979953
+Max: 32280
+Min: 3160
+Heuristics used: 
+	aiheuristics.MostMerges
+	aiheuristics.Smoothness
+Current combo:
+	aiheuristics.MostMerges
+	aiheuristics.TwoDirections
+Total AI computation time: 794.903 seconds
+Mean: 12467
+Standard Deviation: 4896.433195704808
+Max: 27244
+Min: 5360
+Heuristics used: 
+	aiheuristics.MostMerges
+	aiheuristics.TwoDirections
+Current combo:
+	aiheuristics.MostMerges
+	aiheuristics.Corners
+Total AI computation time: 863.388 seconds
+Mean: 14434
+Standard Deviation: 5694.099978047452
+Max: 32560
+Min: 6128
+Heuristics used: 
+	aiheuristics.MostMerges
+	aiheuristics.Corners
+Current combo:
+	aiheuristics.MostMerges
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 858.848 seconds
+Mean: 13392
+Standard Deviation: 5201.537172798056
+Max: 34840
+Min: 5520
+Heuristics used: 
+	aiheuristics.MostMerges
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+Total AI computation time: 1054.718 seconds
+Mean: 12504
+Standard Deviation: 5163.910704107886
+Max: 27912
+Min: 3284
+Heuristics used: 
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+Current combo:
+	aiheuristics.EmptySpaces
+	aiheuristics.MonotonicityInRows
+Total AI computation time: 763.066 seconds
+Mean: 11310
+Standard Deviation: 4633.671252905196
+Max: 25560
+Min: 1692
+Heuristics used: 
+	aiheuristics.EmptySpaces
+	aiheuristics.MonotonicityInRows
+Current combo:
+	aiheuristics.EmptySpaces
+	aiheuristics.Smoothness
+Total AI computation time: 1073.833 seconds
+Mean: 17126
+Standard Deviation: 6729.571172073299
+Max: 32520
+Min: 3088
+Heuristics used: 
+	aiheuristics.EmptySpaces
+	aiheuristics.Smoothness
+Current combo:
+	aiheuristics.EmptySpaces
+	aiheuristics.TwoDirections
+Total AI computation time: 896.632 seconds
+Mean: 12851
+Standard Deviation: 5016.717831411291
+Max: 27628
+Min: 3136
+Heuristics used: 
+	aiheuristics.EmptySpaces
+	aiheuristics.TwoDirections
+Current combo:
+	aiheuristics.EmptySpaces
+	aiheuristics.Corners
+Total AI computation time: 941.856 seconds
+Mean: 14264
+Standard Deviation: 5595.849133062828
+Max: 27560
+Min: 3456
+Heuristics used: 
+	aiheuristics.EmptySpaces
+	aiheuristics.Corners
+Current combo:
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 931.545 seconds
+Mean: 13044
+Standard Deviation: 4882.518514045799
+Max: 31540
+Min: 3424
+Heuristics used: 
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+Total AI computation time: 1024.833 seconds
+Mean: 13137
+Standard Deviation: 5350.769630623244
+Max: 30644
+Min: 3204
+Heuristics used: 
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+Current combo:
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.Smoothness
+Total AI computation time: 1271.83 seconds
+Mean: 16642
+Standard Deviation: 7138.680808104534
+Max: 35748
+Min: 7056
+Heuristics used: 
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.Smoothness
+Current combo:
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.TwoDirections
+Total AI computation time: 1147.7 seconds
+Mean: 13603
+Standard Deviation: 5945.311366110273
+Max: 34508
+Min: 1396
+Heuristics used: 
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.TwoDirections
+Current combo:
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.Corners
+Total AI computation time: 1177.231 seconds
+Mean: 14172
+Standard Deviation: 5884.695975154536
+Max: 34932
+Min: 3160
+Heuristics used: 
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.Corners
+Current combo:
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 1096.905 seconds
+Mean: 12529
+Standard Deviation: 5961.33675948608
+Max: 32500
+Min: 3188
+Heuristics used: 
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+Total AI computation time: 860.86 seconds
+Mean: 13775
+Standard Deviation: 5667.688618828667
+Max: 33896
+Min: 3400
+Heuristics used: 
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+Current combo:
+	aiheuristics.MonotonicityInRows
+	aiheuristics.TwoDirections
+Total AI computation time: 812.157 seconds
+Mean: 12115
+Standard Deviation: 4996.116728019872
+Max: 27580
+Min: 3484
+Heuristics used: 
+	aiheuristics.MonotonicityInRows
+	aiheuristics.TwoDirections
+Current combo:
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Corners
+Total AI computation time: 858.068 seconds
+Mean: 13545
+Standard Deviation: 5885.558158747563
+Max: 35696
+Min: 3892
+Heuristics used: 
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Corners
+Current combo:
+	aiheuristics.MonotonicityInRows
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 817.944 seconds
+Mean: 12217
+Standard Deviation: 5381.745021830745
+Max: 32020
+Min: 2448
+Heuristics used: 
+	aiheuristics.MonotonicityInRows
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+Total AI computation time: 1040.683 seconds
+Mean: 16066
+Standard Deviation: 7038.522810931282
+Max: 34532
+Min: 3556
+Heuristics used: 
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+Current combo:
+	aiheuristics.Smoothness
+	aiheuristics.Corners
+Total AI computation time: 1080.901 seconds
+Mean: 17618
+Standard Deviation: 8166.168658557084
+Max: 35752
+Min: 5424
+Heuristics used: 
+	aiheuristics.Smoothness
+	aiheuristics.Corners
+Current combo:
+	aiheuristics.Smoothness
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 1070.016 seconds
+Mean: 15706
+Standard Deviation: 6055.413828963302
+Max: 32448
+Min: 3236
+Heuristics used: 
+	aiheuristics.Smoothness
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+Total AI computation time: 1013.523 seconds
+Mean: 16148
+Standard Deviation: 6813.159091053136
+Max: 34460
+Min: 3492
+Heuristics used: 
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+Current combo:
+	aiheuristics.TwoDirections
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 936.537 seconds
+Mean: 12789
+Standard Deviation: 4933.529620869829
+Max: 34468
+Min: 3096
+Heuristics used: 
+	aiheuristics.TwoDirections
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 952.417 seconds
+Mean: 13942
+Standard Deviation: 5966.918709015567
+Max: 36100
+Min: 3292
+Heuristics used: 
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+generating size 8 combos
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+Total AI computation time: 1349.767 seconds
+Mean: 14403
+Standard Deviation: 5351.634228906158
+Max: 32484
+Min: 3452
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 1249.864 seconds
+Mean: 13200
+Standard Deviation: 5817.410544219825
+Max: 30744
+Min: 3196
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 1298.178 seconds
+Mean: 13234
+Standard Deviation: 5662.542142889534
+Max: 32312
+Min: 3404
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 1266.743 seconds
+Mean: 13631
+Standard Deviation: 5449.2769612123775
+Max: 31784
+Min: 3236
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 1262.002 seconds
+Mean: 13478
+Standard Deviation: 5476.150925604589
+Max: 30892
+Min: 3216
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 1131.709 seconds
+Mean: 14540
+Standard Deviation: 5452.406397179139
+Max: 32388
+Min: 3440
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 1325.478 seconds
+Mean: 14355
+Standard Deviation: 6555.949984556014
+Max: 34744
+Min: 3460
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 1233.516 seconds
+Mean: 12865
+Standard Deviation: 5404.869867073582
+Max: 31528
+Min: 2668
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Current combo:
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 1433.009 seconds
+Mean: 15429
+Standard Deviation: 6081.64234068397
+Max: 34072
+Min: 3360
+Heuristics used: 
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+generating size 9 combos
+Current combo:
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+Total AI computation time: 1369.783 seconds
+Mean: 14452
+Standard Deviation: 6041.260742593387
+Max: 31956
+Min: 3108
+Heuristics used: 
+	aiheuristics.HighestMerges
+	aiheuristics.MostMerges
+	aiheuristics.EmptySpaces
+	aiheuristics.BiggestNumberNeighbors
+	aiheuristics.MonotonicityInRows
+	aiheuristics.Smoothness
+	aiheuristics.TwoDirections
+	aiheuristics.Corners
+	aiheuristics.BiggestNumberCornerDistance
+BUILD SUCCESSFUL (total time: 911 minutes 53 seconds)
