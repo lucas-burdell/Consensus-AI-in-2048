@@ -1,0 +1,56 @@
+heuristics,cpu_time,mean,std_dev,max,min
+HighestMerges ,881.823,13026,5169.249307201191,27100,3192
+MostMerges ,635.369,11486,5168.187968717856,26852,3100
+EmptySpaces ,806.115,11864,5380.573605109404,30820,3224
+BiggestNumberNeighbors ,1023.965,12718,6115.954414480212,32424,3504
+MonotonicityInRows ,702.079,10755,4974.137621739069,27020,3156
+Smoothness ,959.27,18465,7927.107813067765,36232,2988
+TwoDirections ,917.536,13617,5537.675653196023,32248,3224
+Corners ,1088.132,18211,9077.812897388885,58864,3460
+BiggestNumberCornerDistance ,920.497,12836,5578.358798069554,33920,3428
+HighestMerges MostMerges ,767.249,12330,4752.147118934766,27252,3080
+HighestMerges EmptySpaces ,851.935,12258,4802.510959904204,28672,3436
+HighestMerges BiggestNumberNeighbors ,1077.729,11988,4761.3883017456155,27276,3184
+HighestMerges MonotonicityInRows ,801.98,12275,5151.523460103816,27300,3084
+HighestMerges Smoothness ,1013.509,15839,6991.704905100043,36020,5404
+HighestMerges TwoDirections ,914.025,13502,5839.317782070094,32068,3372
+HighestMerges Corners ,920.983,13900,5037.726090211733,27428,3148
+HighestMerges BiggestNumberCornerDistance ,895.06,12761,4749.901451609286,31052,3112
+MostMerges EmptySpaces ,767.801,11849,5575.878954927196,29956,2840
+MostMerges BiggestNumberNeighbors ,990.793,13283,6146.201659561782,27500,3540
+MostMerges MonotonicityInRows ,690.289,11780,4836.132802146773,30872,3180
+MostMerges Smoothness ,826.025,15448,6550.98874979953,32280,3160
+MostMerges TwoDirections ,794.903,12467,4896.433195704808,27244,5360
+MostMerges Corners ,863.388,14434,5694.099978047452,32560,6128
+MostMerges BiggestNumberCornerDistance ,858.848,13392,5201.537172798056,34840,5520
+EmptySpaces BiggestNumberNeighbors ,1054.718,12504,5163.910704107886,27912,3284
+EmptySpaces MonotonicityInRows ,763.066,11310,4633.671252905196,25560,1692
+EmptySpaces Smoothness ,1073.833,17126,6729.571172073299,32520,3088
+EmptySpaces TwoDirections ,896.632,12851,5016.717831411291,27628,3136
+EmptySpaces Corners ,941.856,14264,5595.849133062828,27560,3456
+EmptySpaces BiggestNumberCornerDistance ,931.545,13044,4882.518514045799,31540,3424
+BiggestNumberNeighbors MonotonicityInRows ,1024.833,13137,5350.769630623244,30644,3204
+BiggestNumberNeighbors Smoothness ,1271.83,16642,7138.680808104534,35748,7056
+BiggestNumberNeighbors TwoDirections ,1147.7,13603,5945.311366110273,34508,1396
+BiggestNumberNeighbors Corners ,1177.231,14172,5884.695975154536,34932,3160
+BiggestNumberNeighbors BiggestNumberCornerDistance ,1096.905,12529,5961.33675948608,32500,3188
+MonotonicityInRows Smoothness ,860.86,13775,5667.688618828667,33896,3400
+MonotonicityInRows TwoDirections ,812.157,12115,4996.116728019872,27580,3484
+MonotonicityInRows Corners ,858.068,13545,5885.558158747563,35696,3892
+MonotonicityInRows BiggestNumberCornerDistance ,817.944,12217,5381.745021830745,32020,2448
+Smoothness TwoDirections ,1040.683,16066,7038.522810931282,34532,3556
+Smoothness Corners ,1080.901,17618,8166.168658557084,35752,5424
+Smoothness BiggestNumberCornerDistance ,1070.016,15706,6055.413828963302,32448,3236
+TwoDirections Corners ,1013.523,16148,6813.159091053136,34460,3492
+TwoDirections BiggestNumberCornerDistance ,936.537,12789,4933.529620869829,34468,3096
+Corners BiggestNumberCornerDistance ,952.417,13942,5966.918709015567,36100,3292
+HighestMerges MostMerges EmptySpaces BiggestNumberNeighbors MonotonicityInRows Smoothness TwoDirections Corners ,1349.767,14403,5351.634228906158,32484,3452
+HighestMerges MostMerges EmptySpaces BiggestNumberNeighbors MonotonicityInRows Smoothness TwoDirections BiggestNumberCornerDistance ,1249.864,13200,5817.410544219825,30744,3196
+HighestMerges MostMerges EmptySpaces BiggestNumberNeighbors MonotonicityInRows Smoothness Corners BiggestNumberCornerDistance ,1298.178,13234,5662.542142889534,32312,3404
+HighestMerges MostMerges EmptySpaces BiggestNumberNeighbors MonotonicityInRows TwoDirections Corners BiggestNumberCornerDistance ,1266.743,13631,5449.2769612123775,31784,3236
+HighestMerges MostMerges EmptySpaces BiggestNumberNeighbors Smoothness TwoDirections Corners BiggestNumberCornerDistance ,1262.002,13478,5476.150925604589,30892,3216
+HighestMerges MostMerges EmptySpaces MonotonicityInRows Smoothness TwoDirections Corners BiggestNumberCornerDistance ,1131.709,14540,5452.406397179139,32388,3440
+HighestMerges MostMerges BiggestNumberNeighbors MonotonicityInRows Smoothness TwoDirections Corners BiggestNumberCornerDistance ,1325.478,14355,6555.949984556014,34744,3460
+HighestMerges EmptySpaces BiggestNumberNeighbors MonotonicityInRows Smoothness TwoDirections Corners BiggestNumberCornerDistance ,1233.516,12865,5404.869867073582,31528,2668
+MostMerges EmptySpaces BiggestNumberNeighbors MonotonicityInRows Smoothness TwoDirections Corners BiggestNumberCornerDistance ,1433.009,15429,6081.64234068397,34072,3360
+HighestMerges MostMerges EmptySpaces BiggestNumberNeighbors MonotonicityInRows Smoothness TwoDirections Corners BiggestNumberCornerDistance ,1369.783,14452,6041.260742593387,31956,3108

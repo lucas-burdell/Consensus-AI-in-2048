@@ -1,5 +1,3 @@
-run:
-generating size 1 combos
 Current combo:
 	aiheuristics.HighestMerges
 Total AI computation time: 881.823 seconds
@@ -81,7 +79,6 @@ Max: 33920
 Min: 3428
 Heuristics used: 
 	aiheuristics.BiggestNumberCornerDistance
-generating size 2 combos
 Current combo:
 	aiheuristics.HighestMerges
 	aiheuristics.MostMerges
@@ -478,7 +475,6 @@ Min: 3292
 Heuristics used: 
 	aiheuristics.Corners
 	aiheuristics.BiggestNumberCornerDistance
-generating size 8 combos
 Current combo:
 	aiheuristics.HighestMerges
 	aiheuristics.MostMerges
@@ -686,7 +682,6 @@ Heuristics used:
 	aiheuristics.TwoDirections
 	aiheuristics.Corners
 	aiheuristics.BiggestNumberCornerDistance
-generating size 9 combos
 Current combo:
 	aiheuristics.HighestMerges
 	aiheuristics.MostMerges
@@ -712,4 +707,3 @@ Heuristics used:
 	aiheuristics.TwoDirections
 	aiheuristics.Corners
 	aiheuristics.BiggestNumberCornerDistance
-BUILD SUCCESSFUL (total time: 911 minutes 53 seconds)

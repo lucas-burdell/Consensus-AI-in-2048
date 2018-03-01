@@ -16,11 +16,7 @@
  */
 package aidecision;
 
-import aiheuristics.Heuristic;
 import gamemodel.Direction;
-import gamemodel.GameBoard;
-import gamemodel.GameController;
-import java.io.File;
 
 /**
  *
