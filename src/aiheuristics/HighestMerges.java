@@ -23,7 +23,11 @@ import gamemodel.GameController;
  *
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
-public class HighestMerges implements Heuristic {
+public class HighestMerges extends Heuristic {
+
+    public HighestMerges(double weight) {
+        super(weight);
+    }
 
     
     @Override
@@ -53,5 +57,6 @@ public class HighestMerges implements Heuristic {
         return output;*/
         return state.getScore();
     }
+
 
 }

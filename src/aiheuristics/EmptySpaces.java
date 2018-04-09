@@ -23,7 +23,11 @@ import gamemodel.GameController;
  *
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
-public class EmptySpaces implements Heuristic {
+public class EmptySpaces extends Heuristic {
+
+    public EmptySpaces(double weight) {
+        super(weight);
+    }
 
     
     @Override
@@ -60,4 +64,5 @@ public class EmptySpaces implements Heuristic {
         }
         return highest;
     }
+
 }

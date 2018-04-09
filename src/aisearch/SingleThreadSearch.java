@@ -29,6 +29,7 @@ public class SingleThreadSearch {
     private double logarithmicDepthWeightPower = .5;
     private boolean depthScaling = false;
     private static final ConcurrentHashMap<String, byte[][][]> stateMap = new ConcurrentHashMap<>();
+    
 
     private boolean considerFoursForPossibleStates = false;
 
@@ -70,6 +71,7 @@ public class SingleThreadSearch {
 
     public LinkedList<GameBoard> createAllPossibleNewStates(GameBoard board) {
         LinkedList states = new LinkedList();
+        
         /*
         // have I done this before?
         byte[][][] oldStates = SingleThreadSearch.stateMap.get(board.toStorageString());
@@ -208,7 +210,7 @@ public class SingleThreadSearch {
 
     private long evaluateState(GameBoard state, Heuristic heuristic, int currentDirection, int currentDepth, int maxDepth) {
         // if depth is 1 override with linear
-        if (maxDepth == 1) {
+        if (maxDepth == 1 && this.depthWeightingType == DepthWeighting.LOGARITHMIC) {
             double scale = (maxDepth - currentDepth + 1) / maxDepth;
             return (long) (heuristic.getValueOfState(controller, state, currentDirection) * scale);
         }

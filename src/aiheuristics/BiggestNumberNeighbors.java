@@ -25,7 +25,11 @@ import java.util.Collections;
  *
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
-public class BiggestNumberNeighbors implements Heuristic {
+public class BiggestNumberNeighbors extends Heuristic {
+
+    public BiggestNumberNeighbors(double weight) {
+        super(weight);
+    }
 
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
@@ -78,5 +82,6 @@ public class BiggestNumberNeighbors implements Heuristic {
         
         return output;
     }
+
     
 }

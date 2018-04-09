@@ -10,8 +10,24 @@ import gamemodel.GameController;
  *
  * @author lucas.burdell
  */
-public interface Heuristic {
-    public long getValueOfState(GameController controller, GameBoard state, int currentDirection);
-    @Override
-    public String toString();
+public abstract class Heuristic {
+    public abstract long getValueOfState(GameController controller, GameBoard state, int currentDirection);
+    private double weight;
+    public Heuristic(double weight){
+        this.weight = weight;
+    }
+
+    /**
+     * @return the weight
+     */
+    public double getWeight() {
+        return weight;
+    }
+
+    /**
+     * @param weight the weight to set
+     */
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
 }

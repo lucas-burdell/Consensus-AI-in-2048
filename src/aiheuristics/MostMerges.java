@@ -23,7 +23,11 @@ import gamemodel.GameController;
  *
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
-public class MostMerges implements Heuristic {
+public class MostMerges extends Heuristic {
+
+    public MostMerges(double weight) {
+        super(weight);
+    }
     
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {

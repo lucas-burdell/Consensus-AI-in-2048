@@ -7,7 +7,11 @@ import gamemodel.GameController;
  *
  * @author lucas.burdell
  */
-public class BiggestNumberCornerDistance implements Heuristic {
+public class BiggestNumberCornerDistance extends Heuristic {
+
+    public BiggestNumberCornerDistance(double weight) {
+        super(weight);
+    }
     
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
@@ -50,4 +54,5 @@ public class BiggestNumberCornerDistance implements Heuristic {
         }
         return highest;
     }
+
 }

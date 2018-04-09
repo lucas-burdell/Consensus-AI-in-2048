@@ -8,7 +8,11 @@ import gamemodel.GameController;
  *
  * @author lucas.burdell
  */
-public class TwoDirections implements Heuristic {
+public class TwoDirections extends Heuristic {
+
+    public TwoDirections(double weight) {
+        super(weight);
+    }
     
     
     @Override
@@ -23,5 +27,6 @@ public class TwoDirections implements Heuristic {
         return state.getScore() * multiplier;
 
     }
+
     
 }

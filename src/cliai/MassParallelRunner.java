@@ -64,13 +64,13 @@ public class MassParallelRunner {
         searcher.setMaximumDepth(maxDepth);
         searcher.setDepthWeightingType(DepthWeighting.NONE);
         searcher.setEvaluationType(StateEvaluationType.NEXT_STATES);
-        searcher.setDepthScaling(true);
+        searcher.setDepthScaling(false);
         searcher.setConsiderFoursForPossibleStates(false);
 
         //searcher.setDebugMessagesEnabled(true);
         Heuristic[] heuristics = HeuristicList.getHeuristics();
         MajorityVoting decider = new MajorityVoting(heuristics);
-        decider.setLearning(true);
+        decider.setLearning(false);
         //decider.setDebugMessagesEnabled(true);
 
         long programStartTime = System.currentTimeMillis();

@@ -31,15 +31,11 @@ public class MajorityVoting extends AIDecider {
     private long totalMoves = 0;
     private final long[] majorityAgrees;
     private final Heuristic[] heuristics;
-    private final double[] weights;
+    private boolean adjustWeights = false;
     
     public MajorityVoting(Heuristic[] heuristics) {
         majorityAgrees = new long[heuristics.length];
         this.heuristics = heuristics;
-        this.weights = new double[heuristics.length];
-        for (int i = 0; i < weights.length; i++) {
-            weights[i] = 1;
-        }
     }
 
     /**
@@ -71,7 +67,7 @@ public class MajorityVoting extends AIDecider {
         for (int i = 0; i < heuristicVotes.length; i++) {
             int heuristicVote = heuristicVotes[i];
             println(heuristics[i] + " chose " + heuristicVote);
-            votes[heuristicVote] += weights[i];
+            votes[heuristicVote] += heuristics[i].getWeight();
         }
 
         // always choose highest vote
@@ -109,7 +105,7 @@ public class MajorityVoting extends AIDecider {
             if (decision == majorityDecision) {
                 majorityAgrees[i]++;
             }
-            weights[i] = majorityAgrees[i] / (double) (this.totalMoves);
+            heuristic.setWeight(majorityAgrees[i] / (double) (this.totalMoves));
             if (this.debugMessagesEnabled) {
                 println(getWeightsReport());
             }
@@ -120,7 +116,7 @@ public class MajorityVoting extends AIDecider {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < heuristics.length; i++) {
             Heuristic heuristic = heuristics[i];
-            output.append(heuristic.toString()).append(" now has weight: ").append(weights[i]).append("\n");
+            output.append(heuristic.toString()).append(" now has weight: ").append(heuristic.getWeight()).append("\n");
         }
         return output.toString();
     }
@@ -137,6 +133,20 @@ public class MajorityVoting extends AIDecider {
      */
     public void setRandom(Random random) {
         this.random = random;
+    }
+
+    /**
+     * @return the adjustWeights
+     */
+    public boolean isAdjustWeights() {
+        return adjustWeights;
+    }
+
+    /**
+     * @param adjustWeights the adjustWeights to set
+     */
+    public void setAdjustWeights(boolean adjustWeights) {
+        this.adjustWeights = adjustWeights;
     }
 
 }

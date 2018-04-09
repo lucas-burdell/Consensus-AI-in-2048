@@ -7,7 +7,11 @@ import gamemodel.GameController;
  *
  * @author lucas.burdell
  */
-public class MonotonicityInRows implements Heuristic {
+public class MonotonicityInRows extends Heuristic {
+
+    public MonotonicityInRows(double weight) {
+        super(weight);
+    }
 
     
     
@@ -29,8 +33,9 @@ public class MonotonicityInRows implements Heuristic {
                 
             }
         }
-        // reward the highest score
-        return Math.max(leftOutput, leftOutput);
+        // reward the lowest score
+        return Math.max(leftOutput, rightOutput);
     }
+
     
 }

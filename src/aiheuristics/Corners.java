@@ -7,7 +7,11 @@ import gamemodel.GameController;
  *
  * @author lucas.burdell
  */
-public class Corners implements Heuristic {
+public class Corners extends Heuristic {
+
+    public Corners(double weight) {
+        super(weight);
+    }
 
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
@@ -27,5 +31,6 @@ public class Corners implements Heuristic {
         long bottomHighest = bottomLeft > bottomRight ? bottomLeft : bottomRight;
         return topHighest < bottomHighest ? bottomHighest : topHighest;
     }
+
     
 }

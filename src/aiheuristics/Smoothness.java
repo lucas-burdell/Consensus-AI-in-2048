@@ -7,7 +7,11 @@ import gamemodel.GameController;
  *
  * @author lucas.burdell
  */
-public class Smoothness implements Heuristic {
+public class Smoothness extends Heuristic {
+
+    public Smoothness(double weight) {
+        super(weight);
+    }
 
     
     @Override
@@ -34,5 +38,6 @@ public class Smoothness implements Heuristic {
         }
         return output;
     }
+
     
 }
