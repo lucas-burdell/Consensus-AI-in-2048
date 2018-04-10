@@ -17,6 +17,7 @@
 package cliai;
 
 import aidecision.AIDecider;
+import aidecision.MajorityTieVoting;
 import aidecision.MajorityVoting;
 import aiheuristics.Heuristic;
 import aiheuristics.HeuristicList;
@@ -47,7 +48,7 @@ public class Runner {
         searcher.setDepthScaling(true);
         //searcher.setDebugMessagesEnabled(true);
         Heuristic[] heuristics = HeuristicList.getHeuristics();
-        AIDecider decider = new MajorityVoting(heuristics);
+        AIDecider decider = new MajorityTieVoting(heuristics, 4, 6);
         
 
         while (!controller.isGameOver(board)) {

@@ -372,6 +372,15 @@ public class SingleThreadSearch {
                 elementsToDepthIncrease--;
                 for (int i = 0; i < directions.length; i++) {
                     Direction direction = directions[i];
+                    
+                    if (this.evaluateStates) {
+                        for (int heuristicNum = 0; heuristicNum < heuristics.length; heuristicNum++) {
+                            final Heuristic heuristic = heuristics[heuristicNum];
+                            // evaluate state of board
+                            heuristicSums[directionQueueNum][heuristicNum] += evaluateState(nextBoard, heuristic, i, currentDepth, maxDepth);
+                        }
+                    }
+                    
                     GameBoard afterState = controller.moveGrid(nextBoard, direction);
                     if (currentDepth <= maxDepth && afterState.isMoved()) { //(afterState.isMoved() || this.ignoreMovement) && currentDepth <= maxDepth) {
                         nextElementsToDepthIncrease += addNewStates(afterState, queue);
@@ -385,13 +394,7 @@ public class SingleThreadSearch {
                         }
                     }
 
-                    if (this.evaluateStates) {
-                        for (int heuristicNum = 0; heuristicNum < heuristics.length; heuristicNum++) {
-                            final Heuristic heuristic = heuristics[heuristicNum];
-                            // evaluate state of board
-                            heuristicSums[directionQueueNum][heuristicNum] += evaluateState(nextBoard, heuristic, i, currentDepth, maxDepth);
-                        }
-                    }
+                    
                 }
 
                 if (elementsToDepthIncrease <= 0) {

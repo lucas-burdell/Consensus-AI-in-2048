@@ -119,10 +119,10 @@ public class GameController {
         }
     }
 
-    private final TileMove getFarthestTile(GameBoard board, int[] position, Direction direction) {
+    private final TileMove getFarthestTile(GameBoard board, int positionX, int positionY, Direction direction) {
         int[][] grid = board.getGameGrid();
-        int posX = position[0];
-        int posY = position[1];
+        int posX = positionX;
+        int posY = positionY;
         switch (direction) {
             case UP:
                 //println("getting farthest up from " + posX + ","+ posY);
@@ -168,27 +168,27 @@ public class GameController {
     }
 
     // only board-mutating method
-    private final void doMerge(GameBoard board, int[] position, Direction direction) {
-        int nodeValue = board.getGameGrid()[position[0]][position[1]];
+    private final void doMerge(GameBoard board, int positionX, int positionY, Direction direction) {
+        int nodeValue = board.getGameGrid()[positionX][positionY];
         //println("Evaluating " + position[0] + "," + position[1] + " for merge");
         if (nodeValue != 0) {
-            println("moving " + position[0] + "," + position[1]);
-            TileMove farthestTile = getFarthestTile(board, position, direction);
+            println("moving " + positionX + "," + positionY);
+            TileMove farthestTile = getFarthestTile(board, positionX, positionY, direction);
             println("furthest point: " + farthestTile.getEmptyPosition()[0] + "," + farthestTile.getEmptyPosition()[1]);
             int[] farthestNodePosition = farthestTile.getNextPosition();
             int farthestX = farthestNodePosition[0];
             int farthestY = farthestNodePosition[1];
             int[] farthestEmptyPosition = farthestTile.getEmptyPosition();
-            int farthestValue = board.getGameGrid()[farthestNodePosition[0]][farthestNodePosition[1]];
-            if (!(farthestNodePosition[0] == position[0]
-                    && farthestNodePosition[1] == position[1])
+            int farthestValue = board.getGameGrid()[farthestX][farthestY];
+            if (!(farthestX == positionX
+                    && farthestY == positionY)
                     && farthestValue != 0 && farthestValue == nodeValue
                     && !board.getMergeGridPosition(farthestX, farthestY)) {
                 int value = (int) (nodeValue + 1);
-                board.getGameGrid()[farthestNodePosition[0]][farthestNodePosition[1]] = (value);
+                board.getGameGrid()[farthestX][farthestY] = (value);
                 println("Set furthest to " + value);
-                board.setMergeGridPosition(farthestNodePosition[0], farthestNodePosition[1], true);
-                board.getGameGrid()[position[0]][position[1]] = 0;
+                board.setMergeGridPosition(farthestX, farthestY, true);
+                board.getGameGrid()[positionX][positionY] = 0;
                 //println("Set node to " + node.getValue());
                 board.setScore(board.getScore() + (1 << value));//(int) Math.pow(2, value));
                 //score += farthestNode.getValue();
@@ -196,10 +196,10 @@ public class GameController {
                 board.setNumberOfMerges(board.getNumberOfMerges() + 1);
             } else {
                 int[] newPos = farthestEmptyPosition;
-                if (newPos[0] == position[0] && newPos[1] == position[1]) {
+                if (newPos[0] == positionX && newPos[1] == positionY) {
                 } else {
                     board.getGameGrid()[newPos[0]][newPos[1]] = nodeValue;
-                    board.getGameGrid()[position[0]][position[1]] = (0);
+                    board.getGameGrid()[positionX][positionY] = (0);
                     board.setMoved(true);
                 }
             }
@@ -217,25 +217,25 @@ public class GameController {
 
     public final GameBoard moveGrid(GameBoard board, Direction direction) {
         // if positive vector move backwards
-        GameBoard newBoard = new GameBoard(board);
-
+        //GameBoard newBoard = new GameBoard(board);
+        GameBoard newBoard = board;
         if (direction == Direction.RIGHT) {
             for (int x = ROW_SIZE - 1; x > -1; x--) {
                 for (int y = 0; y < ROW_SIZE; y++) {
-                    doMerge(newBoard, new int[]{x, y}, direction);
+                    doMerge(newBoard, x, y, direction);
                 }
             }
         } else if (direction == Direction.DOWN) {
             for (int x = 0; x < ROW_SIZE; x++) {
                 for (int y = ROW_SIZE - 1; y > -1; y--) {
-                    doMerge(newBoard, new int[]{x, y}, direction);
+                    doMerge(newBoard, x, y, direction);
                 }
             }
         } else {
             for (int x = 0; x < ROW_SIZE; x++) {
                 //println("Moving row " + x + " for " + direction);
                 for (int y = 0; y < ROW_SIZE; y++) {
-                    doMerge(newBoard, new int[]{x, y}, direction);
+                    doMerge(newBoard, x, y, direction);
                     //println("Moving column " + y + " for " + direction);
                 }
             }

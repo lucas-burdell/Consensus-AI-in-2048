@@ -131,7 +131,7 @@ public class GameBoard {
         }
         this.score = board.getScore();
         this.mergeGrid = new boolean[gridSize][gridSize];
-        incCreations();
+        //incCreations();
     }
     
     public GameBoard(int[][] grid) {

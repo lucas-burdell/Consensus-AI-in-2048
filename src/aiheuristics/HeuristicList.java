@@ -34,12 +34,12 @@ public class HeuristicList {
         new HighestMerges(1),
         new MostMerges(1),
         new EmptySpaces(1), 
-        new BiggestNumberNeighbors(1),
+        //new BiggestNumberNeighbors(1),
         new MonotonicityInRows(1),
         new Smoothness(1),
         new TwoDirections(1),
         new Corners(1), 
-        new BiggestNumberCornerDistance(1),
+        //new BiggestNumberCornerDistance(1),
     };
     /*
             new HighestMerges(.5),

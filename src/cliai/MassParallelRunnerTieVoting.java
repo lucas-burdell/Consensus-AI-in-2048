@@ -69,9 +69,9 @@ public class MassParallelRunnerTieVoting {
 
         //searcher.setDebugMessagesEnabled(true);
         Heuristic[] heuristics = HeuristicList.getHeuristics();
-        MajorityTieVoting decider = new MajorityTieVoting(heuristics, 5, 7);
-        System.out.println("decider primaryA: " + heuristics[5]);
-        System.out.println("decider primaryB: " + heuristics[7]);
+        MajorityTieVoting decider = new MajorityTieVoting(heuristics, 4, 6);
+        System.out.println("decider primaryA: " + heuristics[4]);
+        System.out.println("decider primaryB: " + heuristics[6]);
         decider.setLearning(false);
         //decider.setDebugMessagesEnabled(true);
 

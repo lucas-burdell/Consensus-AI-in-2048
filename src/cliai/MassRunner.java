@@ -17,6 +17,7 @@
 package cliai;
 
 import aidecision.AIDecider;
+import aidecision.MajorityTieVoting;
 import aidecision.MajorityVoting;
 import aiheuristics.Heuristic;
 import aiheuristics.HeuristicList;
@@ -47,26 +48,32 @@ public class MassRunner {
         GameController controller = new GameController();
         SingleThreadSearch searcher = new SingleThreadSearch(controller);
         searcher.setEvaluationType(StateEvaluationType.NEXT_STATES);
-        searcher.setDepthWeightingType(DepthWeighting.LOGARITHMIC);
+        searcher.setDepthWeightingType(DepthWeighting.NONE);
         //searcher.setEvaluateAfterstates(true);
         searcher.setMaximumDepth(maxDepth);
         Heuristic[] heuristics = HeuristicList.getHeuristics();
-        AIDecider decider = new MajorityVoting(heuristics);
+        AIDecider decider = new MajorityTieVoting(heuristics, 4, 6);
         //searcher.setDebugMessagesEnabled(true);
         GameBoard currentBoard = controller.createStartingGameboard();
         for (int i = 0; i < gamesToPlay; i++) {
             long moveCount = 0;
             long startTime = System.currentTimeMillis();
+            double mean = 0;
             while (!controller.isGameOver(currentBoard)) {
+                long moveStartTime = System.currentTimeMillis();
                 int[] votes = searcher.getVotesOnDirections(currentBoard, heuristics);
                 Direction decision = decider.evaluateVotes(votes);
                 currentBoard = controller.doGameMove(currentBoard, decision);
-                System.out.println("score: " + currentBoard.getScore());
+                long moveDeltaTime = System.currentTimeMillis() - moveStartTime;
+                //System.out.println("score: " + currentBoard.getScore());
                 //System.out.println(currentBoard.getScore());
                 //System.out.println(currentBoard);
                 //System.out.println("Moved above board " + decision);
+                mean = (moveDeltaTime + moveCount * mean) / (moveCount + 1);
                 if (moveCount % 20L == 0) {
                     //System.out.println("moves made this game: " + moveCount);
+                    System.out.println("Current move time average: " + mean);
+                    
                 }
                 moveCount++;
                 
@@ -77,7 +84,7 @@ public class MassRunner {
             currentBoard = controller.createStartingGameboard();
             System.out.println("game " + i + " complete");
             System.out.println("game took: " + (endTime - startTime) / 1000.0 + " seconds");
-            
+            System.out.println("Did " + moveCount + " moves");
             
         }
         System.out.println("Mean: " + getMean(scoreResults));
