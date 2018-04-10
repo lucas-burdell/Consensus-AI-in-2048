@@ -88,10 +88,10 @@ public class SingleThreadSearch {
         
         // nope, gotta build all the state grids 
          */
-        ArrayList<Byte[]> positions = board.getEmptyPositions();
+        ArrayList<Integer[]> positions = board.getEmptyPositions();
         //byte[][][] gridsToAdd = new byte[positions.size() * 2][][];
         for (int i = 0; i < positions.size(); i++) {
-            Byte[] position = positions.get(i);
+            Integer[] position = positions.get(i);
             GameBoard board2 = new GameBoard(board);
             board2.getGameGrid()[position[0]][position[1]] = (1);
             board2.setPreviousMove(board.getPreviousMove());

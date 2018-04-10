@@ -15,7 +15,7 @@ public class BiggestNumberCornerDistance extends Heuristic {
     
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
-        byte[][] grid = state.getGameGrid();
+        int[][] grid = state.getGameGrid();
         int[] highestPos = getHighestValuePosition(grid);
         int[] distances = new int[]{
             chebyshevDistance(highestPos[1], highestPos[0], 0, 0), // top left
@@ -38,11 +38,11 @@ public class BiggestNumberCornerDistance extends Heuristic {
     }
     
     // returned as y, x
-    private int[] getHighestValuePosition(byte[][] grid) {
+    private int[] getHighestValuePosition(int[][] grid) {
         int[] highest = new int[2];
         int highestValue = 0;
         for (int y = 0; y < grid.length; y++) {
-            byte[] row = grid[y];
+            int[] row = grid[y];
             for (int x = 0; x < row.length; x++) {
                 int value = row[x];
                 if (value > highestValue) {

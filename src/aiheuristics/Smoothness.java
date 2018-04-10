@@ -16,10 +16,10 @@ public class Smoothness extends Heuristic {
     
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
-        byte[][] grid = state.getGameGrid();
+        int[][] grid = state.getGameGrid();
         long output = 0;
         for (int y = 0; y < grid.length; y++) {
-            byte[] row = grid[y];
+            int[] row = grid[y];
             for (int x = 0; x < row.length; x++) {
                 int value = row[x];
                 if (x + 1 < row.length) {

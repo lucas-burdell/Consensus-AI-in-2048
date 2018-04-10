@@ -24,6 +24,24 @@ import java.util.Random;
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
 public class GameBoard {
+    
+    private static long creations = 0;
+
+    /**
+     * @return the creations
+     */
+    public static long getCreations() {
+        return creations;
+    }
+
+    /**
+     * @param aCreations the creations to set
+     */
+    public static  void incCreations() {
+        //creations++;
+    }
+    
+    
 
     /**
      * @return the numberOfMerges
@@ -65,34 +83,35 @@ public class GameBoard {
     /**
      * @return the gameGrid
      */
-    public byte[][] getGameGrid() {
+    public int[][] getGameGrid() {
         return gameGrid;
     }
 
     /**
      * @param gameGrid the gameGrid to set
      */
-    public void setGameGrid(byte[][] gameGrid) {
+    public void setGameGrid(int[][] gameGrid) {
         this.gameGrid = gameGrid;
     }
  
-    private byte[][] gameGrid;
+    private int[][] gameGrid;
     private boolean[][] mergeGrid;
     
     
     public GameBoard(int gridSize){
-        gameGrid =  new byte[gridSize][gridSize];
+        gameGrid =  new int[gridSize][gridSize];
         mergeGrid = new boolean[gridSize][gridSize];
+        incCreations();
     }
     
-    public ArrayList<Byte[]> getEmptyPositions() {
-        ArrayList<Byte[]> output = new ArrayList<>(16);
-        for (byte i = 0; i < gameGrid.length; i++) {
-            byte[] gameNodes = gameGrid[i];
-            for (byte j = 0; j < gameNodes.length; j++) {
-                byte gameNode = gameNodes[j];
+    public ArrayList<Integer[]> getEmptyPositions() {
+        ArrayList<Integer[]> output = new ArrayList<>(16);
+        for (int i = 0; i < gameGrid.length; i++) {
+            int[] gameNodes = gameGrid[i];
+            for (int j = 0; j < gameNodes.length; j++) {
+                int gameNode = gameNodes[j];
                 if (gameNode == 0) {
-                    output.add(new Byte[]{i, j});
+                    output.add(new Integer[]{i, j});
                 }
             }
         }
@@ -101,20 +120,21 @@ public class GameBoard {
     
     public GameBoard(GameBoard board) {
         int gridSize = board.getGameGrid().length;
-        byte[][] otherGrid = board.getGameGrid();
-        gameGrid = new byte[gridSize][gridSize];
+        int[][] otherGrid = board.getGameGrid();
+        this.gameGrid = new int[gridSize][gridSize];
         for (int i = 0; i < gameGrid.length; i++) {
-            byte[] gameNodes = otherGrid[i];
+            int[] gameNodes = otherGrid[i];
             for (int j = 0; j < gameNodes.length; j++) {
-                byte gameNode = gameNodes[j];
+                int gameNode = gameNodes[j];
                 gameGrid[i][j] = gameNode;
             }
         }
         this.score = board.getScore();
         this.mergeGrid = new boolean[gridSize][gridSize];
+        incCreations();
     }
     
-    public GameBoard(byte[][] grid) {
+    public GameBoard(int[][] grid) {
         int gridSize = grid.length;
         this.gameGrid = grid;
 //        this.gameGrid = new int[gridSize][gridSize];
@@ -126,11 +146,12 @@ public class GameBoard {
 //        }
         this.score = 0;
         this.mergeGrid = new boolean[gridSize][gridSize];
+        incCreations();
     }
     
     public GameBoard(String storage) {
         String[] numbers = storage.split(",");
-        this.gameGrid = new byte[GameController.ROW_SIZE][GameController.ROW_SIZE];
+        this.gameGrid = new int[GameController.ROW_SIZE][GameController.ROW_SIZE];
         this.mergeGrid = new boolean[GameController.ROW_SIZE][GameController.ROW_SIZE];
         int stringIndex = 0;
         for (int row = 0; row < GameController.ROW_SIZE; row++) {
@@ -138,13 +159,14 @@ public class GameBoard {
                 gameGrid[row][col] = Byte.parseByte(numbers[stringIndex]);
             }
         }
+        incCreations();
     }
     
     
     public String toStorageString(){
         StringBuilder output = new StringBuilder();
-        for (byte[] row : gameGrid) {
-            for (byte value : row) {
+        for (int[] row : gameGrid) {
+            for (int value : row) {
                 output.append(value).append(",");
             }
         }

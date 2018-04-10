@@ -17,10 +17,10 @@ public class MonotonicityInRows extends Heuristic {
     
     @Override
     public long getValueOfState(GameController controller, GameBoard state, int currentDirection) {
-        byte[][] grid = state.getGameGrid();
+        int[][] grid = state.getGameGrid();
         long leftOutput = 0;
         long rightOutput = 0;
-        for (byte[] row : grid) {
+        for (int[] row : grid) {
             for (int x = 1; x < row.length; x++) {
                 // row is treated as if it is in descending order
                 if (row[x - 1] > row[x]) {
