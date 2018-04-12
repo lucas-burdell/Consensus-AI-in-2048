@@ -17,6 +17,7 @@
 package cliai;
 
 import aidecision.MajorityVoting;
+import aiheuristics.Corners;
 import aiheuristics.Heuristic;
 import aiheuristics.HeuristicList;
 import aisearch.DepthWeighting;
@@ -64,11 +65,12 @@ public class MassParallelRunner {
         searcher.setMaximumDepth(maxDepth);
         searcher.setDepthWeightingType(DepthWeighting.NONE);
         searcher.setEvaluationType(StateEvaluationType.NEXT_STATES);
-        searcher.setDepthScaling(false);
+        searcher.setDepthScaling(true);
         searcher.setConsiderFoursForPossibleStates(false);
 
         //searcher.setDebugMessagesEnabled(true);
-        Heuristic[] heuristics = HeuristicList.getHeuristics();
+        //Heuristic[] heuristics = HeuristicList.getHeuristics();
+        Heuristic[] heuristics = new Heuristic[]{new Corners(1)};
         MajorityVoting decider = new MajorityVoting(heuristics);
         decider.setLearning(false);
         //decider.setDebugMessagesEnabled(true);

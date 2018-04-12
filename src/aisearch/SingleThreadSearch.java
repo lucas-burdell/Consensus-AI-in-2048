@@ -347,7 +347,9 @@ public class SingleThreadSearch {
 
         println("Begin queue init");
         for (int directionNum = 0; directionNum < directions.length; directionNum++) {
-            GameBoard afterState = controller.moveGrid(currentBoard, directions[directionNum]);
+            GameBoard startingBoard = new GameBoard(currentBoard);
+            startingBoard.setPreviousMove(currentBoard.getPreviousMove());
+            GameBoard afterState = controller.moveGrid(startingBoard, directions[directionNum]);
             if ((afterState.isMoved()) && this.evaluateAfterstates) {
                 for (int heuristicNum = 0; heuristicNum < heuristics.length; heuristicNum++) {
                     final Heuristic heuristic = heuristics[heuristicNum];
@@ -369,19 +371,22 @@ public class SingleThreadSearch {
                     continue; // skip to next queue
                 }
                 GameBoard nextBoard = queue.poll();
+                
                 elementsToDepthIncrease--;
                 for (int i = 0; i < directions.length; i++) {
+                    GameBoard newBoard = new GameBoard(nextBoard);
+                    newBoard.setPreviousMove(nextBoard.getPreviousMove());
                     Direction direction = directions[i];
                     
                     if (this.evaluateStates) {
                         for (int heuristicNum = 0; heuristicNum < heuristics.length; heuristicNum++) {
                             final Heuristic heuristic = heuristics[heuristicNum];
                             // evaluate state of board
-                            heuristicSums[directionQueueNum][heuristicNum] += evaluateState(nextBoard, heuristic, i, currentDepth, maxDepth);
+                            heuristicSums[directionQueueNum][heuristicNum] += evaluateState(newBoard, heuristic, i, currentDepth, maxDepth);
                         }
                     }
                     
-                    GameBoard afterState = controller.moveGrid(nextBoard, direction);
+                    GameBoard afterState = controller.moveGrid(newBoard, direction);
                     if (currentDepth <= maxDepth && afterState.isMoved()) { //(afterState.isMoved() || this.ignoreMovement) && currentDepth <= maxDepth) {
                         nextElementsToDepthIncrease += addNewStates(afterState, queue);
                     }

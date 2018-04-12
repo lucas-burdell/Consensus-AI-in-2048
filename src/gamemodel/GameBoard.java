@@ -124,10 +124,11 @@ public class GameBoard {
         this.gameGrid = new int[gridSize][gridSize];
         for (int i = 0; i < gameGrid.length; i++) {
             int[] gameNodes = otherGrid[i];
-            for (int j = 0; j < gameNodes.length; j++) {
-                int gameNode = gameNodes[j];
-                gameGrid[i][j] = gameNode;
-            }
+            System.arraycopy(gameNodes, 0, this.gameGrid[i], 0, gameNodes.length);
+//            for (int j = 0; j < gameNodes.length; j++) {
+//                int gameNode = gameNodes[j];
+//                gameGrid[i][j] = gameNode;
+//            }
         }
         this.score = board.getScore();
         this.mergeGrid = new boolean[gridSize][gridSize];

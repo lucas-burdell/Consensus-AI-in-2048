@@ -22,10 +22,10 @@ public class Corners extends Heuristic {
         long bottomLeft = 0;
         long bottomRight = 0;
         
-        topLeft += grid[0][0] + grid[0][1] + grid[1][0];
-        topRight += grid[0][3] + grid[0][2] + grid[1][3];
-        bottomLeft += grid[3][0] + grid[3][1] + grid[2][0];
-        bottomRight += grid[3][3] + grid[3][2] + grid[2][3];
+        topLeft += grid[0][0] * 2 + grid[0][1] + grid[1][0];
+        topRight += grid[0][3] * 2 + grid[0][2] + grid[1][3];
+        bottomLeft += grid[3][0] * 2 + grid[3][1] + grid[2][0];
+        bottomRight += grid[3][3] * 2 + grid[3][2] + grid[2][3];
         
         long topHighest = topLeft > topRight ? topLeft : topRight;
         long bottomHighest = bottomLeft > bottomRight ? bottomLeft : bottomRight;

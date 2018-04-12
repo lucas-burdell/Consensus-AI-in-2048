@@ -72,7 +72,7 @@ public class MassRunner {
                 mean = (moveDeltaTime + moveCount * mean) / (moveCount + 1);
                 if (moveCount % 20L == 0) {
                     //System.out.println("moves made this game: " + moveCount);
-                    System.out.println("Current move time average: " + mean);
+                    //System.out.println("Current move time average: " + mean);
                     
                 }
                 moveCount++;
@@ -84,7 +84,7 @@ public class MassRunner {
             currentBoard = controller.createStartingGameboard();
             System.out.println("game " + i + " complete");
             System.out.println("game took: " + (endTime - startTime) / 1000.0 + " seconds");
-            System.out.println("Did " + moveCount + " moves");
+            //System.out.println("Did " + moveCount + " moves");
             
         }
         System.out.println("Mean: " + getMean(scoreResults));

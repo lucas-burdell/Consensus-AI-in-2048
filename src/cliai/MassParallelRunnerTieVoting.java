@@ -134,9 +134,9 @@ public class MassParallelRunnerTieVoting {
         System.out.println("Standard Deviation: " + getStandardDeviation(scoreResults));
         System.out.println("Max: " + getMaxNumber(scoreResults));
         System.out.println("Min: " + getMinNumber(scoreResults));
-        System.out.println("Primary Agreements: " + decider.getAgreementCount());
+        //System.out.println("Primary Agreements: " + decider.getAgreementCount());
         System.out.println("Total Decisions: " + decider.getDecisionCount());
-        System.out.println("Agreement percentage: " + ((double) decider.getAgreementCount() / (double) decider.getDecisionCount()));
+        //System.out.println("Agreement percentage: " + ((double) decider.getAgreementCount() / (double) decider.getDecisionCount()));
         System.out.println("Number of boards: " + GameBoard.getCreations());
 
         File scoreFile = new File("scoreOutput.csv");

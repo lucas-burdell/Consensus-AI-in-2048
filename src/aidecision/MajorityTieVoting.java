@@ -27,9 +27,7 @@ import java.util.Random;
  * @author Lucas Burdell <lucasburdell@gmail.com>
  */
 public class MajorityTieVoting extends AIDecider {
-
-    private long totalMoves = 0;
-    private final long[] majorityAgrees;
+    
     private final Heuristic[] heuristics;
     private boolean adjustWeights = false;
     
@@ -37,7 +35,6 @@ public class MajorityTieVoting extends AIDecider {
     private final int primaryBIndex;
     
     public MajorityTieVoting(Heuristic[] heuristics, int primaryA, int primaryB) {
-        majorityAgrees = new long[heuristics.length];
         this.heuristics = heuristics;
         this.primaryAIndex = primaryA;
         this.primaryBIndex = primaryB;
@@ -91,9 +88,6 @@ public class MajorityTieVoting extends AIDecider {
         
         
         if (primaryA == primaryB) {
-            synchronized (this) {
-                setAgreementCount(getAgreementCount() + 1);
-            }
             return Direction.values()[primaryA];
         }
 
@@ -115,9 +109,9 @@ public class MajorityTieVoting extends AIDecider {
         }
         int majorityChoice = sameList.get(getRandom().nextInt(sameList.size()));
         if (majorityChoice == primaryA) {
-            return Direction.values()[primaryA];
-        } else if (majorityChoice == primaryB) {
             return Direction.values()[primaryB];
+        } else if (majorityChoice == primaryB) {
+            return Direction.values()[primaryA];
         } else {
             return Direction.values()[majorityChoice];
         }
@@ -150,20 +144,6 @@ public class MajorityTieVoting extends AIDecider {
      */
     public void setAdjustWeights(boolean adjustWeights) {
         this.adjustWeights = adjustWeights;
-    }
-
-    /**
-     * @return the agreementCount
-     */
-    public int getAgreementCount() {
-        return agreementCount;
-    }
-
-    /**
-     * @param agreementCount the agreementCount to set
-     */
-    public void setAgreementCount(int agreementCount) {
-        this.agreementCount = agreementCount;
     }
 
     /**
