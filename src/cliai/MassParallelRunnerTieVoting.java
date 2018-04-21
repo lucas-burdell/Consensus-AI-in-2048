@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2018 Lucas Burdell <lucasburdell@gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package cliai;
 
 import aidecision.MajorityTieVoting;
@@ -53,6 +37,7 @@ public class MassParallelRunnerTieVoting {
         int threadCount = Runtime.getRuntime().availableProcessors();
         final int[] scoreResults = new int[gamesToPlay];
         final GameBoard[] finalBoards = new GameBoard[gamesToPlay];
+        final boolean[] winResults = new boolean[gamesToPlay];
 
         //searcher.setDebugMessagesEnabled(true);
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
@@ -65,7 +50,7 @@ public class MassParallelRunnerTieVoting {
         searcher.setDepthWeightingType(DepthWeighting.NONE);
         searcher.setEvaluationType(StateEvaluationType.NEXT_STATES);
         searcher.setDepthScaling(false);
-        searcher.setConsiderFoursForPossibleStates(false);
+        searcher.setConsiderFoursForPossibleStates(false);           
 
         //searcher.setDebugMessagesEnabled(true);
         Heuristic[] heuristics = HeuristicList.getHeuristics();
@@ -102,6 +87,8 @@ public class MassParallelRunnerTieVoting {
                 //long endTime = System.currentTimeMillis();
                 scoreResults[gameId] = currentBoard.getScore();
                 finalBoards[gameId] = currentBoard;
+                winResults[gameId] = getHighestTile(currentBoard.getGameGrid()) >= 11;
+                
 //                System.out.println("final score: " + currentBoard.getScore());
 //                System.out.println("game " + gameId + " complete");
                 //System.out.println("game took: " + (endTime - startTime) / 1000.0 + " seconds");
@@ -136,8 +123,9 @@ public class MassParallelRunnerTieVoting {
         System.out.println("Min: " + getMinNumber(scoreResults));
         //System.out.println("Primary Agreements: " + decider.getAgreementCount());
         System.out.println("Total Decisions: " + decider.getDecisionCount());
+        printWinPercentage(winResults);
         //System.out.println("Agreement percentage: " + ((double) decider.getAgreementCount() / (double) decider.getDecisionCount()));
-        System.out.println("Number of boards: " + GameBoard.getCreations());
+        //System.out.println("Number of boards: " + GameBoard.getCreations());
 
         File scoreFile = new File("scoreOutput.csv");
         File boardFile = new File("boardOutput.txt");
@@ -211,5 +199,31 @@ public class MassParallelRunnerTieVoting {
             }
         }
         return array[min];
+    }
+    
+    private static int getHighestTile(int[][] grid) {
+        int highest = 0;
+        for (int i = 0; i < grid.length; i++) {
+            int[] is = grid[i];
+            for (int j = 0; j < is.length; j++) {
+                int k = is[j];
+                if (k >= highest) {
+                    highest = k;
+                }
+            }
+        }
+        return highest;
+    }
+    
+    private static void printWinPercentage(boolean[] wins) {
+        int winCount = 0;
+        int totalCount = wins.length;
+        for (int i = 0; i < wins.length; i++) {
+            boolean win = wins[i];
+            if (win) {
+                winCount++;
+            }
+        }
+        System.out.println("Win percentage: " + ((double) winCount / totalCount) + " ("+winCount+"/"+totalCount+")");
     }
 }
